@@ -1,11 +1,12 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { JumbotronComponent } from './jumbotron/jumbotron.component';
-import { EventcardComponent } from './eventcard/eventcard.component';
-import { FooterComponent } from './footer/footer.component';
+import {AppComponent} from './app.component';
+import {NavbarComponent} from './navbar/navbar.component';
+import {JumbotronComponent} from './jumbotron/jumbotron.component';
+import {EventcardComponent} from './eventcard/eventcard.component';
+import {FooterComponent} from './footer/footer.component';
+import {CollapseModule} from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -13,12 +14,14 @@ import { FooterComponent } from './footer/footer.component';
     NavbarComponent,
     JumbotronComponent,
     EventcardComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    CollapseModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
