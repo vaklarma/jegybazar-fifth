@@ -7,6 +7,10 @@ import {JumbotronComponent} from './jumbotron/jumbotron.component';
 import {EventcardComponent} from './eventcard/eventcard.component';
 import {FooterComponent} from './footer/footer.component';
 import {CollapseModule} from 'ngx-bootstrap';
+import { EventComponent } from './event/event.component';
+import {AppRoutingModule} from './app-routing.module';
+
+
 
 @NgModule({
   declarations: [
@@ -15,13 +19,20 @@ import {CollapseModule} from 'ngx-bootstrap';
     JumbotronComponent,
     EventcardComponent,
     FooterComponent,
+    EventComponent,
+    ...AppRoutingModule.routableComponents
+
   ],
   imports: [
     BrowserModule,
     CollapseModule.forRoot(),
+    AppRoutingModule,
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
 }

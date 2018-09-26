@@ -1,20 +1,12 @@
 <div class="content-container">
 
-         <!-- navbar -->
         <app-navbar></app-navbar>
 
-        <!-- navbar end -->
-        <!-- jumbotron -->
         <app-jumbotron></app-jumbotron>
-        <!-- jumbotron end-->
-        <!-- cards -->
-  <div class="container">
-  <div class="card-deck pt-5">
-    <app-eventcard class="col-md-6 col-lg-4"></app-eventcard>
-    <app-eventcard class="col-md-6 col-lg-4"></app-eventcard>
-    <app-eventcard class="col-md-8 mx-md-auto col-lg-4"></app-eventcard>
-  </div>
-</div>
+
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
 
 </div>
 <app-footer></app-footer>
