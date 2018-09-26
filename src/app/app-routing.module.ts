@@ -9,14 +9,21 @@ import {EventDetailComponent} from './event-detail/event-detail.component';
 import {EventListComponent} from './event-list/event-list.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AboutComponent} from './about/about.component';
-import {BidComponent} from './bid/bid.component';
-import {TicketDetailComponent} from './ticket-detail/ticket-detail.component';
-import {TicketListComponent} from './ticket-list/ticket-list.component';
 import {TicketComponent} from './ticket/ticket.component';
+import {EventComponent} from './event/event.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent }
-  ];
+  {path: 'home', component: HomeComponent},
+  {path: 'event', component: EventComponent},
+  {path: 'ticket', component: TicketComponent},
+  {path: 'about', component: AboutComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'registration', component: RegistrationComponent},
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '**', component: PageNotFoundComponent},
+
+
+];
 
 
 @NgModule({
@@ -24,19 +31,13 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
-static routableComponents = [
-  LoginComponent,
-  RegistrationComponent,
-  ProfileComponent,
-  ProfileEditComponent,
-  EventDetailComponent,
-  EventListComponent,
-  PageNotFoundComponent,
-  AboutComponent,
-  HomeComponent,
-  BidComponent,
-  TicketDetailComponent,
-  TicketListComponent,
-  TicketComponent,
-];
+  static routableComponents = [
+    HomeComponent,
+    EventComponent,
+    TicketComponent,
+    AboutComponent,
+    LoginComponent,
+    RegistrationComponent,
+    PageNotFoundComponent,
+  ];
 }
