@@ -8,15 +8,22 @@ import {EventModel} from '../../shared/event-model';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
-  public events: EventModel[];
+  public eventGroupBy3: EventModel[];
+
 
   constructor(private _eventservice: EventService) {
-    this.events = _eventservice.getAllEvents();
-    console.log(this.events);
-
   }
 
   ngOnInit() {
+    this.eventGroupBy3 = this._eventservice.getAllEvents()
+      .reduce((acc, curr: EventModel, ind: number) => {
+        if (ind % 3 === 0) {
+          acc.push([]);
+        }
+      acc[acc.length - 1].push(curr);
+        return acc;
+      }, []);
+    console.log(this.eventGroupBy3);
   }
 
 }
