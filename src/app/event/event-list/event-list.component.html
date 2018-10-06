@@ -1,5 +1,7 @@
 <div class="container">
 
+
+
   <!-- keresés, létrehozás -->
 
   <div class="row  justify-content-around px-5 ">
@@ -22,18 +24,17 @@
 
   </div>
 
+
   <!-- cards -->
   <div class="card-deck pt-5 pb-5">
-    <app-eventcard class="col col-md-6 col-lg-4"></app-eventcard>
-    <app-eventcard class="col col-md-6 col-lg-4"></app-eventcard>
-    <app-eventcard class="col col-md-6 col-lg-4"></app-eventcard>
+    <app-eventcard class="col col-md-6 col-lg-4"
+                   *ngFor="let event of events"
+                    [esemeny]="event"
+    ></app-eventcard>
+
   </div>
 
-  <div class="card-deck pt-5 pb-5">
-    <app-eventcard class="col col-md-6 col-lg-4"></app-eventcard>
-    <app-eventcard class="col col-md-6 col-lg-4"></app-eventcard>
-    <app-eventcard class="col col-md-6 col-lg-4"></app-eventcard>
-  </div>
+
 </div>
 
 

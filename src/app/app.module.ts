@@ -9,6 +9,7 @@ import {FooterComponent} from './core/footer/footer.component';
 import {CollapseModule} from 'ngx-bootstrap';
 import { EventComponent } from './event/event.component';
 import {AppRoutingModule} from './app-routing.module';
+import {EventService} from './shared/event.service';
 
 
 
@@ -30,7 +31,7 @@ import {AppRoutingModule} from './app-routing.module';
 
 
   ],
-  providers: [],
+  providers: [EventService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
