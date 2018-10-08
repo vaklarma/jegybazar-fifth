@@ -19,7 +19,7 @@ export class UserModel {
       email: 'legyekrekamatilda@valami.hu',
       address: 'Futrinka utca',
       dateOfBirth: '2015.01.08',
-      gender: 'male',
+      gender: 'female',
     };
   }
 }
