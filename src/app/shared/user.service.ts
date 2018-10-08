@@ -13,7 +13,6 @@ export class UserService {
   }
 
   login(email: string, password: string): boolean {
-    console.log(email);
     if (email === 'angular' && password === 'angular') {
       this._user = new UserModel(UserModel.exampleUser);
       this.isLoggedin = true;
