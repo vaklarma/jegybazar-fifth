@@ -6,7 +6,7 @@ import {NavbarComponent} from './core/navbar/navbar.component';
 import {JumbotronComponent} from './core/jumbotron/jumbotron.component';
 import {EventcardComponent} from './event/eventcard/eventcard.component';
 import {FooterComponent} from './core/footer/footer.component';
-import {CollapseModule} from 'ngx-bootstrap';
+import {AlertModule, CollapseModule} from 'ngx-bootstrap';
 import {EventComponent} from './event/event.component';
 import {AppRoutingModule} from './app-routing.module';
 import {EventService} from './shared/event.service';
@@ -28,6 +28,8 @@ import {UserService} from './shared/user.service';
     BrowserModule,
     CollapseModule.forRoot(),
     AppRoutingModule,
+    AlertModule.forRoot(),
+
 
 
   ],
