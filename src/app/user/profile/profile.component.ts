@@ -9,17 +9,14 @@ import {UserService} from '../../shared/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-currUser: UserModel;
-  constructor(public userService: UserService) {
+  currUser: UserModel;
 
-
-      this.currUser = this.userService.getCurrentUser();
-
+  constructor(private _userService: UserService) {
   }
 
 
   ngOnInit() {
-
+    this.currUser = this._userService.getCurrentUser();
   }
 
 
