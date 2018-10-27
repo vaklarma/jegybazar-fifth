@@ -26,10 +26,11 @@ export class UserModel {
   static get emptyUser(): UserModel {
     return {
       id: 0,
-      name: 'Ures user újratöltés miatt',
-      email: 'Ures user újratöltés miatt@valami.hu',
-      address: 'Ures user újratöltés miatt utca',
-      dateOfBirth: '2015.01.08',
-      gender: 'ures female',
+      name: '',
+      email: '',
+      address: '',
+      dateOfBirth: '',
+      gender: '',
     };
+  }
 }

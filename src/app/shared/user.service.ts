@@ -8,8 +8,35 @@ import {Router} from '@angular/router';
 export class UserService {
   isLoggedin = false;
   private _user: UserModel;
+  private _allUser: UserModel[];
 
   constructor(private _router: Router) {
+    this._allUser = [
+      new UserModel({
+        'id': 1,
+        'name': 'Első user',
+        'email': 'Első@valami.hu',
+        'address': 'Futrinka utca',
+        'dateOfBirth': '2015.01.08',
+        'gender': 'female',
+      }),
+      new UserModel({
+        'id': 2,
+        'name': 'Második user',
+        'email': 'Második@valami.hu',
+        'address': 'Futrinka utca',
+        'dateOfBirth': '2015.01.08',
+        'gender': 'female',
+      }),
+      new UserModel({
+        'id': 3,
+        'name': 'Harmadik user',
+        'email': 'Harmadik@valami.hu',
+        'address': 'Futrinka utca',
+        'dateOfBirth': '2015.01.08',
+        'gender': 'female',
+      }),
+    ];
   }
 
   login(email: string, password: string): boolean {
@@ -47,5 +74,15 @@ export class UserService {
       return new UserModel(UserModel.emptyUser);
     }
 
+  }
+
+
+  getAllUser(): UserModel[] {
+    return this._allUser;
+  }
+
+  getUserById(id: number) {
+    const user = this._allUser.filter(u => u.id === id);
+    return user.length > 0 ? user[0] : new UserModel(UserModel.emptyUser);
   }
 }

@@ -11,6 +11,7 @@ import {EventComponent} from './event/event.component';
 import {AppRoutingModule} from './app-routing.module';
 import {EventService} from './shared/event.service';
 import {UserService} from './shared/user.service';
+import {TicketService} from './shared/ticket.service';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import {UserService} from './shared/user.service';
 
 
   ],
-  providers: [EventService, UserService],
+  providers: [EventService, UserService, TicketService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -5,7 +5,17 @@ export class EventModel {
   pictureURL: string;
   description: string;
 
-  constructor(param: EventModel) {
+  constructor(param?: EventModel) {
     Object.assign(this, param);
+  }
+  static get emptyEvent() {
+    return {
+      'id': 0,
+    'name': '',
+    'date': '',
+    'pictureURL': '',
+    'description': ''
+
+  };
   }
 }
