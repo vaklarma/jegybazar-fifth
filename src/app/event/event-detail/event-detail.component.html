@@ -6,37 +6,64 @@
 
     <div class="card-header">
       <div class="bg-light text-center">
-        <h3>Új esemény létrehozása</h3>
+        <h3 *ngIf="!event.id; else modify">Új esemény létrehozása</h3>
+        <ng-template #modify><h3>Esemény szerkesztése</h3></ng-template>
       </div>
     </div>
     <!--card-body-->
     <div class="card-body">
-
-      <div class="form-group">
+      <!--Event Detail Form START-->
+<form #eventForm="ngForm" (submit)="onSubmit(eventForm.value)">
+  <!--Event Name-->
+  <div class="form-group">
         <label for="esemeny">Esemény címe:</label>
-        <input type="text" class="form-control mb-3" id="esemeny" placeholder="Esemény címe">
+        <input type="text"
+               class="form-control mb-3"
+               id="esemeny"
+               placeholder="Esemény címe"
+              [(ngModel)]="event.name" name="eventName"
+        >
       </div>
-
+  <!--Event Date-->
       <div class="form-group">
         <label for="idopont">Esemény időpontja</label>
-        <input type="date" class="form-control mb-3" id="idopont" placeholder="Esemény időpontja">
+        <input type="text"
+               class="form-control mb-3"
+               id="idopont"
+               placeholder="Esemény időpontja"
+               [(ngModel)]="event.date" name="eventDate"
+        >
       </div>
 
+  <!--Event Picture-->
       <div class="form-group row">
-        <img class="img-fluid mx-auto" src="assets/newevent.png" alt="">
+        <img class="img-fluid mx-auto" [src]="event.pictureURL" alt="">
         <div class="form-group mx-auto mt-3">
-          <label for="kep">Válassz képet az eseményhez</label>
-          <input type="file" class="form-control-file" id="kep">
+          <label for="eventPicUrl">Válassz képet az eseményhez</label>
+          <input type="text"
+                 class="form-control mb-3"
+                 id="eventPicUrl"
+                 placeholder="Esemény kép URL"
+                 [(ngModel)]="event.pictureURL" name="pictureURL"
+          >
         </div>
       </div>
-
+  <!--Event Description-->
       <div class="form-group">
         <label for="leiras">Esemény leírása</label>
-        <textarea class="form-control" placeholder="Esemény leírása" id="leiras"></textarea>
+        <textarea class="form-control"
+                  placeholder="Esemény leírása"
+                  id="leiras"
+            [(ngModel)]="event.description" name="description"
+        >
+        </textarea>
       </div>
+  <!--Event Submit-->
       <div class="text-center mb-3">
-        <input routerLink="../list" class="btn btn-primary btn-lg" type="submit" value="létrehozás">
+        <input class="btn btn-primary btn-lg" type="submit" value="létrehozás">
       </div>
+</form>
+      <!--Event Detail Form END-->
     </div>
   </div>
 

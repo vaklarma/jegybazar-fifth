@@ -23,7 +23,7 @@ export class EventListComponent implements OnInit {
       acc[acc.length - 1].push(curr);
         return acc;
       }, []);
-    console.log(this.eventGroupBy3);
+ //   console.log(this.eventGroupBy3);
   }
 
 }

@@ -83,7 +83,21 @@ export class EventService {
 
   getEventById(id: number) {
     const event = this._events.filter(ev => ev.id === id);
-   return event.length > 0 ? event[0] : new EventModel(EventModel.emptyEvent);
+    return event.length > 0 ? event[0] : new EventModel(EventModel.emptyEvent);
+  }
+
+  update(ev: EventModel) {
+    return false;
+  }
+
+  create(param: EventModel) {
+    this._events = [
+      ...this._events,
+      {
+        id: this._events.reduce((x, y) => x.id > y.id ? x : y).id + 1,
+        ...param,
+      }
+    ];
   }
 }
 
