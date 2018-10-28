@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class EventDetailComponent implements OnInit {
   event: EventModel;
+  samplepictureUrl = 'http://localhost:4200/assets/newevent.png';
 
   constructor(private _eventService: EventService,
               private _route: ActivatedRoute,
@@ -28,20 +29,20 @@ export class EventDetailComponent implements OnInit {
     }
 
 
-    console.log(this.event);
-    console.log(evId);
+    // console.log(this.event);
+    // console.log(evId);
   }
 
   onSubmit(form) {
     if (this.event.id) {
-      console.log('update ágban vagyunk');
+//      console.log('update ágban vagyunk');
       this._eventService.update(this.event);
     } else {
-      console.log('új esemény');
+//      console.log('új esemény');
       this._eventService.create(this.event);
     }
-    console.log('Submitted', form);
-    console.log('Edited Event', this.event);
+    // console.log('Submitted', form);
+    // console.log('Edited Event', this.event);
     this._router.navigate(['/event/list']);
   }
 

@@ -86,8 +86,14 @@ export class EventService {
     return event.length > 0 ? event[0] : new EventModel(EventModel.emptyEvent);
   }
 
-  update(ev: EventModel) {
-    return false;
+  update(param: EventModel) {
+    this._events = this._events.map(ev => {
+      if (ev.id === param.id) {
+        return {...param}
+      } else {
+        return ev;
+      }
+    });
   }
 
   create(param: EventModel) {
