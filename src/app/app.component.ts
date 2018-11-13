@@ -7,8 +7,8 @@ import {UserService} from './shared/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor (private _userService: UserService) {
-   // this._userService.login('angular','angular');
-  //  console.log('logged');
+  constructor(private _userService: UserService) {
+    this._userService.login('angular', 'angular');
+    console.log('auto login az app.component.ts - ből');
   }
 }

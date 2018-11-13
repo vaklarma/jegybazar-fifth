@@ -17,7 +17,8 @@ export class UserService {
     if (email === 'angular' && password === 'angular') {
       this._user = new UserModel(UserModel.exampleUser);
       this.isLoggedin = true;
-      this._router.navigate(['/user']);
+      //this._router.navigate(['/user']);
+      this._router.navigate(['/ticket/new']);
     }
     console.log('be vagyunk-e lepve:', this.isLoggedin);
     return false;
