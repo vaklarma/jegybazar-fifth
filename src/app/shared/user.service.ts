@@ -1,42 +1,16 @@
-import {Injectable} from '@angular/core';
-import {UserModel} from './user-model';
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserModel } from './user-model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService {
   isLoggedin = false;
+
   private _user: UserModel;
-  private _allUser: UserModel[];
+  private _allUsers: UserModel[];
 
   constructor(private _router: Router) {
-    this._allUser = [
-      new UserModel({
-        'id': 1,
-        'name': 'Első user',
-        'email': 'Első@valami.hu',
-        'address': 'Futrinka utca',
-        'dateOfBirth': '2015.01.08',
-        'gender': 'female',
-      }),
-      new UserModel({
-        'id': 2,
-        'name': 'Második user',
-        'email': 'Második@valami.hu',
-        'address': 'Futrinka utca',
-        'dateOfBirth': '2015.01.08',
-        'gender': 'female',
-      }),
-      new UserModel({
-        'id': 3,
-        'name': 'Harmadik user',
-        'email': 'Harmadik@valami.hu',
-        'address': 'Futrinka utca',
-        'dateOfBirth': '2015.01.08',
-        'gender': 'female',
-      }),
-    ];
+    this._allUsers = this._getMockData();
   }
 
   login(email: string, password: string): boolean {
@@ -45,8 +19,8 @@ export class UserService {
       this.isLoggedin = true;
       this._router.navigate(['/user']);
     }
+    console.log('be vagyunk-e lepve:', this.isLoggedin);
     return false;
-
   }
 
   register(param?: UserModel) {
@@ -57,32 +31,52 @@ export class UserService {
     }
     this.isLoggedin = true;
     this._router.navigate(['/user']);
+    console.log('be vagyunk-e lepve:', this.isLoggedin);
   }
 
   logout() {
-    delete (this._user);
+    this._user = new UserModel();
     this.isLoggedin = false;
     this._router.navigate(['/home']);
-
-  }
-
-  getCurrentUser() {
-    if (this._user) {
-      return this._user;
-
-    } else {
-      return new UserModel(UserModel.emptyUser);
-    }
-
-  }
-
-
-  getAllUser(): UserModel[] {
-    return this._allUser;
+    console.log('be vagyunk-e lepve:', this.isLoggedin);
   }
 
   getUserById(id: number) {
-    const user = this._allUser.filter(u => u.id === id);
+    const user = this._allUsers.filter(u => u.id === id);
     return user.length > 0 ? user[0] : new UserModel(UserModel.emptyUser);
   }
+
+  getCurrentUser() {
+    return this._user;
+  }
+
+  private _getMockData() {
+    return [
+      new UserModel({
+        'id': 1,
+        'name': 'Pista ba',
+        'email': 'pistaba@pistaba.com',
+        'address': 'pistaba lak 12',
+        'dateOfBirth': '1900-01-01',
+        'gender': 'male'
+      }),
+      new UserModel({
+        'id': 2,
+        'name': 'Marcsa',
+        'email': 'marcsa@marcsa.hu',
+        'address': 'marcsa var 42.',
+        'dateOfBirth': '2000-01-01',
+        'gender': 'female'
+      }),
+      new UserModel({
+        'id': 3,
+        'name': 'ifju satan',
+        'email': 'mzx@mzx.hu',
+        'address': 'namek',
+        'dateOfBirth': '2199-02-01',
+        'gender': 'satan fattya'
+      }),
+    ];
+  }
+
 }

@@ -13,7 +13,7 @@
       <label>Jegyet szeretnék létrehozni</label>
     </div>
     <div class="w-100"></div>
-    <div><a routerLink="../new" class="btn btn-primary" role="button">Új jegy léterhozása</a></div>
+    <div><a routerLink="new" class="btn btn-primary" role="button">Új jegy léterhozása</a></div>
   </div>
 
 </div>
@@ -42,7 +42,7 @@
   <tr *ngFor="let allTickets of tickets">
     <td class="text-center"  scope="row">
 
-    <a [routerLink]="['../../event/',allTickets.eventId]">
+    <a [routerLink]="['../event/',allTickets.eventId]">
       {{allTickets.event.name}}
     </a>
     </td>
