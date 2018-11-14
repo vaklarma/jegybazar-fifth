@@ -29,9 +29,10 @@
           <input type="date" class="form-control mb-3" id="idopont"
                  placeholder="időpont"
                  [(ngModel)]="ticket.date" name="date"
+                 #date="ngModel"
           >
         </div>
-
+        <alert type="danger" *ngIf="date.touched && date.pristine">Kötelezően kitöltendő mező !</alert>
         <div class="form-group">
           <label for="darab">Darabszám</label>
           <input type="number" class="form-control mb-3" id="darab"
@@ -62,11 +63,13 @@
           <button class="btn btn-primary btn-lg"
                   type="submit"
                   value="Licit indítása"
-          >Licit indítása</button>
+          >Licit indítása
+          </button>
           <button class="btn btn-secondary btn-lg"
                   type="button"
                   routerLink="../"
-          >Mégsem</button>
+          >Mégsem
+          </button>
         </div>
 
       </form>
