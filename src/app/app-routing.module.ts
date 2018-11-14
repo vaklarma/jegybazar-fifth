@@ -33,7 +33,7 @@ const routes: Routes = [
     children: [
       {path: '', component: TicketListComponent},
       {path: 'new', component: TicketDetailComponent, canActivate: [LoggedInGuard]},
-      {path: ':id/bid', component: BidComponent, canActivate: [LoggedInGuard]},
+      {path: ':id', component: BidComponent, canActivate: [LoggedInGuard]},
     ]
   },
   {

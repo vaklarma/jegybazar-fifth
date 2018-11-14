@@ -17,8 +17,7 @@ export class UserService {
     if (email === 'angular' && password === 'angular') {
       this._user = new UserModel(UserModel.exampleUser);
       this.isLoggedin = true;
-      //this._router.navigate(['/user']);
-      this._router.navigate(['/ticket/new']);
+      this._router.navigate(['/user']);
     }
     console.log('be vagyunk-e lepve:', this.isLoggedin);
     return false;
@@ -43,7 +42,7 @@ export class UserService {
   }
 
   getUserById(id: number) {
-    const user = this._allUsers.filter(u => u.id === id);
+    const user = this._allUsers.filter(u => u.id === +id);
     return user.length > 0 ? user[0] : new UserModel(UserModel.emptyUser);
   }
 
@@ -53,6 +52,14 @@ export class UserService {
 
   private _getMockData() {
     return [
+      new UserModel({
+        id: 0,
+        name: 'Legyek Réka Matlida',
+        email: 'legyekrekamatilda@valami.com',
+        address: 'Futrinka utca',
+        dateOfBirth: '2001.01.01',
+        gender: 'female'
+      }),
       new UserModel({
         'id': 1,
         'name': 'Pista ba',
