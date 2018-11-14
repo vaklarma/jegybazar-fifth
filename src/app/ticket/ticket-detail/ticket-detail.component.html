@@ -16,12 +16,14 @@
                   [(ngModel)]="ticket.eventId"
                   name="eventId"
                   required
+                  #event="ngModel"
           >
             <option selected hidden disabled value="0">Valassz egy esemenyt!</option>
             <option *ngFor="let ev of events" [value]="ev.id">
               {{ ev.name }}
             </option>
           </select>
+          <alert type="danger" *ngIf="event.touched && event.pristine">Kötelezően kitöltendő mező !</alert>
         </div>
 
         <div class="form-group">
@@ -31,8 +33,8 @@
                  [(ngModel)]="ticket.date" name="date"
                  #date="ngModel"
           >
+          <alert type="danger" *ngIf="date.touched && date.pristine">Kötelezően kitöltendő mező !</alert>
         </div>
-        <alert type="danger" *ngIf="date.touched && date.pristine">Kötelezően kitöltendő mező !</alert>
         <div class="form-group">
           <label for="darab">Darabszám</label>
           <input type="number" class="form-control mb-3" id="darab"
