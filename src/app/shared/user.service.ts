@@ -5,6 +5,7 @@ import { UserModel } from './user-model';
 @Injectable()
 export class UserService {
   isLoggedin = false;
+  currentUserName;
 
   private _user: UserModel;
   private _allUsers: UserModel[];
@@ -17,9 +18,10 @@ export class UserService {
     if (email === 'angular' && password === 'angular') {
       this._user = new UserModel(UserModel.exampleUser);
       this.isLoggedin = true;
-      this._router.navigate(['/user']);
+      this.currentUserName = this._user.name;
+      this._router.navigate(['/ticket']);
     }
-    console.log('be vagyunk-e lepve:', this.isLoggedin);
+
     return false;
   }
 

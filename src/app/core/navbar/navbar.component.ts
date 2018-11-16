@@ -11,10 +11,12 @@ export class NavbarComponent implements OnInit {
   currentUser;
 
   constructor(public userService: UserService) {
+    this.currentUser = this.userService.currentUserName;
+    console.log('navbar: ', this.currentUser);
   }
 
   ngOnInit() {
-    this.currentUser = this.userService.getCurrentUser().name;
+
   }
 
   logout() {
