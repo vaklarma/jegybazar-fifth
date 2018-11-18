@@ -5,6 +5,7 @@ export class UserModel {
   address: string;
   dateOfBirth: string;
   gender: string;
+  profilePictureUrl: string;
 
   constructor(param?: UserModel) {
     if (param) {
@@ -20,17 +21,19 @@ export class UserModel {
       address: 'Futrinka utca',
       dateOfBirth: '2015.01.08',
       gender: 'female',
+      profilePictureUrl: 'https://demos.subinsb.com/isl-profile-pic/image/person.png'
     };
   }
 
   static get emptyUser(): UserModel {
     return {
       id: 0,
-      name: 'eeeee',
+      name: 'empty user from UserModel',
       email: '',
       address: '',
       dateOfBirth: '',
       gender: '',
+      profilePictureUrl: '',
     };
   }
 }

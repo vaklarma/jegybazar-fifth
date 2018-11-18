@@ -3,6 +3,7 @@ import {EventModel} from '../../shared/event-model';
 import {EventService} from '../../shared/event.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
+import {UserService} from '../../shared/user.service';
 
 
 @Component({
@@ -13,11 +14,13 @@ import {Location} from '@angular/common';
 export class EventDetailComponent implements OnInit {
   event: EventModel;
   samplepictureUrl = 'http://localhost:4200/assets/newevent.png';
+  editForm = false;
 
   constructor(private _eventService: EventService,
               private _route: ActivatedRoute,
               private _router: Router,
-              private _location: Location) {
+              private _location: Location,
+              public userService: UserService) {
   }
 
   ngOnInit() {
@@ -26,14 +29,17 @@ export class EventDetailComponent implements OnInit {
 
     if (evId) {
       this.event = this._eventService.getEventById(evId);
+
     } else {
       this.event = new EventModel(EventModel.emptyEvent);
+      this.editForm = true;
+
     }
 
   }
 
-  onSubmit(form) {
-    console.log('detail');
+  onSubmit() {
+
     if (this.event.id) {
 
       this._eventService.update(this.event);
@@ -41,8 +47,12 @@ export class EventDetailComponent implements OnInit {
 
       this._eventService.create(this.event);
     }
-this._location.back();
+    this._location.back();
 
+  }
+
+  navigateBack() {
+    this._location.back();
   }
 
 }
