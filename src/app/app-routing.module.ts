@@ -43,7 +43,7 @@ const routes: Routes = [
       {path: 'edit', component: ProfileEditComponent, canActivate: [LoggedInGuard]},
       {path: 'profile', component: ProfileEditComponent},
       {path: 'login', component: LoginComponent},
-      {path: 'registration', component: RegistrationComponent},
+      {path: 'registration', component: ProfileEditComponent},
     ]
   },
   {path: 'about', component: AboutComponent},

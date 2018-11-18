@@ -16,23 +16,32 @@ export class UserService {
 
   login(email: string, password: string): boolean {
     if (email === 'angular' && password === 'angular') {
-      this._user = new UserModel(UserModel.exampleUser);
+      this._user = this._allUsers[2];
       this.isLoggedin = true;
       this.currentUserName = this._user.name;
-      this._router.navigate(['/user']);
     }
 
     return false;
   }
 
+
   register(param?: UserModel) {
     if (param) {
-      this._user = new UserModel(param);
+      this._user = new UserModel({
+        id: this.getMaxUserId(),
+     //   id: this._allUsers.reduce((x, y) => x.id > y.id ? x : y).id + 1,
+        ...
+          param,
+    });
+      this._allUsers = [
+        ...this._allUsers,
+        this._user
+      ];
+      console.log('reg: ', this._allUsers);
     } else {
       this._user = new UserModel(UserModel.exampleUser);
     }
     this.isLoggedin = true;
-    this._router.navigate(['/user']);
     console.log('be vagyunk-e lepve:', this.isLoggedin);
   }
 
@@ -53,11 +62,11 @@ export class UserService {
   }
 
   updateUser(param: UserModel) {
-    console.log(param);
     this._user = new UserModel(param);
-    console.log(this._getMockData());
+  }
 
-
+  getMaxUserId() {
+    return this._allUsers.reduce((x, y) => x.id > y.id ? x : y).id + 1;
   }
 
   private _getMockData() {

@@ -28,7 +28,7 @@ export class UserModel {
   static get emptyUser(): UserModel {
     return {
       id: 0,
-      name: 'empty user from UserModel',
+      name: '',
       email: '',
       address: '',
       dateOfBirth: '',

@@ -6,11 +6,13 @@
 
     <div class="card-header">
       <div class="bg-light text-center">
-        <h3>Profil módosítása</h3>
+        <h3 *ngIf="user.id">Profil módosítása</h3>
+        <h3 *ngIf="!user.id">Regisztráció</h3>
       </div>
     </div>
 
     <div class="card-body">
+      UserID: {{user.id}}
       <div class="row justify-content-center bg-light m-0">
         <img class="profil my-3 border" [src]="user.profilePictureUrl" alt="Card image cap">
       </div>
@@ -89,12 +91,51 @@
                  #profilePictureUrl="ngModel"
                  required
           >
-          <alert type="danger" *ngIf="profilePictureUrl.touched && profilePictureUrl.invalid"> Kötelezően kitöltendő mező !!</alert>
+          <alert type="danger" *ngIf="profilePictureUrl.touched && profilePictureUrl.invalid"> Kötelezően kitöltendő
+            mező !!
+          </alert>
         </div>
 
+        <!--  password fields   -->
+        <ng-container *ngIf="!user.id">
+          <div class="form-group">
+            <label for="registerPassword">Jelszó</label>
+            <input
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
+              required
+              title="kis, nagybetű és szám, legalább nyolc karakter hosszan"
+              name="registerPassword"
+              type="password" class="form-control" id="registerPassword" placeholder="jelszó"
+              ngModel name="pass1"
+              #pass1="ngModel"
+            >
+          </div>
+          <div> Jelszó megfelelő: {{pass1.valid}}</div>
+          <div class="form-group">
+            <label for="registerPassword2">Jelszó ismét</label>
+            <input name="registerPassword2"
+                   required
+                   type="password" class="form-control" id="registerPassword2"
+                   placeholder="jelszó ismét"
+                   ngModel name="pass2"
+                   #pass2="ngModel">
+          </div>
+          <alert type="danger" *ngIf="pass1.dirty && pass2.dirty && (pass1.invalid || pass2.invalid || pass1.value !== pass2.value)">A jelszavak nem egyeznek !</alert>
+
+          <div class="text-center mb-3">
+            <button type="submit" class="btn btn-primary btn-lg"
+                    [disabled]="profileEditForm.invalid"
+            > Regisztráció
+            </button>
+          </div>
+        </ng-container>
+
         <div class="text-center mb-3">
-          <input class="btn btn-primary btn-lg" type="submit" value="mentés"
-                [disabled]="profileEditForm.invalid" >
+          <button type="submit" class="btn btn-primary btn-lg"
+                  [disabled]="profileEditForm.invalid"
+                  *ngIf="user.id"
+          > Mentés
+          </button>
         </div>
       </form>
     </div>
