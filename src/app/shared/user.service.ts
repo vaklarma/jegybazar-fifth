@@ -29,7 +29,6 @@ export class UserService {
     if (param) {
       this._user = new UserModel({
         id: this.getMaxUserId(),
-     //   id: this._allUsers.reduce((x, y) => x.id > y.id ? x : y).id + 1,
         ...
           param,
     });

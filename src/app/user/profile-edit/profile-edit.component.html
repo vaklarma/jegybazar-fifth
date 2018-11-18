@@ -13,8 +13,11 @@
 
     <div class="card-body">
       UserID: {{user.id}}
-      <div class="row justify-content-center bg-light m-0">
+      <div class="row justify-content-center bg-light m-0" *ngIf="user.id">
         <img class="profil my-3 border" [src]="user.profilePictureUrl" alt="Card image cap">
+      </div>
+      <div class="row justify-content-center bg-light m-0" *ngIf="!user.id">
+        <img class="profil my-3 border" src="https://sadanduseless.b-cdn.net/wp-content/uploads/2017/02/puffer-fish1.jpg" alt="Card image cap">
       </div>
       <!--card-body-->
       <form #profileEditForm="ngForm" (ngSubmit)="onSubmit()">

@@ -12,13 +12,12 @@ import {Location} from '@angular/common';
 export class ProfileEditComponent implements OnInit {
   user: UserModel;
 
-  constructor(private _userService: UserService,
-              private  _location: Location,
-  ) {
+  constructor(private _userService: UserService) {
   }
 
   ngOnInit() {
     this.user = this._userService.isLoggedin ? this._userService.getCurrentUser() : new UserModel();
+
   }
 
   onSubmit() {

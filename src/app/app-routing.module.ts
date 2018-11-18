@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './user/login/login.component';
-import {RegistrationComponent} from './user/registration/registration.component';
 import {EventListComponent} from './event/event-list/event-list.component';
 import {PageNotFoundComponent} from './core/page-not-found/page-not-found.component';
 import {AboutComponent} from './about/about.component';
@@ -70,7 +69,6 @@ export class AppRoutingModule {
     BidComponent,
     AboutComponent,
     LoginComponent,
-    RegistrationComponent,
     ProfileComponent,
     ProfileEditComponent,
     PageNotFoundComponent,
