@@ -12,8 +12,6 @@ export class EventService {
   private _events: EventModel[];
 
   constructor(private _http: HttpClient) {
-
-   // this._events = this._getMockData();
   }
 
   getAllEvents(): Observable<EventModel[]> {
@@ -28,6 +26,7 @@ export class EventService {
   }
 
   update(param: EventModel) {
+
     this._events = this._events.map(ev => {
       if (ev.id === param.id) {
         return {...param};
@@ -35,6 +34,7 @@ export class EventService {
         return ev;
       }
     });
+    console.log(this._events);
   }
 
   create(param: EventModel) {
