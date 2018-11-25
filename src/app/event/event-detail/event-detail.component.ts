@@ -29,9 +29,9 @@ export class EventDetailComponent implements OnInit {
     this.event = new EventModel(EventModel.emptyEvent);
     if (evId) {
     this._eventService.getEventById(evId).subscribe(evm => this.event = evm);
-      this.editForm = true;
-    } else {
 
+    } else {
+      this.editForm = true;
     }
 
   }

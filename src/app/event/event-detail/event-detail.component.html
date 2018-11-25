@@ -93,7 +93,7 @@
           <button class="btn btn-primary btn-lg"
                   type="submit"
                   [disabled]="eventForm.invalid"
-                  *ngIf="!editForm && userService.isLoggedin"
+                  *ngIf="editForm && userService.isLoggedin"
 
           >Mentés
           </button>
@@ -101,7 +101,7 @@
           <button class="btn btn-primary btn-lg"
                   type="button"
 
-                  *ngIf="editForm && userService.isLoggedin"
+                  *ngIf="!editForm && userService.isLoggedin"
                   (click)="editForm = true"
 
           >Szerkesztés
