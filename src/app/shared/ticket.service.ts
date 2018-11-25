@@ -28,7 +28,7 @@ export class TicketService {
       new TicketModel({
         id: this._tickets.reduce((x, y) => x.id > y.id ? x : y).id + 1,
         ...param,
-        event: this._eventService.getEventById(param.eventId),
+      //  event: this._eventService.getEventById(param.eventId),
         seller: this._userService.getUserById(param.sellerUserId)
       })
     ];
