@@ -14,7 +14,7 @@ export class EventService {
     this._events = this._getMockData();
   }
 
-  getAllEvents(): Observable<EventModel[]> {
+  getAllEvents(): Observable<object> {
 
 
     return this._http.get(`${environment.firebase.baseUrl}/events.json`);
