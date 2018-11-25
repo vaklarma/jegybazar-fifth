@@ -3,6 +3,7 @@ import {EventModel} from './event-model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -14,10 +15,11 @@ export class EventService {
     this._events = this._getMockData();
   }
 
-  getAllEvents(): Observable<object> {
+  getAllEvents(): Observable<EventModel[]> {
 
 
-    return this._http.get(`${environment.firebase.baseUrl}/events.json`);
+    return this._http.get(`${environment.firebase.baseUrl}/events.json`)
+      .pipe(map(data => Object.values(data).map(evm => new EventModel(evm))));
 
   }
 

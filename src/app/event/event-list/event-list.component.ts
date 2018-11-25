@@ -11,7 +11,7 @@ import {Observable} from 'rxjs';
 })
 export class EventListComponent implements OnInit {
   public eventGroupBy3: EventModel[];
-  public events$: Observable<object>;
+  public events$: Observable<EventModel[]>;
 
   constructor(private _eventservice: EventService,
               public userService: UserService) {
