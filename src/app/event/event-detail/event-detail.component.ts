@@ -4,6 +4,7 @@ import {EventService} from '../../shared/event.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {UserService} from '../../shared/user.service';
+import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class EventDetailComponent implements OnInit {
   event: EventModel;
   samplepictureUrl = 'http://localhost:4200/assets/newevent.png';
   editForm = false;
+
 
   constructor(private _eventService: EventService,
               private _route: ActivatedRoute,
@@ -28,7 +30,7 @@ export class EventDetailComponent implements OnInit {
     const evId = this._route.snapshot.params['id'];
     this.event = new EventModel(EventModel.emptyEvent);
     if (evId) {
-    this._eventService.getEventById(evId).subscribe(evm => this.event = evm);
+      this._eventService.getEventById(evId).subscribe(evm => this.event = evm);
 
     } else {
       this.editForm = true;
@@ -37,16 +39,33 @@ export class EventDetailComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.event.id);
-    // if (this.event.id) {
-    //
-    //   this._eventService.update(this.event);
-    // } else {
-    //
-    //   this._eventService.create(this.event);
-    // }
-   // this._location.back();
 
+    console.log(this.event.id);
+    if (this.event.id) {
+
+      this._eventService.update(this.event);
+    } else {
+
+      this._eventService.createFireBase(this.event)
+
+        .subscribe(
+          (evm) => {
+            this.modifyId(evm);
+          },
+          (err) => {
+            console.warn(`valami baj van tesó ! : ${err}`);
+          },
+        );
+
+
+    }
+
+
+  }
+
+  modifyId(param) {
+
+    this._eventService.modifyEventIdwithName(param).subscribe();
   }
 
   navigateBack() {
