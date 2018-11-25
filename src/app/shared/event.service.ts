@@ -1,20 +1,24 @@
 import {Injectable} from '@angular/core';
 import {EventModel} from './event-model';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+
+@Injectable()
 export class EventService {
   private _events: EventModel[];
 
-  constructor() {
+  constructor(private _http: HttpClient) {
 
-   this._events = this._getMockData();
+    this._events = this._getMockData();
   }
 
-  getAllEvents(): EventModel[] {
+  getAllEvents(): Observable<EventModel[]> {
 
-    return this._events;
+
+    return this._http.get(`${environment.firebase.baseUrl}/events.json`);
+
   }
 
   getEventById(id: number) {
@@ -25,7 +29,7 @@ export class EventService {
   update(param: EventModel) {
     this._events = this._events.map(ev => {
       if (ev.id === param.id) {
-        return {...param}
+        return {...param};
       } else {
         return ev;
       }
@@ -41,6 +45,7 @@ export class EventService {
       }
     ];
   }
+
   private _getMockData() {
     return [
       new EventModel({
