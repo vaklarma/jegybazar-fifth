@@ -1,6 +1,6 @@
 <div class="container">
 <pre>
-{{events$ | async | json}}
+<!--{{events$ | async | json}}-->
 </pre>
   <!-- keresés, létrehozás -->
 
@@ -26,6 +26,11 @@
 
 
   <!-- cards -->
+
+
+
+
+
   <div class="card-deck pt-5 pb-5" *ngFor="let eventgroup of eventGroupBy3 ">
     <app-eventcard class="col col-md-6 col-lg-4"
                    *ngFor="let event of eventgroup"
@@ -33,6 +38,7 @@
     ></app-eventcard>
 
   </div>
+
 
 
 </div>
