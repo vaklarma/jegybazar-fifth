@@ -6,7 +6,6 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 
-
 @Injectable()
 export class EventService {
   private _events: EventModel[];
@@ -27,14 +26,14 @@ export class EventService {
 
   update(param: EventModel) {
 
-    this._events = this._events.map(ev => {
-      if (ev.id === param.id) {
-        return {...param};
-      } else {
-        return ev;
-      }
-    });
-    console.log(this._events);
+    // this._events = this._events.map(ev => {
+    //   if (ev.id === param.id) {
+    //     return {...param};
+    //   } else {
+    //     return ev;
+    //   }
+    // });
+    // console.log(this._events);
   }
 
   create(param: EventModel) {
@@ -47,15 +46,22 @@ export class EventService {
     ];
   }
 
-  createFireBase(param: EventModel) {
-    console.log(param);
-    return this._http.post(`${environment.firebase.baseUrl}/events.json`, param);
+  updateFirebase(param: EventModel) {
+    return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
+  }
 
+  createFireBase(param: EventModel) {
+    return this._http.post(`${environment.firebase.baseUrl}/events.json`, param);
   }
 
   modifyEventIdwithName(param) {
     console.log('Modify service: ', param.name);
     return this._http.patch(`${environment.firebase.baseUrl}/events/${param.name}.json`, {'id': `${param.name}`});
+  }
+
+  delete(param) {
+    console.log(param.id);
+    return this._http.delete(`${environment.firebase.baseUrl}/events/${param.id}.json`);
   }
 
 }

@@ -42,15 +42,16 @@ export class EventDetailComponent implements OnInit {
 
     console.log(this.event.id);
     if (this.event.id) {
-
-      this._eventService.update(this.event);
+      this._eventService.updateFirebase(this.event)
+        .subscribe(
+          () => this.navigateBack(),
+        );
     } else {
-
       this._eventService.createFireBase(this.event)
-
         .subscribe(
           (evm) => {
             this.modifyId(evm);
+            this.navigateBack();
           },
           (err) => {
             console.warn(`valami baj van tesó ! : ${err}`);
@@ -61,6 +62,18 @@ export class EventDetailComponent implements OnInit {
     }
 
 
+  }
+
+  delete() {
+    console.log('kijelölve törlésre', this.event);
+    this._eventService.delete(this.event)
+      .subscribe(
+        () => this.navigateBack(),
+        (err) => {
+          console.warn(`valami baj van tesó a törlésnél ! : ${err}`);
+
+        }
+      );
   }
 
   modifyId(param) {
