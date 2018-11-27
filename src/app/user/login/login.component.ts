@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../shared/user.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserModel } from '../../shared/user-model';
+import { UserService } from '../../shared/user.service';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +9,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  public errorMsg: string;
+  public error: string;
 
   constructor(private _userService: UserService,
               private _router: Router) {
@@ -18,21 +18,18 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-
   login(email: string, password: string) {
-
-    if (!this._userService.login(email, password)) {
-      this.errorMsg = 'Hiba a belépéskor !';
-    } else {
-      this._router.navigate(['/user']);
-    }
-
-
+    this._userService.login(email, password).subscribe(
+      (user: UserModel) => {
+        console.log('login cmp', user);
+        this._router.navigate(['/user']);
+      },
+      err => console.warn('hibara futottunk a logincmp-ben', err)
+    );
   }
 
   clearError() {
-    console.log('Error before : ', this.errorMsg);
-    delete(this.errorMsg);
-    console.log('Error: ', this.errorMsg);
+    delete(this.error);
   }
+
 }
