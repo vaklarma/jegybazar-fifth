@@ -31,6 +31,26 @@ export class EventService {
     }
   }
 
+  // A gond az, hogy a firebase id az event ben is az id és ha nem tesszük bele ugyanazt, akkor nem lesz belistázva.
+  // ezért PATCH - el módosítani kell az ID -t, miután megtörtént a POST . Azért utána, mert addig nem tudjuk, hogy mi az ID, amit a
+  // firebase generált.
+  // Ha már tudjuk, akkor betesszük
+  //
+  // "-Ky0CqiDVsXAbshfMZ6H" : {
+  //   "address" : "marcsa var 42.",
+  //   "dateOfBirth" : "2000-01-01",
+  //   "email" : "marcsa@marcsa.hu",
+  //   "gender" : "female",
+  //   "id" : "-Ky0CqiDVsXAbshfMZ6H",
+  //   "name" : "Marcsa",
+  //   "profilePictureUrl" : "https://i.pinimg.com/236x/2c/80/53/2c80536d805ca08bd1f87d9db9fb9955--funny-wallpapers-wallpaper-iphone.jpg"
+  // },
+
+  modifyIdAfterPost(param) {
+    console.log('Modify service: ', param.name);
+    return this._http.patch(`${environment.firebase.baseUrl}/events/${param.name}.json`, {'id': `${param.name}`});
+  }
+
 
   delete(param: EventModel) {
     console.log(param.id);
