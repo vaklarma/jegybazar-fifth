@@ -14,6 +14,7 @@ export class EventService {
   constructor(private _http: HttpClient) {
   }
 
+
   getAllEvents(): Observable<EventModel[]> {
     return this._http.get(`${environment.firebase.baseUrl}/events.json`)
       .pipe(map(data => Object.values(data).map(evm => new EventModel(evm))));
@@ -21,29 +22,16 @@ export class EventService {
 
   getEventById(id: number) {
     return this._http.get<EventModel>(`${environment.firebase.baseUrl}/events/${id}.json`);
-
   }
 
-  update(param: EventModel) {
 
-    // this._events = this._events.map(ev => {
-    //   if (ev.id === param.id) {
-    //     return {...param};
-    //   } else {
-    //     return ev;
-    //   }
-    // });
-    // console.log(this._events);
-  }
-
-  create(param: EventModel) {
-    this._events = [
-      ...this._events,
-      {
-        id: this._events.reduce((x, y) => x.id > y.id ? x : y).id + 1,
-        ...param,
-      }
-    ];
+  save(param: EventModel) {
+    console.log(param);
+    if (param.id) {
+      return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
+    } else {
+      return this._http.post(`${environment.firebase.baseUrl}/events.json`, param);
+    }
   }
 
   updateFirebase(param: EventModel) {
@@ -59,7 +47,7 @@ export class EventService {
     return this._http.patch(`${environment.firebase.baseUrl}/events/${param.name}.json`, {'id': `${param.name}`});
   }
 
-  delete(param) {
+  delete(param: EventModel) {
     console.log(param.id);
     return this._http.delete(`${environment.firebase.baseUrl}/events/${param.id}.json`);
   }
