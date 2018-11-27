@@ -75,19 +75,19 @@
           <ng-container *ngIf="userService.isLoggedin">
             <ng-container *ngIf="viewForm; else editButtons">
               <button type="button"
-                      class="btn btn-primary btn-lg"
+                      class="btn btn-primary btn-lg m-2"
                       (click)="viewForm = false"
               >Szerkesztes
               </button>
             </ng-container>
             <ng-template #editButtons>
               <button type="submit"
-                      class="btn btn-primary btn-lg"
+                      class="btn btn-primary btn-lg m-2"
                       [disabled]="eventForm.invalid"
               >Mentés
               </button>
               <button type="button"
-                      class="btn btn-danger btn-lg"
+                      class="btn btn-danger btn-lg m-2"
                       (click)="delete()"
                       *ngIf="event.id"
               >Törlés
@@ -95,7 +95,7 @@
             </ng-template>
           </ng-container>
           <button type="button"
-                  class="btn btn-primary btn-lg"
+                  class="btn btn-primary btn-lg m-2"
                   (click)="navigateBack()"
           >Vissza
           </button>
