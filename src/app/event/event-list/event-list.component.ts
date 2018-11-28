@@ -15,6 +15,7 @@ export class EventListComponent implements OnInit {
   public events$: Observable<EventModel[]>;
   public eventGroupBy3$: Observable<EventModel[][]>;
   public events: EventModel[];
+  public uname = 'qqqq';
 
   constructor(private eventService: EventService,
               public userService: UserService) {
@@ -25,13 +26,13 @@ export class EventListComponent implements OnInit {
     this.eventGroupBy3$ = this.eventService.getAllEvents()
       .pipe(map(data => {
         return data.reduce((acc, curr: EventModel, ind: number) => {
-                if (ind % 3 === 0) {
-                  acc.push([]);
-                 }
-                acc[acc.length - 1].push(curr);
-                return acc;
-              }, []);
-            }));
+          if (ind % 3 === 0) {
+            acc.push([]);
+          }
+          acc[acc.length - 1].push(curr);
+          return acc;
+        }, []);
+      }));
 
 
     // this.events$ = this.eventService.getAllEvents();

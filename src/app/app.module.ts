@@ -17,6 +17,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,8 +26,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
     EventcardComponent,
     FooterComponent,
     EventComponent,
-    ...AppRoutingModule.routableComponents
-
+    ...AppRoutingModule.routableComponents,
   ],
   imports: [
     BrowserModule,

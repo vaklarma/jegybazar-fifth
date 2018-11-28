@@ -20,7 +20,7 @@
         <ng-container *ngIf="userService.isLoggedin; else notLoggedInBlock">
           <a class="nav-item nav-link tn btn-primary text-light ml-lg-2 btn-sm" routerLinkActive="active" routerLink="/user">Profile</a>
 
-          <a class="nav-item nav-link" routerLinkActive="active" (click)="logout()" routerLink="#">Kilépés ( {{userService.currentUserName}})</a>
+          <a class="nav-item nav-link" routerLinkActive="active" (click)="logout()" routerLink="#">Kilépés ( {{userService.currentUser}})</a>
 
         </ng-container>
 

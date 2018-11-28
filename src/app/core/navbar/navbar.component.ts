@@ -9,14 +9,16 @@ import {UserService} from '../../shared/user.service';
 export class NavbarComponent implements OnInit {
   isCollapsed = true;
   currentUser;
+  userName: string;
 
   constructor(public userService: UserService) {
-    this.currentUser = this.userService.getCurrentUser();
-    console.log('navbar: ', this.currentUser);
+
+
   }
 
   ngOnInit() {
-
+this.userName = this.userService.currentUser;
+    console.log('navbar username: ', this.currentUser);
   }
 
   logout() {

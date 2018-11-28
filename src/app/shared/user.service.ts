@@ -1,16 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
-import { environment } from '../../environments/environment';
-import { FirebaseLoginModel } from './firebase-login-model';
-import { UserModel } from './user-model';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../environments/environment';
+import {FirebaseLoginModel} from './firebase-login-model';
+import {UserModel} from './user-model';
 import 'rxjs/add/operator/do';
 
 @Injectable()
 export class UserService {
   isLoggedin = false;
+  currentUser: string;
 
   private _user: UserModel;
   private _allUsers: UserModel[];
@@ -31,7 +32,11 @@ export class UserService {
       })
       .switchMap(fbLogin => this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/${fbLogin.localId}.json`))
       .do(user => this.isLoggedin = true)
-      .do(user => this._user = user)
+      .do(user => {
+        this._user = user;
+        this.currentUser = user.name;
+        console.log('userservice username: ', user.name);
+      })
       ;
   }
 
@@ -53,6 +58,7 @@ export class UserService {
 
   logout() {
     this._user = new UserModel();
+    this.currentUser = this._user.name;
     this.isLoggedin = false;
     this._router.navigate(['/home']);
     console.log('be vagyunk-e lepve:', this.isLoggedin);
