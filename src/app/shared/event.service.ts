@@ -22,12 +22,25 @@ export class EventService {
     return this._http.get<EventModel>(`${environment.firebase.baseUrl}/events/${id}.json`);
   }
 
+  // save(param: EventModel) {
+  //   console.log(param);
+  //   if (param.id) {
+  //     return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
+  //   } else {
+  //     return this._http.post(`${environment.firebase.baseUrl}/events.json`, param);
+  //   }
+  // }
+
   save(param: EventModel) {
     console.log(param);
     if (param.id) {
       return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
     } else {
-      return this._http.post(`${environment.firebase.baseUrl}/events.json`, param);
+
+
+      return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param)
+        .switchMap(newUserId => this._http.patch(`${environment.firebase.baseUrl}/events/${newUserId.name}.json`,
+          {'id': `${newUserId.name}`}));
     }
   }
 

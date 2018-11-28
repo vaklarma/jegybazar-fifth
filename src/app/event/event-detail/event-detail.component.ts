@@ -64,8 +64,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           if (!this.event.id) {
-            this._eventService.modifyIdAfterPost(data)
-              .subscribe();
+           // this._eventService.modifyIdAfterPost(data)
+           //   .subscribe();
           }
           this.navigateBack();
         },

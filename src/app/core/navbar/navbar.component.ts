@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   currentUser;
 
   constructor(public userService: UserService) {
-    this.currentUser = this.userService.currentUserName;
+    this.currentUser = this.userService.getCurrentUser();
     console.log('navbar: ', this.currentUser);
   }
 
