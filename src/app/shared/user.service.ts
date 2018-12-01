@@ -35,9 +35,11 @@ export class UserService {
       .do(user => {
         this._user = user;
         this.currentUser = user.name;
+        this.isLoggedin = true;
+        console.log('Userservice isloggedIn: ', this.isLoggedin);
         console.log('userservice username: ', user.name);
-      })
-      ;
+      });
+
   }
 
   register(param?: UserModel) {

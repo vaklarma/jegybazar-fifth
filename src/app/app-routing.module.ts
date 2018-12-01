@@ -14,6 +14,10 @@ import {TicketListComponent} from './ticket/ticket-list/ticket-list.component';
 import {TicketDetailComponent} from './ticket/ticket-detail/ticket-detail.component';
 import {BidComponent} from './ticket/bid/bid.component';
 import {LoggedInGuard} from './shared/logged-in.guard';
+import {UserListComponent} from './dashboard/user-list/user-list.component';
+import {UserCardsComponent} from './dashboard/user-cards/user-cards.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -39,12 +43,22 @@ const routes: Routes = [
     path: 'user',
     children: [
       {path: '', component: ProfileComponent, canActivate: [LoggedInGuard]},
+
       {path: 'edit', component: ProfileEditComponent, canActivate: [LoggedInGuard]},
-      {path: 'profile', component: ProfileEditComponent},
+      {path: 'profile', component: ProfileEditComponent, canActivate: [LoggedInGuard]},
       {path: 'login', component: LoginComponent},
       {path: 'registration', component: ProfileEditComponent},
     ]
   },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    children: [
+      {path: 'list', component: UserListComponent},
+
+    ]
+  },
+
   {path: 'about', component: AboutComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent},
@@ -72,5 +86,8 @@ export class AppRoutingModule {
     ProfileComponent,
     ProfileEditComponent,
     PageNotFoundComponent,
+    UserListComponent,
+    UserCardsComponent,
+    DashboardComponent,
   ];
 }

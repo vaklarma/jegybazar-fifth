@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './core/navbar/navbar.component';
 import {JumbotronComponent} from './core/jumbotron/jumbotron.component';
@@ -14,8 +13,8 @@ import {UserService} from './shared/user.service';
 import {TicketService} from './shared/ticket.service';
 import {LoggedInGuard} from './shared/logged-in.guard';
 import {FormsModule} from '@angular/forms';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-
+import {HttpClientModule} from '@angular/common/http';
+import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -27,6 +26,10 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
     FooterComponent,
     EventComponent,
     ...AppRoutingModule.routableComponents,
+    SidebarComponent,
+
+
+
   ],
   imports: [
     BrowserModule,

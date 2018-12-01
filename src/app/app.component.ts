@@ -8,7 +8,10 @@ import {UserService} from './shared/user.service';
 })
 export class AppComponent {
   constructor(private _userService: UserService) {
-   //  this._userService.login('angular', 'angular');
-   // console.log('auto login az app.component.ts - ből');
+    console.log('Userservice isloggedIn: ', this._userService.isLoggedin);
+
+
+    //  this._userService.login('angular', 'angular');
+    // console.log('auto login az app.component.ts - ből');
   }
 }
