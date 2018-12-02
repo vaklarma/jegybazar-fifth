@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../shared/user.service';
 import {UserModel} from '../../shared/user-model';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {log} from 'util';
+
 
 
 @Component({
@@ -23,8 +22,5 @@ export class UserListComponent implements OnInit {
     console.log('Out subscribe: ', this.userList);
   }
 
-  delUser() {
-    console.log('törölve');
-  }
 
 }

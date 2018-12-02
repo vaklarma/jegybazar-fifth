@@ -47,10 +47,15 @@ export class UserService {
 
   getfbAllUser(): Observable<UserModel[]> {
     return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/.json`)
-       .pipe(map(data => Object.values(data).map(um => new UserModel(um))));
- //   return this._http.get<UserModel[][]>(`${environment.firebase.baseUrl}/users/.json`);
+      .pipe(map(data => Object.values(data).map(um => new UserModel(um))));
+    //   return this._http.get<UserModel[][]>(`${environment.firebase.baseUrl}/users/.json`);
 
 
+  }
+
+  deleteOneUser(id) {
+
+    return this._http.delete(`${environment.firebase.baseUrl}/users/${id}.json`);
   }
 
   register(param?: UserModel) {
@@ -88,10 +93,6 @@ export class UserService {
 
   getCurrentUser() {
     return this._user ? this._user : new UserModel(UserModel.emptyUser);
-  }
-
-  getAllUser() {
-    return this._getMockData();
   }
 
 

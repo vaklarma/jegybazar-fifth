@@ -15,6 +15,7 @@ import {LoggedInGuard} from './shared/logged-in.guard';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 
 
@@ -39,7 +40,8 @@ import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
     CollapseModule.forRoot(),
     AppRoutingModule,
     AlertModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    AccordionModule.forRoot()
 
 
   ],
