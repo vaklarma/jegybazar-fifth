@@ -7,11 +7,14 @@ import {environment} from '../../environments/environment';
 import {FirebaseLoginModel} from './firebase-login-model';
 import {UserModel} from './user-model';
 import 'rxjs/add/operator/do';
+import {map} from 'rxjs/operators';
+import {EventModel} from './event-model';
 
 @Injectable()
 export class UserService {
   isLoggedin = false;
   currentUser: string;
+
 
   private _user: UserModel;
   private _allUsers: UserModel[];
@@ -39,6 +42,14 @@ export class UserService {
         console.log('Userservice isloggedIn: ', this.isLoggedin);
         console.log('userservice username: ', user.name);
       });
+
+  }
+
+  getfbAllUser(): Observable<UserModel[]> {
+    return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/.json`)
+       .pipe(map(data => Object.values(data).map(um => new UserModel(um))));
+ //   return this._http.get<UserModel[][]>(`${environment.firebase.baseUrl}/users/.json`);
+
 
   }
 
@@ -78,6 +89,11 @@ export class UserService {
   getCurrentUser() {
     return this._user ? this._user : new UserModel(UserModel.emptyUser);
   }
+
+  getAllUser() {
+    return this._getMockData();
+  }
+
 
   private _getMockData() {
     return [

@@ -17,6 +17,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
     EventComponent,
     ...AppRoutingModule.routableComponents,
     SidebarComponent,
+
 
 
 
