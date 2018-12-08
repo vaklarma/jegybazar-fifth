@@ -1,14 +1,16 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {FirebaseLoginModel} from './firebase-login-model';
 import {UserModel} from './user-model';
-import 'rxjs/add/operator/do';
 import {map} from 'rxjs/operators';
-import {EventModel} from './event-model';
+import {FirebaseRegistrationModel} from './firebase-registration-model';
+
 
 @Injectable()
 export class UserService {
@@ -16,16 +18,16 @@ export class UserService {
   currentUser: string;
 
 
-  private _user: UserModel;
-  private _allUsers: UserModel[];
+  // private _user: UserModel;
+  // private _allUsers: UserModel[];
+  private _user = new UserModel();
+  private _fbAuthData: FirebaseLoginModel | FirebaseRegistrationModel | undefined;
 
   constructor(private _router: Router,
               private _http: HttpClient) {
-    this._allUsers = this._getMockData();
   }
 
   login(email: string, password: string): Observable<UserModel | void> {
-
     return this._http.post<FirebaseLoginModel>(
       `${environment.firebase.loginUrl}?key=${environment.firebase.apikey}`,
       {
@@ -33,18 +35,74 @@ export class UserService {
         'password': password,
         'returnSecureToken': true
       })
-      .switchMap(fbLogin => this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/${fbLogin.localId}.json`))
+      .do((fbAuthResponse: FirebaseLoginModel) => this._fbAuthData = fbAuthResponse)
+      .switchMap(fbLogin => this.getUserById(fbLogin.localId))
+      .do(user => this._user = user)
       .do(user => this.isLoggedin = true)
-      .do(user => {
-        this._user = user;
-        this.currentUser = user.name;
-        this.isLoggedin = true;
-        console.log('Userservice isloggedIn: ', this.isLoggedin);
-        console.log('userservice username: ', user.name);
-      });
-
+      .do(user => console.log('sikeres login ezzel a userrel: ', user));
   }
-
+  register(param: UserModel, password: string) {
+    return this._http.post<FirebaseRegistrationModel>(
+      `${environment.firebase.registrationUrl}?key=${environment.firebase.apikey}`,
+      {
+        'email': param.email,
+        'password': password,
+        'returnSecureToken': true
+      }
+    )
+      .do((fbAuthResponse: FirebaseRegistrationModel) => this._fbAuthData = fbAuthResponse)
+      .pipe(map(fbreg => {
+        return {
+          id: fbreg.localId,
+          ...param
+        };
+      }))
+      .switchMap(user => this.save(user))
+      .do(user => this.isLoggedin = true)
+      .do(user => console.log('sikeres reg ezzel a userrel: ', user));
+  }
+  save(param: UserModel) {
+    // na ez itt azert kulonleges, mert a tobbi helyettol elteroen en nem akarom, hogy
+    // generaljon nekem kulcsot a firebase, hanem a registraciokor kapott id-t szeretnem
+    // kulcs kent hasznalni adatmentesnel kulcskent az adatbazisban
+    // illetve put-ra fb a bekuldott adatszerkezetet adja vissz igy tudom tovabb hasznalni
+    return this._http.put<UserModel>(`${environment.firebase.baseUrl}/users/${param.id}.json`, param) // return: param
+      .do(user => this._user = user);
+  }
+  // login(email: string, password: string): Observable<UserModel | void> {
+  //
+  //   return this._http.post<FirebaseLoginModel>(
+  //       `${environment.firebase.loginUrl}?key=${environment.firebase.apikey}`,
+  //       {
+  //         'email': email,
+  //         'password': password,
+  //         'returnSecureToken': true
+  //       })
+  //     .do((fbAuthResponse: FirebaseLoginModel) => this._fbAuthData = fbAuthResponse)
+  //     .switchMap(fbLogin => this.getUserById(fbLogin.localId))
+  //     .do(user => this.isLoggedin = true)
+  //     .do(user => {
+  //       this._user = user;
+  //       this.currentUser = user.name;
+  //       this.isLoggedin = true;
+  //       console.log('Userservice isloggedIn: ', this.isLoggedin);
+  //       console.log('userservice username: ', user.name);
+  //     });
+  //
+  // }
+  getUserById(fbid: string) {
+    return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/${fbid}.json`);
+  }
+  getCurrentUser() {
+    return Observable.of(this._user);
+  }
+  logout() {
+    this._user = new UserModel();
+    this.isLoggedin = false;
+    delete(this._fbAuthData);
+    this._router.navigate(['/home']);
+    console.log('kileptunk');
+  }
   getfbAllUser(): Observable<UserModel[]> {
     return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/.json`)
       .pipe(map(data => Object.values(data).map(um => new UserModel(um))));
@@ -58,42 +116,36 @@ export class UserService {
     return this._http.delete(`${environment.firebase.baseUrl}/users/${id}.json`);
   }
 
-  register(param?: UserModel) {
-    if (param) {
-      this._user = new UserModel({
-        id: 4,
-        ...param
-      });
+  // register(param?: UserModel) {
+  //   if (param) {
+  //     this._user = new UserModel({
+  //       id: 4,
+  //       ...param
+  //     });
+  //
+  //     this._allUsers = [
+  //       ...this._allUsers,
+  //       this._user
+  //     ];
+  //   }
+  //   this.isLoggedin = true;
+  //   console.log('be vagyunk-e lepve:', this.isLoggedin);
+  // }
 
-      this._allUsers = [
-        ...this._allUsers,
-        this._user
-      ];
-    }
-    this.isLoggedin = true;
-    console.log('be vagyunk-e lepve:', this.isLoggedin);
-  }
 
-  logout() {
-    this._user = new UserModel();
-    this.currentUser = this._user.name;
-    this.isLoggedin = false;
-    this._router.navigate(['/home']);
-    console.log('be vagyunk-e lepve:', this.isLoggedin);
-  }
 
   updateUser(param: UserModel) {
     this._user = new UserModel(param);
   }
 
-  getUserById(id: number) {
-    const user = this._allUsers.filter(u => u.id === +id);
-    return user.length > 0 ? user[0] : new UserModel(UserModel.emptyUser);
-  }
+  // getUserById(id: number) {
+  //   const user = this._allUsers.filter(u => u.id === +id);
+  //   return user.length > 0 ? user[0] : new UserModel(UserModel.emptyUser);
+  // }
 
-  getCurrentUser() {
-    return this._user ? this._user : new UserModel(UserModel.emptyUser);
-  }
+  // getCurrentUser() {
+  //   return this._user ? this._user : new UserModel(UserModel.emptyUser);
+  // }
 
 
   private _getMockData() {
