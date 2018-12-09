@@ -1,11 +1,11 @@
-import {Location} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/takeUntil';
-import {Subject} from 'rxjs/Subject';
-import {EventModel} from '../../shared/event-model';
-import {EventService} from '../../shared/event.service';
-import {UserService} from '../../shared/user.service';
+import { Subject } from 'rxjs/Subject';
+import { EventModel } from '../../shared/event-model';
+import { EventService } from '../../shared/event.service';
+import { UserService } from '../../shared/user.service';
 
 @Component({
   selector: 'app-event-detail',
@@ -30,7 +30,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
     // ez egy megoldas arra, hogy egyben kezeljuk az edit es create funkcionalitast
     // illetve edit esetben is van mivel dolgozni amig megerkezik az adat igy user mindig lat valamit
-    this.event = new EventModel(EventModel.emptyEvent);
+    this.event = new EventModel();
 
     // ha nincs eventId-nk akkor ujat hozunk letre es emiatt szerkesztessel indulunk
     // ha van eventId-nk akkor viszont eloszot megjelenitunk es szerkeszt gombra valtunk
@@ -62,13 +62,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this._eventService.save(this.event)
       .takeUntil(this._destroy$)
       .subscribe(
-        (data) => {
-          if (!this.event.id) {
-           // this._eventService.modifyIdAfterPost(data)
-           //   .subscribe();
-          }
-          this.navigateBack();
-        },
+        () => this.navigateBack(),
         (err) => {
           console.warn(`Problémánk van a form mentésnél: ${err}`);
         }

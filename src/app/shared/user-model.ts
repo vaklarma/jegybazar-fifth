@@ -1,5 +1,5 @@
 export class UserModel {
-  id: number;
+  id: string;
   name: string;
   email: string;
   address: string;
@@ -13,27 +13,5 @@ export class UserModel {
     }
   }
 
-  static get exampleUser(): UserModel {
-    return {
-      id: 0,
-      name: 'rékuci',
-      email: 'legyekrekamatilda@valami.hu',
-      address: 'Futrinka utca',
-      dateOfBirth: '2015.01.08',
-      gender: 'female',
-      profilePictureUrl: 'https://demos.subinsb.com/isl-profile-pic/image/person.png'
-    };
-  }
 
-  static get emptyUser(): UserModel {
-    return {
-      id: 0,
-      name: '',
-      email: '',
-      address: '',
-      dateOfBirth: '',
-      gender: '',
-      profilePictureUrl: '',
-    };
-  }
 }

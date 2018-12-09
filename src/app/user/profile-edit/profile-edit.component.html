@@ -1,7 +1,5 @@
-<div class="container">
+<div class="container py-3">
 
-
-  <!--Form with header-->
   <div class="card mb-4 col-11 col-sm-8 mx-auto p-0">
 
     <div class="card-header">
@@ -12,60 +10,67 @@
     </div>
 
     <div class="card-body">
-      UserID: {{user.id}}
-      <div class="row justify-content-center bg-light m-0" *ngIf="user.id">
-        <img class="profil my-3 border" [src]="user.profilePictureUrl" alt="Card image cap">
-      </div>
-      <div class="row justify-content-center bg-light m-0" *ngIf="!user.id">
-        <img class="profil my-3 border" src="https://sadanduseless.b-cdn.net/wp-content/uploads/2017/02/puffer-fish1.jpg" alt="Card image cap">
-      </div>
-      <!--card-body-->
-      <form #profileEditForm="ngForm" (ngSubmit)="onSubmit()">
+      <form #profileForm="ngForm" (ngSubmit)="updateUser()">
+
         <div class="form-group">
           <label for="nev">Név</label>
-          <input type="text" class="form-control mb-3" id="nev" placeholder="név"
-                 [(ngModel)]="user.name" name="userName"
-                 #name="ngModel"
+          <input type="text" id="nev"
+                 class="form-control mb-3"
+                 placeholder="név"
                  required
+                 [(ngModel)]="user.name" name="name"
+                 #name="ngModel"
           >
-          <alert type="danger" *ngIf="name.touched && name.invalid"> Kötelezően kitöltendő mező !!</alert>
+          <alert type="danger" *ngIf="name.touched && name.invalid">
+            Kötelező mező!
+          </alert>
         </div>
 
         <div class="form-group">
           <label for="email">Email cím</label>
-          <input type="text" class="form-control mb-3" id="email" placeholder="email cím"
-                 [(ngModel)]="user.email" name="userEmail"
+          <input type="text" id="email"
+                 class="form-control mb-3"
+                 placeholder="email cím"
                  required
+                 [(ngModel)]="user.email" name="email"
                  #email="ngModel"
           >
-          <alert type="danger" *ngIf="email.touched && email.invalid"> Kötelezően kitöltendő mező !!</alert>
-
+          <alert type="danger" *ngIf="email.touched && email.invalid">
+            Kötelező mező!
+          </alert>
         </div>
 
         <div class="form-group">
-          <label for="nev">Lakcím</label>
-          <input type="text" class="form-control mb-3" id="address" placeholder="név"
-                 [(ngModel)]="user.address" name="userAddress"
+          <label for="address">Lakcím</label>
+          <input type="text" id="address"
+                 class="form-control mb-3"
+                 placeholder="Lakcím"
                  required
+                 [(ngModel)]="user.address" name="address"
                  #address="ngModel"
           >
-          <alert type="danger" *ngIf="address.touched && address.invalid"> Kötelezően kitöltendő mező !!</alert>
-
+          <alert type="danger" *ngIf="address.touched && address.invalid">
+            Kötelező mező!
+          </alert>
         </div>
 
         <div class="form-group">
-          <label for="szul">Születési idő</label>
-          <input type="date" class="form-control mb-3" id="szul" placeholder="születési idő"
-                 [(ngModel)]="user.dateOfBirth" name="userDateOfBirth"
+          <label for="dateOfBirth">Születési idő</label>
+          <input type="date" id="dateOfBirth"
+                 class="form-control mb-3"
+                 placeholder="születési idő"
                  required
-                 #dateOfBirth="ngModel"
+                 [(ngModel)]="user.dateOfBirth" name="dateOfBirth"
+                 #address="ngModel"
           >
-          <alert type="danger" *ngIf="address.touched && address.invalid"> Kötelezően kitöltendő mező !!</alert>
-
+          <alert type="danger" *ngIf="address.touched && address.invalid">
+            Kötelező mező!
+          </alert>
         </div>
 
         <div class="form-group">
           <label class="pr-5">Nemed</label>
+
           <div class="form-check form-check-inline">
             <label class="form-check-label" for="fiu">
               <input type="radio" id="fiu"
@@ -75,6 +80,7 @@
               >Fiú
             </label>
           </div>
+
           <div class="form-check form-check-inline">
             <label class="form-check-label" for="lany">
               <input type="radio" id="lany"
@@ -87,56 +93,65 @@
 
         </div>
 
-        <div class="form-group">
-          <label for="nev">Profil kép Url</label>
-          <input type="text" class="form-control mb-3" id="profilePicture" placeholder="Profil kép Url"
+        <div class="form-group mt-3">
+          <label for="profilePictureUrl">Profil kép URL</label>
+          <input type="text" id="profilePictureUrl"
+                 class="form-control mb-3"
+                 placeholder="profilkepem url-je"
+                 required
                  [(ngModel)]="user.profilePictureUrl" name="profilePictureUrl"
                  #profilePictureUrl="ngModel"
-                 required
           >
-          <alert type="danger" *ngIf="profilePictureUrl.touched && profilePictureUrl.invalid"> Kötelezően kitöltendő
-            mező !!
+          <alert type="danger"
+                 *ngIf="profilePictureUrl.touched && profilePictureUrl.invalid">
+            Kötelező mező!
           </alert>
         </div>
 
-        <!--  password fields   -->
         <ng-container *ngIf="!user.id">
+
           <div class="form-group">
             <label for="registerPassword">Jelszó</label>
-            <input
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
-              required
-              title="kis, nagybetű és szám, legalább nyolc karakter hosszan"
-              name="registerPassword"
-              type="password" class="form-control" id="registerPassword" placeholder="jelszó"
-              ngModel name="pass1"
-              #pass1="ngModel"
+            <input type="password" id="registerPassword"
+                   class="form-control"
+                   title="kis, nagybetű és szám, legalább nyolc karakter hosszan"
+                   placeholder="jelszó"
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
+                   required
+                   ngModel name="pass1"
+                   #pass1="ngModel"
             >
           </div>
-          <div> Jelszó megfelelő: {{pass1.valid}}</div>
+
           <div class="form-group">
-            <label for="registerPassword2">Jelszó ismét</label>
-            <input name="registerPassword2"
+            <label for="registerPassword2">Jelszó</label>
+            <input type="password" id="registerPassword2"
+                   class="form-control"
+                   title="kis, nagybetű és szám, legalább nyolc karakter hosszan"
+                   placeholder="jelszó ismet"
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
                    required
-                   type="password" class="form-control" id="registerPassword2"
-                   placeholder="jelszó ismét"
                    ngModel name="pass2"
-                   #pass2="ngModel">
+                   #pass2="ngModel"
+            >
           </div>
-          <alert type="danger" *ngIf="pass1.dirty && pass2.dirty && (pass1.invalid || pass2.invalid || pass1.value !== pass2.value)">A jelszavak nem egyeznek !</alert>
+          <alert type="danger"
+                 *ngIf="pass1.dirty && pass2.dirty && (pass1.invalid || pass2.invalid || (pass1.value !== pass2.value))">
+            A jelszavak nem megfelelőek!
+          </alert>
 
           <div class="text-center mb-3">
-            <button type="submit" class="btn btn-primary btn-lg"
-                    [disabled]="profileEditForm.invalid"
+            <button type="button" class="btn btn-primary btn-lg"
+                    [disabled]="profileForm.invalid || (pass1.value !== pass2.value)"
+                    (click)="createUser(pass1.value)"
             > Regisztráció
             </button>
           </div>
         </ng-container>
 
-        <div class="text-center mb-3">
+        <div class="text-center mb-3" *ngIf="user.id">
           <button type="submit" class="btn btn-primary btn-lg"
-                  [disabled]="profileEditForm.invalid"
-                  *ngIf="user.id"
+                  [disabled]="profileForm.invalid"
           > Mentés
           </button>
         </div>

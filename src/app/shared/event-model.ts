@@ -1,22 +1,13 @@
 export class EventModel {
- // id?: number;
-  id?: string;
+  id: string;
   name: string;
-  date: string;
+  date: string; // na ezt azert prodban ezt szebben kene :)
   pictureURL: string;
   description: string;
 
   constructor(param?: EventModel) {
-    Object.assign(this, param);
-  }
-  static get emptyEvent() {
-    return {
-      'id': '',
-    'name': '',
-    'date': '',
-    'pictureURL': '',
-    'description': ''
-
-  };
+    if (param) {
+      Object.assign(this, param);
+    }
   }
 }

@@ -1,25 +1,21 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
-import {Observable} from 'rxjs/Observable';
-import {environment} from '../../environments/environment';
-import {FirebaseLoginModel} from './firebase-login-model';
-import {UserModel} from './user-model';
 import {map} from 'rxjs/operators';
-import {FirebaseRegistrationModel} from './firebase-registration-model';
-
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../environments/environment';
+import { FirebaseLoginModel } from './firebase-login-model';
+import { FirebaseRegistrationModel } from './firebase-registration-model';
+import { UserModel } from './user-model';
 
 @Injectable()
 export class UserService {
   isLoggedin = false;
-  currentUser: string;
+  currentUser;
 
-
-  // private _user: UserModel;
-  // private _allUsers: UserModel[];
   private _user = new UserModel();
   private _fbAuthData: FirebaseLoginModel | FirebaseRegistrationModel | undefined;
 
@@ -38,9 +34,14 @@ export class UserService {
       .do((fbAuthResponse: FirebaseLoginModel) => this._fbAuthData = fbAuthResponse)
       .switchMap(fbLogin => this.getUserById(fbLogin.localId))
       .do(user => this._user = user)
+
       .do(user => this.isLoggedin = true)
-      .do(user => console.log('sikeres login ezzel a userrel: ', user));
+      .do(user => {
+        console.log('sikeres login ezzel a userrel: ', user);
+        this.currentUser = this._user.name;
+      });
   }
+
   register(param: UserModel, password: string) {
     return this._http.post<FirebaseRegistrationModel>(
       `${environment.firebase.registrationUrl}?key=${environment.firebase.apikey}`,
@@ -61,6 +62,7 @@ export class UserService {
       .do(user => this.isLoggedin = true)
       .do(user => console.log('sikeres reg ezzel a userrel: ', user));
   }
+
   save(param: UserModel) {
     // na ez itt azert kulonleges, mert a tobbi helyettol elteroen en nem akarom, hogy
     // generaljon nekem kulcsot a firebase, hanem a registraciokor kapott id-t szeretnem
@@ -69,39 +71,26 @@ export class UserService {
     return this._http.put<UserModel>(`${environment.firebase.baseUrl}/users/${param.id}.json`, param) // return: param
       .do(user => this._user = user);
   }
-  // login(email: string, password: string): Observable<UserModel | void> {
-  //
-  //   return this._http.post<FirebaseLoginModel>(
-  //       `${environment.firebase.loginUrl}?key=${environment.firebase.apikey}`,
-  //       {
-  //         'email': email,
-  //         'password': password,
-  //         'returnSecureToken': true
-  //       })
-  //     .do((fbAuthResponse: FirebaseLoginModel) => this._fbAuthData = fbAuthResponse)
-  //     .switchMap(fbLogin => this.getUserById(fbLogin.localId))
-  //     .do(user => this.isLoggedin = true)
-  //     .do(user => {
-  //       this._user = user;
-  //       this.currentUser = user.name;
-  //       this.isLoggedin = true;
-  //       console.log('Userservice isloggedIn: ', this.isLoggedin);
-  //       console.log('userservice username: ', user.name);
-  //     });
-  //
-  // }
+
   getUserById(fbid: string) {
     return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/${fbid}.json`);
   }
+
   getCurrentUser() {
     return Observable.of(this._user);
   }
+
   logout() {
     this._user = new UserModel();
     this.isLoggedin = false;
     delete(this._fbAuthData);
     this._router.navigate(['/home']);
     console.log('kileptunk');
+  }
+
+  getAllUsers() {
+    return this._http.get(`${environment.firebase.baseUrl}/users.json`)
+      .pipe(map(usersObject => Object.values(usersObject).map(user => new UserModel(user))));
   }
   getfbAllUser(): Observable<UserModel[]> {
     return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/.json`)
@@ -110,83 +99,11 @@ export class UserService {
 
 
   }
-
   deleteOneUser(id) {
 
     return this._http.delete(`${environment.firebase.baseUrl}/users/${id}.json`);
   }
-
-  // register(param?: UserModel) {
-  //   if (param) {
-  //     this._user = new UserModel({
-  //       id: 4,
-  //       ...param
-  //     });
-  //
-  //     this._allUsers = [
-  //       ...this._allUsers,
-  //       this._user
-  //     ];
-  //   }
-  //   this.isLoggedin = true;
-  //   console.log('be vagyunk-e lepve:', this.isLoggedin);
-  // }
-
-
-
-  updateUser(param: UserModel) {
-    this._user = new UserModel(param);
-  }
-
-  // getUserById(id: number) {
-  //   const user = this._allUsers.filter(u => u.id === +id);
-  //   return user.length > 0 ? user[0] : new UserModel(UserModel.emptyUser);
-  // }
-
-  // getCurrentUser() {
-  //   return this._user ? this._user : new UserModel(UserModel.emptyUser);
-  // }
-
-
-  private _getMockData() {
-    return [
-      new UserModel({
-        'id': 0,
-        'name': 'Legyek Réka Matlida',
-        'email': 'legyekrekamatilda@valami.com',
-        'address': 'Futrinka utca',
-        'dateOfBirth': '2001.01.01',
-        'gender': 'female',
-        'profilePictureUrl': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4nBubms8tp5EDXG6LBhVyy4AES2WCqceh674hyF6rNwjYoJ4ddQ'
-      }),
-      new UserModel({
-        'id': 1,
-        'name': 'Pista ba',
-        'email': 'pistaba@pistaba.com',
-        'address': 'pistaba lak 12',
-        'dateOfBirth': '1900-01-01',
-        'gender': 'male',
-        'profilePictureUrl': 'http://3.bp.blogspot.com/-bUS0WbXC1YA/Uz0di05mS_I/AAAAAAAAQGg/u9o_g9VDTSg/s1600/pista_ba_animacio.jpg'
-      }),
-      new UserModel({
-        'id': 2,
-        'name': 'Marcsa',
-        'email': 'marcsa@marcsa.hu',
-        'address': 'marcsa var 42.',
-        'dateOfBirth': '2000-01-01',
-        'gender': 'female',
-        'profilePictureUrl': 'https://i.pinimg.com/236x/2c/80/53/2c80536d805ca08bd1f87d9db9fb9955--funny-wallpapers-wallpaper-iphone.jpg'
-      }),
-      new UserModel({
-        'id': 3,
-        'name': 'ifju satan',
-        'email': 'mzx@mzx.hu',
-        'address': 'namek',
-        'dateOfBirth': '2199-02-01',
-        'gender': 'male',
-        'profilePictureUrl': 'https://www.minihero.hu/wp-content/uploads/funko-pop-ifju-satan.jpg'
-      }),
-    ];
-  }
-
+  // TODO: refreshtoken-t lekezelni
+  // TODO: auth query parameterre megirni az itnerceptort
+  // TODO: rememberme-t lekezelni localstorage-el
 }
