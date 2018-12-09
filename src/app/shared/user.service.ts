@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-//import 'rxjs/add/observable/of';
 import { of } from 'rxjs';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';

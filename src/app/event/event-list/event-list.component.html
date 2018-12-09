@@ -24,7 +24,7 @@
 
 
   <!-- cards -->
-  <div class="card-deck pt-5 pb-5" *ngFor="let eventgroup of eventGroupBy3$ | async">
+  <div class="card-deck pt-5 pb-5" *ngFor="let eventgroup of eventsGrouppedBy3$ | async">
     <app-eventcard class="col col-md-6 col-lg-4"
                    *ngFor="let event of eventgroup"
                    [esemeny]="event"

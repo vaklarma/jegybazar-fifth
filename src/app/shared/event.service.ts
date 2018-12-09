@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { environment } from '../../environments/environment';
-import { EventModel } from './event-model';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../environments/environment';
+import {EventModel} from './event-model';
 import {map} from 'rxjs/operators';
+
 @Injectable()
 export class EventService {
+  newEvId;
 
   constructor(private _http: HttpClient) {
   }
@@ -20,12 +22,20 @@ export class EventService {
   }
 
   save(param: EventModel) {
-    console.log(param);
+
     if (param.id) { // udpate ag
       return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
     } else { // create ag
-      return this._http.post(`${environment.firebase.baseUrl}/events.json`, param);
+
+      return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param);
+
+
     }
+  }
+
+  modifyIdAfterPost(param) {
+    console.log('Modify service: ', param.name);
+    return this._http.patch(`${environment.firebase.baseUrl}/events/${param.name}.json`, {'id': `${param.name}`});
   }
 
   delete(param: EventModel) {

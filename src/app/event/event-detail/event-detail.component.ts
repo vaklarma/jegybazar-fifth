@@ -62,11 +62,18 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this._eventService.save(this.event)
       .takeUntil(this._destroy$)
       .subscribe(
-        () => this.navigateBack(),
+        (data) => {
+          if (!this.event.id) {
+            this._eventService.modifyIdAfterPost(data)
+              .subscribe();
+          }
+          this.navigateBack();
+        },
         (err) => {
           console.warn(`Problémánk van a form mentésnél: ${err}`);
         }
       );
+
   }
 
   delete() {

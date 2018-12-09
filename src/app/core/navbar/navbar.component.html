@@ -16,7 +16,7 @@
         <a class="nav-item nav-link" routerLink="/event">Események</a>
         <a class="nav-item nav-link" routerLink="/ticket">Jegyek</a>
         <a class="nav-item nav-link" routerLink="/about">Rólunk</a>
-        <a class="nav-item nav-link tn btn-primary text-light ml-lg-2 btn-sm" routerLinkActive="active" routerLink="/dashboard/list">Dashboard</a>
+        <a class="nav-item nav-link"  routerLink="/dashboard/list">Dashboard</a>
         <ng-container *ngIf="userService.isLoggedin; else notLoggedInBlock">
           <a class="nav-item nav-link tn btn-primary text-light ml-lg-2 btn-sm" routerLinkActive="active" routerLink="/user">Profile</a>
 
