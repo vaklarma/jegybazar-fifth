@@ -11,7 +11,7 @@
       </div>
 
       <div class="row justify-content-center bg-light m-0">
-        <img class="profil my-3 border" [src]="currUser.profilePictureUrl" alt="Card image cap">
+        <img class="profil my-3 border" [src]="user.profilePictureUrl" alt="Card image cap">
       </div>
       <div class="card-body">
         <table class="table table-responsive">
@@ -19,23 +19,23 @@
           <tr>
             <th scope="row">Név:</th>
 
-            <td>{{currUser.name}}</td>
+            <td>{{user.name}}</td>
           </tr>
           <tr>
             <th scope="row">Email-cím:</th>
-            <td>{{currUser.email}}</td>
+            <td>{{user.email}}</td>
           </tr>
           <tr>
             <th scope="row">Lakcím:</th>
-            <td>{{currUser.address}}</td>
+            <td>{{user.address}}</td>
           </tr>
           <tr>
             <th scope="row">Születési idő /év/hónap/nap:</th>
-            <td>{{currUser.dateOfBirth}}</td>
+            <td>{{user.dateOfBirth}}</td>
           </tr>
           <tr>
             <th scope="row">Nem:</th>
-            <td>{{currUser.gender}}</td>
+            <td>{{user.gender}}</td>
           </tr>
           <th scope="row">Jelszó:</th>
           <td>********</td>

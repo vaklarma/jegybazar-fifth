@@ -19,8 +19,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._subs = this._userService.getCurrentUser().subscribe(
       user => this.user = user,
-      err => console.log(err),
-    );
+    err => console.log('hiba a profile.component.ts - ben', err),
+
+  )
+    ;
   }
 
   ngOnDestroy() {

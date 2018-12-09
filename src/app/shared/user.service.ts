@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/add/observable/of';
+//import 'rxjs/add/observable/of';
+import { of } from 'rxjs';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import {map} from 'rxjs/operators';
@@ -77,7 +78,8 @@ export class UserService {
   }
 
   getCurrentUser() {
-    return Observable.of(this._user);
+  //  return Observable.of(this._user);
+    return of(this._user);
   }
 
   logout() {
