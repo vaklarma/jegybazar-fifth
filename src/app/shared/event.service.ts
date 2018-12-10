@@ -24,11 +24,18 @@ export class EventService {
   save(param: EventModel) {
 
     if (param.id) { // udpate ag
-      return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
+      return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param)
+        .subscribe();
     } else { // create ag
 
-      return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param);
+      // return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param);
+      return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param)
+        .subscribe(
+          (data) => {
+            console.log('subscribe alól', data);
+            this.modifyIdAfterPost(data).subscribe();
 
+          });
 
     }
   }
