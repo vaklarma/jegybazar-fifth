@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import {map} from 'rxjs/operators';
@@ -76,9 +75,14 @@ export class UserService {
     return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/${fbid}.json`);
   }
 
+  // itt ezt azert tettem be igy direktbe (mármint minurtus), es nem asyncronban bekotve, mert amikor ez a valtozo valtozik
+  // azt elintezik a kezelok (login, register, logout) es igy biztosra vehetem, hogy rendben van
+  // TODO: ez iskolapeldaja lehet egyebkent egy jo kis behaviuorSubject-nek es getValue-nak
+
   getCurrentUser() {
   //  return Observable.of(this._user);
-    return of(this._user);
+ //   return of(this._user);
+    return this._user;
   }
 
   logout() {
