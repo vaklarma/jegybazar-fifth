@@ -22,22 +22,51 @@ export class EventService {
   }
 
   save(param: EventModel) {
+    // return this._http.post(`${environment.firebase.baseUrl}/tickets.json`, param)
+    // // ez itt amiatt kell, hogy meglegyen a fbid objektumon belul is,
+    // // mert kesobb epitunk erre az infora
+    // // viszont ezt csak a post valaszaban kapjuk vissza
+    // // es legalabb hasznaljuk a patch-et is :)
+    //   .switchMap((fbPostReturn: { name: string }) => this._http.patch(
+    //     `${environment.firebase.baseUrl}/tickets/${fbPostReturn.name}.json`,
+    //     {id: fbPostReturn.name}
+    //   ));
+
 
     if (param.id) { // udpate ag
       return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param)
         .subscribe();
     } else { // create ag
+      return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param)
+        .switchMap((fbPostResponse: { name: string }) => this._http.patch(
+          `${environment.firebase.baseUrl}/events/${fbPostResponse.name}.json`,
+          {id: fbPostResponse.name}
+        ));
+
 
       // return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param);
-      return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param)
-        .subscribe(
-          (data) => {
-            console.log('subscribe alól', data);
-            this.modifyIdAfterPost(data).subscribe();
-
-          });
+      // return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param)
+      //   .subscribe(
+      //     (data) => {
+      //       console.log('subscribe alól', data);
+      //       this.modifyIdAfterPost(data).subscribe();
+      //
+      //     });
 
     }
+  }
+
+  updateEvent(param) {
+    return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
+  }
+
+  createEvent(param) {
+    return this._http.post<EventModel>(`${environment.firebase.baseUrl}/events.json`, param)
+      .switchMap((fbPostResponse: { name: string }) => this._http.patch(
+        `${environment.firebase.baseUrl}/events/${fbPostResponse.name}.json`,
+        {id: fbPostResponse.name}
+      ));
+
   }
 
   modifyIdAfterPost(param) {

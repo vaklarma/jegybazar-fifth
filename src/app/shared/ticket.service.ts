@@ -69,6 +69,14 @@ export class TicketService {
   }
 
   create(param: TicketModel) {
-    return this._http.post(`${environment.firebase.baseUrl}/tickets.json`, param);
+    return this._http.post(`${environment.firebase.baseUrl}/tickets.json`, param)
+    // ez itt amiatt kell, hogy meglegyen a fbid objektumon belul is,
+    // mert kesobb epitunk erre az infora
+    // viszont ezt csak a post valaszaban kapjuk vissza
+    // es legalabb hasznaljuk a patch-et is :)
+      .switchMap((fbPostReturn: { name: string }) => this._http.patch(
+        `${environment.firebase.baseUrl}/tickets/${fbPostReturn.name}.json`,
+        {id: fbPostReturn.name}
+      ));
   }
 }

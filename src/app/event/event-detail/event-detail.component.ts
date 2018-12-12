@@ -59,9 +59,29 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this._eventService.save(this.event);
 
+    if (this.event.id) {
+      this._eventService.updateEvent(this.event)
+        .subscribe(
+          () => this.navigateBack()
+        );
+    } else {
+      this._eventService.createEvent(this.event)
+        .subscribe(
+          () => this.navigateBack()
+        );
+    }
 
+    //  this._eventService.save(this.event);
+
+    // this._eventService.save(this.event);
+
+    // .subscribe(
+    //   () => this.navigateBack(),
+    //   (err) => {
+    //     console.warn(`Problémánk van a form mentésnél: ${err}`);
+    //   }
+    // );
   }
 
   delete() {
