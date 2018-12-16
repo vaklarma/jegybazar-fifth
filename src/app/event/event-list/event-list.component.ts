@@ -19,7 +19,7 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('listcomponentngoninit fut');
+
     this.eventsGrouppedBy3$ = this._eventService.getAllEvents()
       .pipe(map(data => {
         return data.reduce((acc: Array<any>, curr: EventModel, ind: number) => {

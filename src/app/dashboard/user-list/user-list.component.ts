@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     this.userList =  this._userService.getfbAllUser();
-    console.log('Out subscribe: ', this.userList);
+  
   }
 
 
