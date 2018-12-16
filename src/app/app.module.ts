@@ -19,6 +19,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth-interceptor';
 import { TicketDetailsCardComponent } from './ticket/ticket-details-card/ticket-details-card.component';
 import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.component';
+import {Moment} from 'moment';
+import {MomentModule} from 'ngx-moment';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.compone
     AppRoutingModule,
     AlertModule.forRoot(),
     HttpClientModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    MomentModule
   ],
   providers: [
     EventService,
