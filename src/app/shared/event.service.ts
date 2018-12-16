@@ -20,6 +20,7 @@ export class EventService {
   }
 
   getEventById(id: string) {
+    console.log('bid comp: ', id);
     return this._http.get<EventModel>(`${environment.firebase.baseUrl}/events/${id}.json`);
   }
 

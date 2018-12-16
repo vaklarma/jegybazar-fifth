@@ -3,15 +3,12 @@ import {Injectable} from '@angular/core';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import {of, zip, forkJoin} from 'rxjs';
-
-import {map} from 'rxjs/operators';
-
+import 'rxjs/add/operator/combineLatest';
+import {forkJoin, of, zip, combineLatest } from 'rxjs';
+import {flatMap, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {EventModel} from './event-model';
@@ -19,6 +16,7 @@ import {EventService} from './event.service';
 import {TicketModel} from './ticket-model';
 import {UserModel} from './user-model';
 import {UserService} from './user.service';
+
 
 @Injectable()
 export class TicketService {
@@ -73,6 +71,24 @@ export class TicketService {
 
   }
 
+  getOne(id: string): Observable<TicketModel> {
+
+    return this._http.get<TicketModel>(`${environment.firebase.baseUrl}/tickets/${id}.json`)
+      .pipe(flatMap(
+        ticket => combineLatest(
+          of(new TicketModel(ticket)),
+          this._eventService.getEventById(ticket.eventId),
+          this._userService.getUserById(ticket.sellerUserId),
+          (t: TicketModel, e: EventModel, u: UserModel) => {
+            return {
+              ...t,
+              event: e,
+              seller: u
+            };
+          })
+      ));
+  }
+
   create(param: TicketModel) {
     return this._http
       .post<{ name: string }>(`${environment.firebase.baseUrl}/tickets.json`, param)
@@ -97,4 +113,6 @@ export class TicketService {
     )
       .pipe(map(x => x.id));
   }
+
 }
+
