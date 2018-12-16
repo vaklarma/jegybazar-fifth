@@ -6,78 +6,10 @@
 
     </div>
     <div class="col-sm-12 col-md-8 ">
-      <!--Jegy adatok Card-->
-      <div class="card mt-2">
-        <div class="card-body">
-          <h4 class="card-title">Jegy adatai</h4>
-          <div class="row">
-            <div class="col-sm-12 col-md-2">Eladó neve</div>
-            <div class="col-sm-12 col-md-10">{{ticket.seller.name}}</div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12 col-md-2">Darabszám</div>
-            <div class="col-sm-12 col-md-10">{{ticket.numberOfTickets}} db</div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12 col-md-2">Érvényesség</div>
-            <div class="col-sm-12 col-md-10">{{ticket.date}}</div>
-          </div>
-          <div class="row">
-
-            <div class="col-12">
-              <p class="mt-2">
-                est fortis plasmator, cesaris.Verpas mori, tanquam fidelis nuptia.EcceSensorem peregrinationess,
-                tanquam
-                germanus lumen..
-                est fortis plasmator, cesaris.Verpas mori, tanquam fidelis nuptia.EcceSensorem peregrinationess,
-                tanquam
-                germanus lumen..
-                est fortis plasmator, cesaris.Verpas mori, tanquam fidelis nuptia.EcceSensorem peregrinationess,
-                tanquam
-                germanus lumen..
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+<app-ticket-details-card [ticket]="ticket"></app-ticket-details-card>
 
       <!--Licit adatok Card-->
-      <div class="card mt-2">
-        <div class="card-body">
-          <h4 class="card-title">Licit adatok</h4>
-          <table class="table ">
-            <tbody>
-            <tr>
-              <th scope="row">Minimum licit:</th>
-              <td>{{ticket.minimalBidPrice}} Ft</td>
-            </tr>
-            <tr>
-              <th scope="row">Jelenlegi licit:</th>
-              <td>3211 Ft TODO</td>
-            </tr>
-            <tr>
-              <th scope="row">Licitek száma:</th>
-              <td>33 db TODO</td>
-            </tr>
-            <tr>
-              <th scope="row">Licit lépcső:</th>
-              <td>{{ticket.bidStep}} Ft</td>
-            </tr>
-            <tr>
-              <td colspan="2">Licit lejár <strong>X</strong> nap múlva</td>
-            </tr>
-            </tbody>
-          </table>
-
-          <div class="row">
-            <div class="col-12">
-              <a class="btn btn-primary text-light ml-lg-2"
-              >Licit a lépcső szerint</a>
-            </div>
-
-          </div>
-        </div>
-      </div>
+<app-bidding-card [ticket]="ticket"></app-bidding-card>
     </div>
   </ng-container>
 </div>
