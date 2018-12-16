@@ -97,6 +97,17 @@ export class UserService {
     return this._http.get(`${environment.firebase.baseUrl}/users.json`)
       .pipe(map(usersObject => Object.values(usersObject).map(user => new UserModel(user))));
   }
+  get fbIdToken(): string | null {
+    return this._fbAuthData ? this._fbAuthData.idToken : null;
+  }
+
+  addTicket(ticketId: string): Observable<string> {
+    return this._http.patch(
+      `${environment.firebase.baseUrl}/users/${this._user.id}/tickets.json`,
+      {[ticketId]: true}
+    )
+      .pipe(map(rel => Object.keys(rel)[0]));
+  }
   getfbAllUser(): Observable<UserModel[]> {
     return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/.json`)
       .pipe(map(data => Object.values(data).map(um => new UserModel(um))));
@@ -104,6 +115,7 @@ export class UserService {
 
 
   }
+
   deleteOneUser(id) {
 
     return this._http.delete(`${environment.firebase.baseUrl}/users/${id}.json`);

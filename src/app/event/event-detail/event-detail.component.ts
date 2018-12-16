@@ -58,32 +58,42 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
+  // onSubmit() {
+  //
+  //   if (this.event.id) {
+  //     this._eventService.updateEvent(this.event)
+  //       .subscribe(
+  //         () => this.navigateBack()
+  //       );
+  //   } else {
+  //     this._eventService.createEvent(this.event)
+  //       .subscribe(
+  //         () => this.navigateBack()
+  //       );
+  //   }
+  //
+  //   //  this._eventService.save(this.event);
+  //
+  //   // this._eventService.save(this.event);
+  //
+  //   // .subscribe(
+  //   //   () => this.navigateBack(),
+  //   //   (err) => {
+  //   //     console.warn(`Problémánk van a form mentésnél: ${err}`);
+  //   //   }
+  //   // );
+  // }
+
   onSubmit() {
-
-    if (this.event.id) {
-      this._eventService.updateEvent(this.event)
-        .subscribe(
-          () => this.navigateBack()
-        );
-    } else {
-      this._eventService.createEvent(this.event)
-        .subscribe(
-          () => this.navigateBack()
-        );
-    }
-
-    //  this._eventService.save(this.event);
-
-    // this._eventService.save(this.event);
-
-    // .subscribe(
-    //   () => this.navigateBack(),
-    //   (err) => {
-    //     console.warn(`Problémánk van a form mentésnél: ${err}`);
-    //   }
-    // );
+    this._eventService.save(this.event)
+      .takeUntil(this._destroy$)
+      .subscribe(
+        () => this.navigateBack(),
+        (err) => {
+          console.warn(`Problémánk van a form mentésnél: ${err}`);
+        }
+      );
   }
-
   delete() {
     this._eventService.delete(this.event)
       .takeUntil(this._destroy$)
