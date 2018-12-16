@@ -20,12 +20,12 @@ export class EventService {
   }
 
   getEventById(id: string) {
-    console.log('bid comp: ', id);
+
     return this._http.get<EventModel>(`${environment.firebase.baseUrl}/events/${id}.json`);
   }
 
   save(param: EventModel) {
-    console.log(param);
+
     if (param.id) { // udpate ag
       return this._http.put(`${environment.firebase.baseUrl}/events/${param.id}.json`, param);
     } else { // create ag

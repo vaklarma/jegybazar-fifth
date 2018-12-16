@@ -9,6 +9,7 @@ import {TicketModel} from '../../shared/ticket-model';
 })
 export class BidComponent implements OnInit {
   ticket: TicketModel;
+  next = 'Menjünk';
 
   constructor(private _ticketService: TicketService) {
   }
@@ -17,7 +18,7 @@ export class BidComponent implements OnInit {
     this._ticketService.getOne('-Ky0Hz4uP2Es-j9q_Cmw').subscribe(
       ticket => {
         this.ticket = ticket;
-        console.log(ticket);
+
       }
     );
   }

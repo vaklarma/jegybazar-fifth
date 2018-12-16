@@ -9,6 +9,7 @@ import {UserModel} from '../../shared/user-model';
 })
 export class EventcardComponent implements OnInit {
   @Input() esemeny: EventModel;
+  @Input() nextLabel = 'Tovább';
 
   constructor() {
   }
