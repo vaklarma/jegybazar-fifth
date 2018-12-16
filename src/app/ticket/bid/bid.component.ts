@@ -21,5 +21,8 @@ export class BidComponent implements OnInit {
       }
     );
   }
+  onBidWithBidStep() {
+    console.log('megnyomtá');
+  }
 
 }
