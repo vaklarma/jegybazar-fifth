@@ -19,7 +19,6 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     this.userList =  this._userService.getfbAllUser();
-  
   }
 
 
