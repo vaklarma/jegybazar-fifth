@@ -13,14 +13,14 @@ import {UserService} from './shared/user.service';
 import {TicketService} from './shared/ticket.service';
 import {LoggedInGuard} from './shared/logged-in.guard';
 import {FormsModule} from '@angular/forms';
-import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor } from './shared/auth-interceptor';
-import { TicketDetailsCardComponent } from './ticket/ticket-details-card/ticket-details-card.component';
-import { BiddingCardComponent } from './ticket/bidding-card/bidding-card.component';
-import {Moment} from 'moment';
+import {SidebarComponent} from './dashboard/sidebar/sidebar.component';
+import {AccordionModule} from 'ngx-bootstrap/accordion';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthInterceptor} from './shared/auth-interceptor';
+import {TicketDetailsCardComponent} from './ticket/ticket-details-card/ticket-details-card.component';
+import {BiddingCardComponent} from './ticket/bidding-card/bidding-card.component';
 import {MomentModule} from 'ngx-moment';
+import 'moment/locale/hu';
 
 @NgModule({
   declarations: [
