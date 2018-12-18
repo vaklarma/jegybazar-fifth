@@ -8,9 +8,9 @@ import {TicketModel} from '../../shared/ticket-model';
 })
 export class BiddingCardComponent {
   @Input() ticket: TicketModel;
-  @Output() bidWithBidStep = new EventEmitter<void>();
 
-  onBidWithBidStep() {
-   this.bidWithBidStep.emit();
-  }
+onBidWithBidStep() {
+  alert('megnyomtá !!!');
+}
+
 }
