@@ -72,7 +72,7 @@ export class TicketService {
   }
 
   getOne(id: string): Observable<TicketModel> {
-
+    
     return this._http.get<TicketModel>(`${environment.firebase.baseUrl}/tickets/${id}.json`)
       .pipe(flatMap(
         ticket => combineLatest(
