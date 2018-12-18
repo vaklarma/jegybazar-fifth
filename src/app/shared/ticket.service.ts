@@ -7,7 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
-import {forkJoin, of, zip, combineLatest } from 'rxjs';
+import {combineLatest, forkJoin, of, zip} from 'rxjs';
 import {flatMap, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
@@ -72,7 +72,7 @@ export class TicketService {
   }
 
   getOne(id: string): Observable<TicketModel> {
-    
+
     return this._http.get<TicketModel>(`${environment.firebase.baseUrl}/tickets/${id}.json`)
       .pipe(flatMap(
         ticket => combineLatest(
