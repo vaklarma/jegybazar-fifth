@@ -9,14 +9,17 @@ import 'rxjs/add/operator/switchMap';
 
 @Injectable()
 export class EventService {
-  newEvId;
 
   constructor(private _http: HttpClient) {
   }
 
   getAllEvents(): Observable<EventModel[]> {
     return this._http.get(`${environment.firebase.baseUrl}/events.json`)
-      .pipe(map(data => Object.values(data).map(evm => new EventModel(evm))));
+      .pipe(
+        map(data =>
+          Object.values(data)
+            .map(evm => new EventModel(evm)
+            )));
   }
 
   getEventById(id: string) {

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { EventModel } from '../../shared/event-model';
-import { EventService } from '../../shared/event.service';
-import { UserService } from '../../shared/user.service';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {EventModel} from '../../shared/event-model';
+import {EventService} from '../../shared/event.service';
+import {UserService} from '../../shared/user.service';
 import {map} from 'rxjs/operators';
+
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
@@ -30,7 +31,6 @@ export class EventListComponent implements OnInit {
           return acc;
         }, []);
       }));
-
   }
 
 }

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { TicketModel } from '../../shared/ticket-model';
-import { TicketService } from '../../shared/ticket.service';
-import { UserService } from '../../shared/user.service';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {TicketModel} from '../../shared/ticket-model';
+import {TicketService} from '../../shared/ticket.service';
+import {UserService} from '../../shared/user.service';
 
 @Component({
   selector: 'app-ticket-list',
@@ -11,6 +11,7 @@ import { UserService } from '../../shared/user.service';
 })
 export class TicketListComponent implements OnInit {
   tickets$: Observable<TicketModel[]>;
+  isExistTickets: boolean;
 
   constructor(private _ticketService: TicketService,
               public userService: UserService) {
@@ -18,6 +19,14 @@ export class TicketListComponent implements OnInit {
 
   ngOnInit() {
     this.tickets$ = this._ticketService.getAllTickets();
+    this.tickets$.subscribe(
+      data => {
+        if (data) {
+          this.isExistTickets = true;
+        }
+      }
+    );
+
 
   }
 }

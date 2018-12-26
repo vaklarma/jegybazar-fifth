@@ -21,7 +21,7 @@
     </div>
 
   </div>
-
+  <ng-container *ngIf="eventsGrouppedBy3$ | async; else loading">
 
   <!-- cards -->
   <div class="card-deck pt-5 pb-5" *ngFor="let eventgroup of eventsGrouppedBy3$ | async">
@@ -31,7 +31,11 @@
     ></app-eventcard>
 
   </div>
+  </ng-container>
+  <ng-template #loading>
+    <app-loading-spinner></app-loading-spinner>
 
+  </ng-template>
 
 </div>
 

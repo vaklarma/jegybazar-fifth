@@ -12,7 +12,7 @@ import {EventService} from './shared/event.service';
 import {UserService} from './shared/user.service';
 import {TicketService} from './shared/ticket.service';
 import {LoggedInGuard} from './shared/logged-in.guard';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SidebarComponent} from './dashboard/sidebar/sidebar.component';
 import {AccordionModule} from 'ngx-bootstrap/accordion';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -42,6 +42,7 @@ import { LoadingSpinnerComponent } from './core/loading-spinner/loading-spinner.
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     CollapseModule.forRoot(),
     AppRoutingModule,
     AlertModule.forRoot(),
