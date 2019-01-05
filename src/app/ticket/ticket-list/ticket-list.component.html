@@ -42,7 +42,7 @@
             {{ ticket.event.name }}
           </a>
         </td>
-        <td>{{ ticket.date }}</td>
+        <td>{{ ticket.date }} ID: {{ticket.id}}</td>
         <td class="d-none d-md-table-cell">{{ ticket.seller.name }}</td>
         <td class="d-none d-md-table-cell">{{ ticket.numberOfTickets }}</td>
         <td><a [routerLink]="['/ticket', ticket.id]">Tovább a licithez</a></td>
