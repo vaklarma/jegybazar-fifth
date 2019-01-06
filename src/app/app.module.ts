@@ -21,9 +21,11 @@ import {TicketDetailsCardComponent} from './ticket/ticket-details-card/ticket-de
 import {BiddingCardComponent} from './ticket/bidding-card/bidding-card.component';
 import {MomentModule} from 'ngx-moment';
 import 'moment/locale/hu';
-import { BidFormComponent } from './ticket/bid-form/bid-form.component';
-import { LoadingSpinnerComponent } from './core/loading-spinner/loading-spinner.component';
-import { TicketBidInfoComponent } from './dashboard/ticket-bid-info/ticket-bid-info.component';
+import {BidFormComponent} from './ticket/bid-form/bid-form.component';
+import {LoadingSpinnerComponent} from './core/loading-spinner/loading-spinner.component';
+import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
+import * as firebase from 'firebase';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -66,5 +68,7 @@ import { TicketBidInfoComponent } from './dashboard/ticket-bid-info/ticket-bid-i
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
+  constructor() {
+  firebase.initializeApp(environment.firebase);
+  }
 }
