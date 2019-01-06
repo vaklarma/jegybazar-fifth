@@ -1,7 +1,10 @@
 <!--Jegy adatok Card-->
 <div class="card mt-2">
   <div class="card-body">
-    <h4 class="card-title">Jegy adatai</h4>
+    <h4 class="card-title">Jegy adatai
+      <app-loading-spinner *ngIf="loading" [loaderWidth]="20" [loaderHeight]="20"
+      class="float-right"></app-loading-spinner>
+    </h4>
     <h5 class="card-title">{{ticket.id}}</h5>
     <div class="row">
       <div class="col-sm-12 col-md-3 label-row">Eladó neve</div>

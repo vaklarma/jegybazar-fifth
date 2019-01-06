@@ -1,19 +1,31 @@
 <div *ngIf="submitSuccessAlert">
   <alert type="success" dismissOnTimeout="5000">Licitedet rögzítettük !</alert>
 </div>
-<div *ngIf="submitErrorAlert" >
-  <alert type="danger" >Valami hiba van !!</alert>
+<div *ngIf="submitErrorAlert">
+  <alert type="danger">Valami hiba van !!</alert>
 </div>
 
 <div class="row" *ngIf="displayBidStep; else bidWithValue">
   <div class="col-12">
-    <a class="btn btn-primary text-light"
-       (click)="onBidWithBidStep()"
-    >Licit a következő legkisebb licittel: {{ticket.currentBid+ticket.bidStep}} Ft</a>
+    <div class="row">
+      <div class="col">
+        <button [disabled]="disabled" class="btn btn-primary text-light"
+                (click)="onBidWithBidStep()"
+        >Licit a következő legkisebb licittel: {{ticket.currentBid+ticket.bidStep}} Ft
+        </button>
+      </div>
+      <div class="col" *ngIf="disabled">
+        <app-loading-spinner [loaderWidth]="30" [loaderHeight]="30"></app-loading-spinner>
+      </div>
+    </div>
+
+
   </div>
+
   <div class="col-12">
 
-    <a href="#" (click)="displayBidWithStep($event)"[ngClass]="{'disabled': disabled}">Inkább megadom én a licit értékét</a>
+    <a href="#" (click)="displayBidWithStep($event)" [ngClass]="{'disabled': disabled}">Inkább megadom én a licit
+      értékét</a>
   </div>
 </div>
 
@@ -34,19 +46,23 @@
 
         />
         <div class="invalid-feedback" *ngIf="form.get('bid').hasError('required')">
-         Kérlek töltsd ki a mezőt !
+          Kérlek töltsd ki a mezőt !
         </div>
 
         <div class="invalid-feedback" *ngIf="form.get('bid').hasError('validateMinimumBid')">
-         A minimum licit, amit tehetsz: {{ticket.bidStep + ticket.currentBid}}
+          A minimum licit, amit tehetsz: {{ticket.bidStep + ticket.currentBid}}
         </div>
       </div>
       <div class="col-6">
-        <button type="submit" class="btn btn-primary" role="button" [disabled]="disabled">Licitálok</button>
+        <button *ngIf="!disabled;else loadingSubmit" type="submit" class="btn btn-primary" role="button" [disabled]="disabled">Licitálok</button>
+       <ng-template #loadingSubmit>
+         <app-loading-spinner [loaderWidth]="30" [loaderHeight]="30"></app-loading-spinner>
+       </ng-template>
+
+
       </div>
 
     </div>
   </form>
 </ng-template>
 
-{{form.get('bid').errors | json}}

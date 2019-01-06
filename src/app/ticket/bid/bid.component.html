@@ -11,10 +11,10 @@
 
         </div>
         <div class="col-sm-12 col-md-8 ">
-          <app-ticket-details-card [ticket]="ticket"></app-ticket-details-card>
+          <app-ticket-details-card [loading]="progressRefreshTicket"  [ticket]="ticket"></app-ticket-details-card>
 
           <!--Licit adatok Card-->
-          <app-bidding-card [ticket]="ticket" [isLoggedIn]="isLoggedIn" (refreshTicket)="onRefreshTicket()"></app-bidding-card>
+          <app-bidding-card [loading]="progressRefreshTicket" [ticket]="ticket" [isLoggedIn]="isLoggedIn" (refreshTicket)="onRefreshTicket()"></app-bidding-card>
         </div>
       </ng-container>
     </div>

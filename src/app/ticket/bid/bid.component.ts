@@ -13,6 +13,7 @@ export class BidComponent implements OnInit {
   ticket: TicketModel;
   isLoggedIn: boolean;
   id: any;
+  progressRefreshTicket = false;
   // láthatóság nélkül nem hozza létre a TS fordító osztályváltozóként.
   // így csak a konstruktorban használható. Performance okai vannak.
   // Ugyanis tudjuk, hogy nem akarjuk máshol használni, akkor meg minek ugye
@@ -37,14 +38,17 @@ export class BidComponent implements OnInit {
   }
 
   private refreshTicket(id: string) {
+    this.progressRefreshTicket = true;
     const handle404 = () => {
       this._router.navigate(['404']);
     };
     this._ticketService.getOne(id)
       .subscribe(
         ticket => {
+          this.progressRefreshTicket = false;
           if (ticket == null) {
             handle404();
+
           } else {
             this.ticket = ticket;
           }
