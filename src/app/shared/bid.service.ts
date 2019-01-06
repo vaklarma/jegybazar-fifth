@@ -29,7 +29,7 @@ export class BidService {
       .pipe(flatMap(
         ticket => {
           return this.ticketService.modify(
-            Object.assign(ticket, {currentBid: value, bidCounter: ++ticket.bidCounter}));
+            Object.assign(ticket, {currentBid: value, bidCounter: ++ticket.bidCounter, details: 'Már lett licitálva'}));
         }
       ));
   }

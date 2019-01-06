@@ -23,6 +23,7 @@ import {MomentModule} from 'ngx-moment';
 import 'moment/locale/hu';
 import { BidFormComponent } from './ticket/bid-form/bid-form.component';
 import { LoadingSpinnerComponent } from './core/loading-spinner/loading-spinner.component';
+import { TicketBidInfoComponent } from './dashboard/ticket-bid-info/ticket-bid-info.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { LoadingSpinnerComponent } from './core/loading-spinner/loading-spinner.
     BiddingCardComponent,
     BidFormComponent,
     LoadingSpinnerComponent,
+    TicketBidInfoComponent,
   ],
   imports: [
     BrowserModule,

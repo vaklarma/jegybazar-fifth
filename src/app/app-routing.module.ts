@@ -18,6 +18,7 @@ import {UserListComponent} from './dashboard/user-list/user-list.component';
 import {UserCardsComponent} from './dashboard/user-cards/user-cards.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NewuserComponent} from './dashboard/newuser/newuser.component';
+import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
 
 
 const routes: Routes = [
@@ -57,6 +58,7 @@ const routes: Routes = [
     children: [
       {path: 'list', component: UserListComponent},
       {path: 'newuser', component: NewuserComponent},
+      {path: 'ticketbidinfo', component: TicketBidInfoComponent},
 
     ]
   },
