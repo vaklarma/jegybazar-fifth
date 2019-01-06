@@ -1,3 +1,10 @@
+<div *ngIf="submitSuccessAlert">
+  <alert type="success" dismissOnTimeout="5000">Licitedet rögzítettük !</alert>
+</div>
+<div *ngIf="submitErrorAlert" >
+  <alert type="danger" >Valami hiba van !!</alert>
+</div>
+
 <div class="row" *ngIf="displayBidStep; else bidWithValue">
   <div class="col-12">
     <a class="btn btn-primary text-light"
@@ -6,17 +13,12 @@
   </div>
   <div class="col-12">
 
-    <a href="#" (click)="displayBidWithStep($event)">Inkább megadom én a licit értékét</a>
+    <a href="#" (click)="displayBidWithStep($event)"[ngClass]="{'disabled': disabled}">Inkább megadom én a licit értékét</a>
   </div>
 </div>
 
 <ng-template #bidWithValue>
-  <div *ngIf="submitSuccessAlert">
-    <alert type="success" dismissOnTimeout="5000">Licitedet rögzítettük !</alert>
-  </div>
-  <div *ngIf="submitErrorAlert" >
-    <alert type="danger" >Valami hiba van !!</alert>
-  </div>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
 
@@ -40,7 +42,7 @@
         </div>
       </div>
       <div class="col-6">
-        <button type="submit" class="btn btn-primary" role="button">Licitálok</button>
+        <button type="submit" class="btn btn-primary" role="button" [disabled]="disabled">Licitálok</button>
       </div>
 
     </div>
