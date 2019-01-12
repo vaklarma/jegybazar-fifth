@@ -8,17 +8,16 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {FirebaseRegistrationModel} from './firebase-registration-model';
 import {UserModel} from './user-model';
-import {ReplaySubject} from 'rxjs';
-import {from} from 'rxjs';
+import {from, ReplaySubject} from 'rxjs';
 import * as firebase from 'firebase';
 import 'rxjs/add/observable/fromPromise';
 
 @Injectable()
 export class UserService {
-  isLoggedIn$ = new ReplaySubject(1);
+  isLoggedIn$ = new ReplaySubject<boolean>(1);
   currentUser;
 
-  private _user = new UserModel();
+  private _user = new ReplaySubject<UserModel>(1);
   private _fbAuthData: any;
 
   constructor(private _router: Router,
@@ -28,11 +27,11 @@ export class UserService {
         if (user != null) {
           this._fbAuthData = user;
           this.getUserById(user.uid).subscribe(remoteUser => {
-            this._user = remoteUser;
+            this._user.next(remoteUser);
             this.currentUser = remoteUser.name;
           });
           this.isLoggedIn$.next(true);
-          this._router.navigate(['/home']);
+          this._router.navigate(['/user']);
         } else {
           this.isLoggedIn$.next(false);
           this._user = null;
@@ -96,8 +95,7 @@ export class UserService {
     // generaljon nekem kulcsot a firebase, hanem a registraciokor kapott id-t szeretnem
     // kulcs kent hasznalni adatmentesnel kulcskent az adatbazisban
     // illetve put-ra fb a bekuldott adatszerkezetet adja vissz igy tudom tovabb hasznalni
-    return this._http.put<UserModel>(`${environment.firebase.baseUrl}/users/${param.id}.json`, param) // return: param
-      .do(user => this._user = user);
+    return this._http.put<UserModel>(`${environment.firebase.baseUrl}/users/${param.id}.json`, param);
   }
 
   // itt ezt azert tettem be igy direktbe (mármint minurtus), es nem asyncronban bekotve, mert amikor ez a valtozo valtozik
@@ -111,7 +109,7 @@ export class UserService {
   getCurrentUser() {
     //  return Observable.of(this._user);
     //   return of(this._user);
-    return this._user;
+    return this._user.asObservable();
   }
 
   logout() {
@@ -120,7 +118,7 @@ export class UserService {
     // this._user = new UserModel();
     // //   this.isLoggedin = false;
     // delete(this._fbAuthData);
-   this._router.navigate(['/home']);
+    this._router.navigate(['/home']);
     console.log('kileptunk');
   }
 
@@ -130,11 +128,15 @@ export class UserService {
   }
 
   addTicket(ticketId: string): Observable<string> {
-    return this._http.patch(
-      `${environment.firebase.baseUrl}/users/${this._user.id}/tickets.json`,
-      {[ticketId]: true}
-    )
-      .pipe(map(rel => Object.keys(rel)[0]));
+    return this._user.flatMap(
+      user => {
+        return this._http.patch(
+          `${environment.firebase.baseUrl}/users/${user.id}/tickets.json`,
+          {[ticketId]: true}
+        )
+          .pipe(map(rel => Object.keys(rel)[0]));
+      }
+    );
   }
 
   getfbAllUser(): Observable<UserModel[]> {
