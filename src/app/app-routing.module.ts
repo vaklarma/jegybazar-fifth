@@ -27,7 +27,7 @@ const routes: Routes = [
     path: 'event',
     component: EventComponent,
     children: [
-      {path: '', component: EventListComponent},
+      {path: '', component: EventListComponent, canActivate: [LoggedInGuard]},
       {path: 'new', component: EventDetailComponent, canActivate: [LoggedInGuard]},
       {path: ':id', component: EventDetailComponent},
     ]

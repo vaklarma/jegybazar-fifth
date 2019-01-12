@@ -14,7 +14,7 @@
           <app-ticket-details-card [loading]="progressRefreshTicket"  [ticket]="ticket"></app-ticket-details-card>
 
           <!--Licit adatok Card-->
-          <app-bidding-card [loading]="progressRefreshTicket" [ticket]="ticket" [isLoggedIn]="isLoggedIn" (refreshTicket)="onRefreshTicket()"></app-bidding-card>
+          <app-bidding-card [loading]="progressRefreshTicket" [ticket]="ticket" [isLoggedIn]="isLoggedIn$ | async" (refreshTicket)="onRefreshTicket()"></app-bidding-card>
         </div>
       </ng-container>
     </div>

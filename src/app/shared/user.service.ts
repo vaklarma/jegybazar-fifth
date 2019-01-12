@@ -6,29 +6,37 @@ import 'rxjs/add/operator/switchMap';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
-import {FirebaseLoginModel} from './firebase-login-model';
 import {FirebaseRegistrationModel} from './firebase-registration-model';
 import {UserModel} from './user-model';
 import {ReplaySubject} from 'rxjs';
+import {from} from 'rxjs';
 import * as firebase from 'firebase';
-
+import 'rxjs/add/observable/fromPromise';
 
 @Injectable()
 export class UserService {
-  isLoggedin = new ReplaySubject(1);
+  isLoggedIn$ = new ReplaySubject(1);
   currentUser;
 
   private _user = new UserModel();
-  private _fbAuthData: FirebaseLoginModel | FirebaseRegistrationModel | undefined;
+  private _fbAuthData: any;
 
   constructor(private _router: Router,
               private _http: HttpClient) {
     firebase.auth().onAuthStateChanged(
       user => {
         if (user != null) {
-          this.isLoggedin.next(true);
+          this._fbAuthData = user;
+          this.getUserById(user.uid).subscribe(remoteUser => {
+            this._user = remoteUser;
+            this.currentUser = remoteUser.name;
+          });
+          this.isLoggedIn$.next(true);
+          this._router.navigate(['/home']);
         } else {
-          this.isLoggedin.next(false);
+          this.isLoggedIn$.next(false);
+          this._user = null;
+          this._fbAuthData = null;
         }
         console.log(user);
       }
@@ -39,23 +47,27 @@ export class UserService {
     return this._fbAuthData ? this._fbAuthData.idToken : null;
   }
 
-  login(email: string, password: string): Observable<UserModel | void> {
-    return this._http.post<FirebaseLoginModel>(
-      `${environment.firebase.loginUrl}?key=${environment.firebase.apiKey}`,
-      {
-        'email': email,
-        'password': password,
-        'returnSecureToken': true
-      })
-      .do((fbAuthResponse: FirebaseLoginModel) => this._fbAuthData = fbAuthResponse)
-      .switchMap(fbLogin => this.getUserById(fbLogin.localId))
-      .do(user => this._user = user)
+  login(email: string, password: string): Observable<any> {
 
-      // .do(user => this.isLoggedin = true)
-      .do(user => {
-        console.log('sikeres login ezzel a userrel: ', user);
-        this.currentUser = this._user.name;
-      });
+    return from(firebase.auth().signInWithEmailAndPassword(email, password));
+
+
+    // return this._http.post<FirebaseLoginModel>(
+    //   `${environment.firebase.loginUrl}?key=${environment.firebase.apiKey}`,
+    //   {
+    //     'email': email,
+    //     'password': password,
+    //     'returnSecureToken': true
+    //   })
+    //   .do((fbAuthResponse: FirebaseLoginModel) => this._fbAuthData = fbAuthResponse)
+    //   .switchMap(fbLogin => this.getUserById(fbLogin.localId))
+    //   .do(user => this._user = user)
+    //
+    //   // .do(user => this.isLoggedin = true)
+    //   .do(user => {
+    //     console.log('sikeres login ezzel a userrel: ', user);
+    //     this.currentUser = this._user.name;
+    //   });
   }
 
   register(param: UserModel, password: string) {
@@ -103,10 +115,12 @@ export class UserService {
   }
 
   logout() {
-    this._user = new UserModel();
-    //   this.isLoggedin = false;
-    delete(this._fbAuthData);
-    this._router.navigate(['/home']);
+
+    firebase.auth().signOut();
+    // this._user = new UserModel();
+    // //   this.isLoggedin = false;
+    // delete(this._fbAuthData);
+   this._router.navigate(['/home']);
     console.log('kileptunk');
   }
 

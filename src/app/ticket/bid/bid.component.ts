@@ -3,6 +3,7 @@ import {TicketService} from '../../shared/ticket.service';
 import {TicketModel} from '../../shared/ticket-model';
 import {UserService} from '../../shared/user.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-bid',
@@ -11,7 +12,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 })
 export class BidComponent implements OnInit {
   ticket: TicketModel;
-  isLoggedIn: boolean;
+  isLoggedIn$: any;
   id: any;
   progressRefreshTicket = false;
   // láthatóság nélkül nem hozza létre a TS fordító osztályváltozóként.
@@ -21,7 +22,7 @@ export class BidComponent implements OnInit {
               private _activatedRoute: ActivatedRoute,
               private _router: Router,
               userService: UserService) {
-    this.isLoggedIn = true; //userService.isLoggedin;
+    this.isLoggedIn$ = userService.isLoggedIn$;
   }
 
   ngOnInit() {
