@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
 import {combineLatest, forkJoin, of, zip} from 'rxjs';
-import {flatMap, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {EventModel} from './event-model';
@@ -16,6 +16,8 @@ import {EventService} from './event.service';
 import {TicketModel} from './ticket-model';
 import {UserModel} from './user-model';
 import {UserService} from './user.service';
+import * as firebase from 'firebase';
+import 'rxjs-compat/add/operator/combineLatest';
 
 
 @Injectable()
@@ -60,6 +62,7 @@ export class TicketService {
           this._eventService.getEventById(tm.eventId),
           this._userService.getUserById(tm.sellerUserId),
           (t: TicketModel, e: EventModel, u: UserModel) => {
+            //    return t.setEvent(e).setSeller(u);
             return {
               ...t,
               event: e,
@@ -72,22 +75,28 @@ export class TicketService {
   }
 
   getOne(id: string): Observable<TicketModel> {
-
-    return this._http.get<TicketModel>(`${environment.firebase.baseUrl}/tickets/${id}.json`)
-      .pipe(flatMap(
-        ticket => combineLatest(
-          of(new TicketModel(ticket)),
-          this._eventService.getEventById(ticket.eventId),
-          this._userService.getUserById(ticket.sellerUserId),
-          (t: TicketModel, e: EventModel, u: UserModel) => {
-           return t.setEvent(e).setSeller(u);
-            // return {
-            //   ...t,
-            //   event: e,
-            //   seller: u
-            // };
-          })
-      ));
+    return new Observable(
+      observer => {
+        const dbTicket = firebase.database().ref(`tickets/${id}`);
+        dbTicket.on('value',
+          snapshot => {
+            const ticket = snapshot.val();
+            const subscription = combineLatest(
+              of(new TicketModel(ticket)),
+              this._eventService.getEventById(ticket.eventId),
+              this._userService.getUserById(ticket.sellerUserId),
+              (t: TicketModel, e: EventModel, u: UserModel) => {
+                return t.setEvent(e).setSeller(u);
+              }).subscribe(
+              ticketModel => {
+                observer.next(ticketModel);
+                subscription.unsubscribe();
+              }
+            );
+          }
+        );
+      }
+    );
   }
 
   create(param: TicketModel) {
