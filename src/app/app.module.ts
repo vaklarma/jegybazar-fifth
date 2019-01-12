@@ -15,8 +15,7 @@ import {LoggedInGuard} from './shared/logged-in.guard';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SidebarComponent} from './dashboard/sidebar/sidebar.component';
 import {AccordionModule} from 'ngx-bootstrap/accordion';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {AuthInterceptor} from './shared/auth-interceptor';
+import {HttpClientModule} from '@angular/common/http';
 import {TicketDetailsCardComponent} from './ticket/ticket-details-card/ticket-details-card.component';
 import {BiddingCardComponent} from './ticket/bidding-card/bidding-card.component';
 import {MomentModule} from 'ngx-moment';
@@ -59,16 +58,11 @@ import {environment} from '../environments/environment';
     UserService,
     TicketService,
     LoggedInGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor() {
-  firebase.initializeApp(environment.firebase);
+    firebase.initializeApp(environment.firebase);
   }
 }
