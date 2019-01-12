@@ -34,7 +34,7 @@ export class UserService {
           this._router.navigate(['/user']);
         } else {
           this.isLoggedIn$.next(false);
-          this._user = null;
+          this._user.next(null);
           this._fbAuthData = null;
         }
         console.log(user);
