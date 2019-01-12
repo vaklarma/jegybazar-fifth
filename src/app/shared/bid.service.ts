@@ -17,13 +17,17 @@ export class BidService {
 
   bid(ticketId: string, value: number) {
     // TODO replace userId
-    const userId = this.userService.getCurrentUser().subscribe(
+    let userId;
+
+    this.userService.getCurrentUser().subscribe(
       user => {
-        return user.id;
+        if (user) {
+          console.log(user.id);
+          userId = user.id;
+        }
       }
     );
-
-
+    // const userId = 'mBUswvbahhRRDVfbfACIEgx3FKK2';
     return this.http
       .put(`${environment.firebase.baseUrl}/bids/${ticketId}/${userId}.json`, value)
       .pipe(flatMap(

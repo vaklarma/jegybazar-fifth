@@ -118,8 +118,8 @@ export class UserService {
     // this._user = new UserModel();
     // //   this.isLoggedin = false;
     // delete(this._fbAuthData);
+
     this._router.navigate(['/home']);
-    console.log('kileptunk');
   }
 
   getAllUsers() {
