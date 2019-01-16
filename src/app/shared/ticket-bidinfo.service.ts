@@ -16,7 +16,7 @@ export class TicketBidinfoService {
   }
 
   getTicketAndBid() {
-    this.allTickets = this.ticketService.getAllTickets();
+    //this.allTickets = this.ticketService.getAllTickets();
   }
 
   getBids() {

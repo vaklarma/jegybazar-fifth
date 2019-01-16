@@ -79,7 +79,8 @@ export class BidFormComponent implements OnInit, OnChanges {
     if (this.form.valid) {
       this.toBid(this.form.value['bid'])
         .subscribe(
-          () => {
+          (data) => {
+            console.log('submitted:', data);
             this.submitted = false;
             this.submitSuccessAlert = true;
             this.bid.emit();

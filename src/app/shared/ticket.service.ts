@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
 import {combineLatest, forkJoin, of, zip} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {first, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {EventModel} from './event-model';
@@ -51,8 +51,6 @@ export class TicketService {
   // puffancs uzeni: "elkepzelheto", hogy egyszerubb megoldas is van, de szerintem ez szep
   //                 es mar nagyon vagytam valami agyzsibbasztora a projektben :)
   getAllTickets() {
-
-
     return this._http.get<TicketModel[]>(`${environment.firebase.baseUrl}/tickets.json`)
       .pipe(map(ticketsObject => Object.values(ticketsObject)))
       .pipe(map(ticketsArray => ticketsArray.map(tm =>
@@ -62,7 +60,7 @@ export class TicketService {
           this._eventService.getEventById(tm.eventId),
           this._userService.getUserById(tm.sellerUserId),
           (t: TicketModel, e: EventModel, u: UserModel) => {
-            //    return t.setEvent(e).setSeller(u);
+            // return t.setEvent(e).setSeller(u);
             return {
               ...t,
               event: e,
@@ -72,6 +70,10 @@ export class TicketService {
       )))
       .switchMap(zipStreamArray => forkJoin(zipStreamArray));
 
+  }
+
+  getOneOnce(id: string): Observable<TicketModel> {
+    return this.getOne(id).pipe(first());
   }
 
   getOne(id: string): Observable<TicketModel> {
@@ -92,7 +94,8 @@ export class TicketService {
                 observer.next(ticketModel);
                 subscription.unsubscribe();
               }
-            );
+          )
+            ;
           }
         );
       }
