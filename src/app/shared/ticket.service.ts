@@ -60,12 +60,12 @@ export class TicketService {
           this._eventService.getEventById(tm.eventId),
           this._userService.getUserById(tm.sellerUserId),
           (t: TicketModel, e: EventModel, u: UserModel) => {
-            // return t.setEvent(e).setSeller(u);
-            return {
-              ...t,
-              event: e,
-              seller: u
-            };
+             return t.setEvent(e).setSeller(u);
+            // return {
+            //   ...t,
+            //   event: e,
+            //   seller: u
+            // };
           })
       )))
       .switchMap(zipStreamArray => forkJoin(zipStreamArray));

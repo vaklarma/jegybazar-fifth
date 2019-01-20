@@ -10,7 +10,7 @@ import {UserService} from '../../shared/user.service';
   styleUrls: ['./ticket-list.component.css']
 })
 export class TicketListComponent implements OnInit {
-  tickets$: Observable<any>;
+  tickets$: Observable<TicketModel[]>;
   isExistTickets: boolean;
 
   constructor(private _ticketService: TicketService,
