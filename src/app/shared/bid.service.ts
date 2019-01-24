@@ -17,18 +17,17 @@ export class BidService {
 
   bid(ticketId: string, value: number) {
     // TODO replace userId
-    // let userId;
-    //
-    // this.userService.getCurrentUser().subscribe(
-    //   user => {
-    //     if (user) {
-    //       console.log(user.id);
-    //       userId = user.id;
-    //     }
-    //   }
-    // );
-    console.log('ide még beléptem: bid.service -> bid', ticketId);
-    const userId = 'mBUswvbahhRRDVfbfACIEgx3FKK2';
+  //  const userId = 'mBUswvbahhRRDVfbfACIEgx3FKK2';
+    let userId;
+
+    this.userService.getCurrentUser().subscribe(
+      user => {
+        if (user) {
+          console.log(' user id: ', user.id);
+          userId = user.id;
+        }
+      }
+    );
 
     return this.http
       .put(`${environment.firebase.baseUrl}/bids/${ticketId}/${userId}.json`, value)
@@ -40,7 +39,7 @@ export class BidService {
       .pipe(flatMap(
         ticket => {
           return this.ticketService.modify(
-            Object.assign(ticket, {currentBid: value, bidCounter: ++ticket.bidCounter, details: 'sdcsdc'}));
+            Object.assign(ticket, {currentBid: value, bidCounter: ++ticket.bidCounter, details: 'már lett licitálva'}));
         }
       ));
   }

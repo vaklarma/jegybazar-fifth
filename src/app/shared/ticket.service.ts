@@ -17,7 +17,6 @@ import {TicketModel} from './ticket-model';
 import {UserModel} from './user-model';
 import {UserService} from './user.service';
 import * as firebase from 'firebase';
-import 'rxjs-compat/add/operator/combineLatest';
 
 
 @Injectable()
@@ -94,11 +93,8 @@ export class TicketService {
   //     .switchMap(zipStreamArray => forkJoin(zipStreamArray));
   //
   // }
-  getOneOnce_prob(id: string): Observable<TicketModel> {
-    return new Observable();
-  }
-  getOneOnce(id: string) {
 
+  getOneOnce(id: string) {
     return this.getOne(id).pipe(first());
   }
 
