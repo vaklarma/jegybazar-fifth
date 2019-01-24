@@ -7,9 +7,9 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
-import {combineLatest, forkJoin, of, zip} from 'rxjs';
+import {combineLatest, forkJoin, Observable, of, zip} from 'rxjs';
 import {first, map} from 'rxjs/operators';
-import {Observable} from 'rxjs/Observable';
+
 import {environment} from '../../environments/environment';
 import {EventModel} from './event-model';
 import {EventService} from './event.service';
@@ -50,29 +50,55 @@ export class TicketService {
   // -----
   // puffancs uzeni: "elkepzelheto", hogy egyszerubb megoldas is van, de szerintem ez szep
   //                 es mar nagyon vagytam valami agyzsibbasztora a projektben :)
-  getAllTickets() {
-    return this._http.get<TicketModel[]>(`${environment.firebase.baseUrl}/tickets.json`)
+
+  getAllTickets(): Observable<any> {
+
+    return this._http.get(`${environment.firebase.baseUrl}/tickets.json`)
       .pipe(map(ticketsObject => Object.values(ticketsObject)))
       .pipe(map(ticketsArray => ticketsArray.map(tm =>
         zip(
-          //      //  Observable.of,
           of(tm),
           this._eventService.getEventById(tm.eventId),
           this._userService.getUserById(tm.sellerUserId),
           (t: TicketModel, e: EventModel, u: UserModel) => {
-             return t.setEvent(e).setSeller(u);
-            // return {
-            //   ...t,
-            //   event: e,
-            //   seller: u
-            // };
+            //   return t.setEvent(e).setSeller(u);
+            return {
+              ...t,
+              event: e,
+              seller: u
+            };
           })
       )))
       .switchMap(zipStreamArray => forkJoin(zipStreamArray));
-
   }
 
-  getOneOnce(id: string): Observable<TicketModel> {
+
+  // getAllTickets() {
+  //   return this._http.get<TicketModel[]>(`${environment.firebase.baseUrl}/tickets.json`)
+  //     .pipe(map(ticketsObject => Object.values(ticketsObject)))
+  //     .pipe(map(ticketsArray => ticketsArray.map(tm =>
+  //       zip(
+  //         //      //  Observable.of,
+  //         of(tm),
+  //         this._eventService.getEventById(tm.eventId),
+  //         this._userService.getUserById(tm.sellerUserId),
+  //         (t: TicketModel, e: EventModel, u: UserModel) => {
+  //           // return t.setEvent(e).setSeller(u);
+  //           return {
+  //             ...t,
+  //             event: e,
+  //             seller: u
+  //           };
+  //         })
+  //     )))
+  //     .switchMap(zipStreamArray => forkJoin(zipStreamArray));
+  //
+  // }
+  getOneOnce_prob(id: string): Observable<TicketModel> {
+    return new Observable();
+  }
+  getOneOnce(id: string) {
+
     return this.getOne(id).pipe(first());
   }
 
@@ -89,12 +115,13 @@ export class TicketService {
               this._userService.getUserById(ticket.sellerUserId),
               (t: TicketModel, e: EventModel, u: UserModel) => {
                 return t.setEvent(e).setSeller(u);
-              }).subscribe(
-              ticketModel => {
-                observer.next(ticketModel);
-                subscription.unsubscribe();
-              }
-          )
+              })
+              .subscribe(
+                ticketModel => {
+                  observer.next(ticketModel);
+                  subscription.unsubscribe();
+                }
+              )
             ;
           }
         );
@@ -131,5 +158,7 @@ export class TicketService {
     )
       .pipe(map(x => x.id));
   }
+
+
 }
 

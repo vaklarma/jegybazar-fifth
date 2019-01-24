@@ -11,7 +11,7 @@ import {UserService} from '../../shared/user.service';
 })
 export class TicketListComponent implements OnInit {
   tickets$: Observable<TicketModel[]>;
-  isExistTickets: boolean;
+  isExistTickets = true;
 
   constructor(private _ticketService: TicketService,
               public userService: UserService) {
@@ -19,14 +19,14 @@ export class TicketListComponent implements OnInit {
 
   ngOnInit() {
     this.tickets$ = this._ticketService.getAllTickets();
-    this.tickets$.subscribe(
-      data => {
-        if (data) {
-          this.isExistTickets = true;
-        }
-      }
-    );
-
-
+  //   this.tickets$.subscribe(
+  //     data => {
+  //       if (data) {
+  //         this.isExistTickets = true;
+  //       }
+  //     }
+  //   );
+  //
+  //
   }
 }

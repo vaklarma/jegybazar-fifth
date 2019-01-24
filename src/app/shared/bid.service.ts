@@ -4,8 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {flatMap} from 'rxjs/operators';
 import {UserService} from './user.service';
-import {Observable} from 'rxjs';
-import {TicketModel} from './ticket-model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +29,7 @@ export class BidService {
     // );
     console.log('ide még beléptem: bid.service -> bid', ticketId);
     const userId = 'mBUswvbahhRRDVfbfACIEgx3FKK2';
+
     return this.http
       .put(`${environment.firebase.baseUrl}/bids/${ticketId}/${userId}.json`, value)
       .pipe(flatMap(
@@ -41,7 +40,7 @@ export class BidService {
       .pipe(flatMap(
         ticket => {
           return this.ticketService.modify(
-            Object.assign(ticket, {currentBid: value, bidCounter: ++ticket.bidCounter, details: 'Már lett licitálva'}));
+            Object.assign(ticket, {currentBid: value, bidCounter: ++ticket.bidCounter, details: 'sdcsdc'}));
         }
       ));
   }
