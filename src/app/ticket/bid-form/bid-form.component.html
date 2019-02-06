@@ -11,7 +11,7 @@
       <div class="col">
         <button [disabled]="disabled" class="btn btn-primary text-light"
                 (click)="onBidWithBidStep()"
-        >Licit a következő legkisebb licittel: {{ticket.currentBid+ticket.bidStep}} Ft
+        >Licit a következő legkisebb licittel: {{ticket.currentBid+ticket.bidStep}} Ft {{minimumBid}}
         </button>
       </div>
       <div class="col" *ngIf="disabled">

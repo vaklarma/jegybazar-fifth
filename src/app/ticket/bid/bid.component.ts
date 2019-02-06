@@ -60,4 +60,8 @@ export class BidComponent implements OnInit, OnDestroy {
       error => handle404()
     );
   }
+
+  onBid() {
+    this.progressRefreshTicket = true;
+  }
 }

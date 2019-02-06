@@ -18,6 +18,7 @@ export class BidFormComponent implements OnInit, OnChanges {
   submitSuccessAlert = false;
   submitErrorAlert = false;
   disabled = false;
+  minimumBid: number;
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +37,9 @@ export class BidFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+
+    this.minimumBid = this.ticket.currentBid + this.ticket.bidStep;
+
     this.form = this.fb.group(
       {
 
