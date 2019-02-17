@@ -25,6 +25,7 @@ import {LoadingSpinnerComponent} from './core/loading-spinner/loading-spinner.co
 import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
 import * as firebase from 'firebase';
 import {environment} from '../environments/environment';
+import { NavbarItemComponent } from './core/navbar-item/navbar-item.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {environment} from '../environments/environment';
     BidFormComponent,
     LoadingSpinnerComponent,
     TicketBidInfoComponent,
+    NavbarItemComponent,
   ],
   imports: [
     BrowserModule,

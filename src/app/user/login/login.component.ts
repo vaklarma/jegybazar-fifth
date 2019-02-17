@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { UserModel } from '../../shared/user-model';
 import { UserService } from '../../shared/user.service';
@@ -8,7 +8,7 @@ import { UserService } from '../../shared/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, DoCheck {
   public error: string;
 
   constructor(private _userService: UserService,
@@ -17,7 +17,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  ngDoCheck(): void {
+    console.log('Logincomponent DoCheck');
+  }
   login(email: string, password: string) {
     this._userService.login(email, password).subscribe(
       (user: UserModel) => {

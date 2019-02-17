@@ -12,12 +12,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup" [collapse]="isCollapsed">
       <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" routerLinkActive="active" routerLink="/home">Home</a>
-        <a class="nav-item nav-link" routerLink="/event">Események</a>
-        <a class="nav-item nav-link" routerLink="/ticket">Jegyek</a>
-        <a class="nav-item nav-link" routerLink="/about">Rólunk</a>
-        <a class="nav-item nav-link"  routerLink="/dashboard/list">Dashboard</a>
-        <ng-container *ngIf="userService.isLoggedIn$ | async; else notLoggedInBlock">
+        <app-navbar-item url="/home" name="Home"></app-navbar-item>
+        <app-navbar-item url="/event" name="Események"></app-navbar-item>
+        <app-navbar-item url="/ticket" name="Jegyek"></app-navbar-item>
+        <app-navbar-item url="/about" name="Rólunk"></app-navbar-item>
+        <!--<ng-container *ngIf="userService.isLoggedIn$ | async; else notLoggedInBlock">-->
+        <ng-container *ngIf="isLoggedIn; else notLoggedInBlock">
+
           <a class="nav-item nav-link tn btn-primary text-light ml-lg-2 btn-sm" routerLinkActive="active" routerLink="/user">Profile</a>
 
 
@@ -26,7 +27,8 @@
         </ng-container>
 
         <ng-template #notLoggedInBlock>
-          <a class="nav-item nav-link" routerLink="/user/login">Belépés</a>
+          <app-navbar-item url="/user/login" name="Belépés"></app-navbar-item>
+
           <a href="regisztracio.html" class="nav-item nav-link btn btn-primary text-light ml-lg-2 btn-sm"
              routerLink="/user/registration">Regisztráció</a>
         </ng-template>

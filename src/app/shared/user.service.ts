@@ -31,15 +31,15 @@ export class UserService {
             this.currentUser = remoteUser.name;
           });
           this.isLoggedIn$.next(true);
-          this._router.navigate(['/ticket']);
+          this._router.navigate(['/home']);
         } else {
           this.isLoggedIn$.next(false);
           this._user.next(null);
           this._fbAuthData = null;
         }
-        console.log(user);
-      }
-    );
+       console.log(user);
+     }
+   );
   }
 
   get fbIdToken(): string | null {
@@ -50,23 +50,6 @@ export class UserService {
 
     return from(firebase.auth().signInWithEmailAndPassword(email, password));
 
-
-    // return this._http.post<FirebaseLoginModel>(
-    //   `${environment.firebase.loginUrl}?key=${environment.firebase.apiKey}`,
-    //   {
-    //     'email': email,
-    //     'password': password,
-    //     'returnSecureToken': true
-    //   })
-    //   .do((fbAuthResponse: FirebaseLoginModel) => this._fbAuthData = fbAuthResponse)
-    //   .switchMap(fbLogin => this.getUserById(fbLogin.localId))
-    //   .do(user => this._user = user)
-    //
-    //   // .do(user => this.isLoggedin = true)
-    //   .do(user => {
-    //     console.log('sikeres login ezzel a userrel: ', user);
-    //     this.currentUser = this._user.name;
-    //   });
   }
 
   register(param: UserModel, password: string) {
