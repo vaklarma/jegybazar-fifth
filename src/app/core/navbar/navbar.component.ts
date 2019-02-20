@@ -13,14 +13,15 @@ export class NavbarComponent implements OnInit, DoCheck, AfterViewChecked, After
 
   constructor(public userService: UserService,
               private cdr: ChangeDetectorRef
-             ) {
+  ) {
 
     this.userService.isLoggedIn$.subscribe(
       isLoggedIn => {
         this.isLoggedIn = isLoggedIn;
-        this.cdr.detectChanges();
 
-}
+        this.cdr.detectChanges();
+      }
+
     );
   }
 
@@ -30,15 +31,17 @@ export class NavbarComponent implements OnInit, DoCheck, AfterViewChecked, After
 
   ngAfterViewChecked(): void {
     console.log('NavbarComponent AfterViewChecked');
+    this.userName = this.userService.currentUser;
+
+
   }
 
   ngAfterViewInit(): void {
- //   this.cdr.detach();
+    this.cdr.detach();
   }
 
 
   ngOnInit() {
-    this.userName = this.userService.currentUser;
 
   }
 
