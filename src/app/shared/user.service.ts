@@ -37,13 +37,17 @@ export class UserService {
           this._user.next(null);
           this._fbAuthData = null;
         }
-       console.log(user);
-     }
-   );
+        console.log(user);
+      }
+    );
   }
 
   get fbIdToken(): string | null {
     return this._fbAuthData ? this._fbAuthData.idToken : null;
+  }
+
+  getUserNameToNavbar() {
+    
   }
 
   login(email: string, password: string): Observable<any> {

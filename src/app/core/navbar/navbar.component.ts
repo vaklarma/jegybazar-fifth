@@ -33,7 +33,9 @@ export class NavbarComponent implements  AfterViewChecked, AfterViewInit, OnChan
   }
 
   ngAfterViewChecked(): void {
- //   console.log('NavbarComponent AfterViewChecked');
+
+    this.cdr.detectChanges();
+    this.userName = this.userService.currentUser;
 
   }
 
