@@ -11,7 +11,7 @@ import {UserService} from '../../shared/user.service';
 })
 export class TicketListComponent implements OnInit {
   tickets$: Observable<TicketModel[]>;
-  isExistTickets = false;
+  isExistTickets = true;
 
   constructor(private _ticketService: TicketService,
               public userService: UserService) {
@@ -26,7 +26,6 @@ export class TicketListComponent implements OnInit {
         }
       }
     );
-
-
   }
+
 }

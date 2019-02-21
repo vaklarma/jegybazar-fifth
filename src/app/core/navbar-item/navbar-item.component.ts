@@ -12,16 +12,16 @@ export class NavbarItemComponent implements OnInit, DoCheck, AfterViewChecked {
   constructor() { }
 
   ngOnInit() {
-    console.log('NavbarItemComponent OnInit ');
+  //  console.log('NavbarItemComponent OnInit ');
   }
 
   ngAfterViewChecked(): void {
-    console.log('NavbarItemComponent AfterViewChecked ');
+   // console.log('NavbarItemComponent AfterViewChecked ');
 
   }
 
   ngDoCheck(): void {
-    console.log('NavbarItemComponent DoCheck ');
+  //  console.log('NavbarItemComponent DoCheck ');
   }
 
 }
