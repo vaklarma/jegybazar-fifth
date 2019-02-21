@@ -6,7 +6,7 @@ import {UserService} from '../../shared/user.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements DoCheck, AfterViewChecked, AfterViewInit {
+export class NavbarComponent implements  AfterViewChecked, AfterViewInit, OnChanges {
   isCollapsed = true;
   isLoggedIn;
   userName: string;
@@ -25,25 +25,27 @@ export class NavbarComponent implements DoCheck, AfterViewChecked, AfterViewInit
     );
   }
 
-  ngDoCheck(): void {
-  //  console.log('NavbarComponent DoCheck');
+  ngOnChanges(changes: SimpleChanges): void {
+
+    this.cdr.detectChanges();
+    this.userName = this.userService.currentUser;
+    console.log('Navbar changes:', changes);
   }
 
   ngAfterViewChecked(): void {
  //   console.log('NavbarComponent AfterViewChecked');
-    this.userName = this.userService.currentUser;
+
   }
 
   ngAfterViewInit(): void {
     this.cdr.detach();
   }
 
-
-
-
   logout() {
     this.userService.logout();
   }
+
+
 
 
 
