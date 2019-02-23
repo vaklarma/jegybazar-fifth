@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {EventModel} from '../../shared/event-model';
 import {EventService} from '../../shared/event.service';
@@ -8,7 +8,8 @@ import {map} from 'rxjs/operators';
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.css']
+  styleUrls: ['./event-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EventListComponent implements OnInit {
 // ez jo pelda lehet smart es dumb componentre
