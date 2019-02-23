@@ -17,7 +17,7 @@ export class BiddingCardComponent implements OnChanges {
       && !changes['ticket'].isFirstChange()
       && changes['ticket'].currentValue != null
     ) {
-      console.log('ngOnChanges a tiket inputra');
+
       this.loading = false;
     }
   }

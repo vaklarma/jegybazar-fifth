@@ -21,11 +21,9 @@ export class LoggedInGuard implements CanActivate {
       isLoggedIn => {
         if (isLoggedIn === false) {
           this._router.navigate(['/home']);
-          console.log('Can activate: false ág');
           return false;
 
         }
-        console.log(' Can activate: igaz ág');
         return true;
       }
     );

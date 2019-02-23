@@ -23,10 +23,9 @@ export class NewuserComponent implements OnInit {
 
   delUser(param) {
     this._userService.deleteOneUser(param).subscribe(
-      data => console.log(data)
     );
   }
   newUser() {
-    console.log('új felhasználó');
+
   }
 }

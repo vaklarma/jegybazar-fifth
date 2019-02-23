@@ -1,24 +1,11 @@
-import {AfterViewChecked, Component, DoCheck, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-jumbotron',
   templateUrl: './jumbotron.component.html',
   styleUrls: ['./jumbotron.component.css']
 })
-export class JumbotronComponent implements OnInit, DoCheck, AfterViewChecked {
+export class JumbotronComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  ngAfterViewChecked(): void {
-    console.log('Jumbotron AfterViewChecked');
-
-  }
-
-  ngDoCheck(): void {
-    console.log('Jumbotron DoCheck');
-  }
 
 }

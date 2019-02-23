@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnChanges, SimpleChanges} from '@angular/core';
 import {UserService} from '../../shared/user.service';
 
 @Component({
@@ -6,10 +6,11 @@ import {UserService} from '../../shared/user.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements  AfterViewChecked, AfterViewInit, OnChanges {
+export class NavbarComponent implements AfterViewChecked, AfterViewInit, OnChanges {
   isCollapsed = true;
   isLoggedIn;
-  userName: string;
+  userName;
+
 
   constructor(public userService: UserService,
               private cdr: ChangeDetectorRef
@@ -18,24 +19,24 @@ export class NavbarComponent implements  AfterViewChecked, AfterViewInit, OnChan
     this.userService.isLoggedIn$.subscribe(
       isLoggedIn => {
         this.isLoggedIn = isLoggedIn;
-
         this.cdr.detectChanges();
       }
-
     );
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    this.cdr.detectChanges();
-    this.userName = this.userService.currentUser;
-    console.log('Navbar changes:', changes);
   }
 
   ngAfterViewChecked(): void {
-
     this.cdr.detectChanges();
-    this.userName = this.userService.currentUser;
+    if (this.userService.userId
+      && this.isLoggedIn) {
+      this.userService.getUserNameToNavbar().subscribe(
+        data => this.userName = data
+      );
+    }
 
   }
 
@@ -46,10 +47,6 @@ export class NavbarComponent implements  AfterViewChecked, AfterViewInit, OnChan
   logout() {
     this.userService.logout();
   }
-
-
-
-
 
 
 }

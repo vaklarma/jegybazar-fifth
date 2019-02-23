@@ -16,7 +16,7 @@ import 'rxjs/add/observable/fromPromise';
 export class UserService {
   isLoggedIn$ = new ReplaySubject<boolean>(1);
   currentUser;
-
+  public userId: string;
   private _user = new ReplaySubject<UserModel>(1);
   private _fbAuthData: any;
 
@@ -29,6 +29,7 @@ export class UserService {
           this.getUserById(user.uid).subscribe(remoteUser => {
             this._user.next(remoteUser);
             this.currentUser = remoteUser.name;
+            this.userId = remoteUser.id;
           });
           this.isLoggedIn$.next(true);
           this._router.navigate(['/home']);
@@ -37,7 +38,6 @@ export class UserService {
           this._user.next(null);
           this._fbAuthData = null;
         }
-        console.log(user);
       }
     );
   }
@@ -46,8 +46,15 @@ export class UserService {
     return this._fbAuthData ? this._fbAuthData.idToken : null;
   }
 
-  getUserNameToNavbar() {
-    
+  getUserNameToNavbar(): Observable<string> {
+
+
+    const userId = firebase.auth().currentUser.uid;
+    return from(firebase.database().ref('/users/' + userId).once('value').then(function (snapshot) {
+      return snapshot.val().name;
+
+    }));
+
   }
 
   login(email: string, password: string): Observable<any> {
@@ -102,6 +109,7 @@ export class UserService {
   logout() {
 
     firebase.auth().signOut();
+    this.isLoggedIn$.next(false);
     // this._user = new UserModel();
     // //   this.isLoggedin = false;
     // delete(this._fbAuthData);

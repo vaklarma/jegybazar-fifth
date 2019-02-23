@@ -18,7 +18,6 @@ export class TicketBidInfoComponent implements OnInit {
     this.ticketAndBidinfoService.getBids().subscribe(
       (data) => {
         this.bids = data;
-        console.log(this.bids);
       }
     );
 

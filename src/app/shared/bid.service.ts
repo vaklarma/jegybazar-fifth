@@ -23,7 +23,6 @@ export class BidService {
     this.userService.getCurrentUser().subscribe(
       user => {
         if (user) {
-          console.log(' user id: ', user.id);
           userId = user.id;
         }
       }

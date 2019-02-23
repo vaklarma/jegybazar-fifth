@@ -20,7 +20,7 @@ export class EventcardComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
+
     if (changes['nextLabel'] != null
       && changes['nextLabel'].isFirstChange()) {
       this.cdr.detectChanges();

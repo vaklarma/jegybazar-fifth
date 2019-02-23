@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit, DoCheck {
   ngOnInit() {
   }
   ngDoCheck(): void {
-    console.log('Logincomponent DoCheck');
   }
   login(email: string, password: string) {
     this._userService.login(email, password).subscribe(
