@@ -22,7 +22,7 @@
           <a class="nav-item nav-link tn btn-primary text-light ml-lg-2 btn-sm" routerLinkActive="active"
              routerLink="/user">Profile</a>
             <ng-container *ngIf="!userName; else showUserName">
-              <app-loading-spinner [loaderWidth]="8" [loaderHeight]="8"></app-loading-spinner>
+              <app-loading-spinner [loaderWidth]="20" [loaderHeight]="20"></app-loading-spinner>
             </ng-container>
             <ng-template #showUserName>
               <a class="nav-item nav-link" routerLinkActive="active" (click)="logout()" routerLink="#">         Kilépés ( {{userName}})

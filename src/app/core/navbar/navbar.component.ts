@@ -8,7 +8,7 @@ import {UserService} from '../../shared/user.service';
 })
 export class NavbarComponent implements AfterViewChecked, AfterViewInit, OnChanges {
   isCollapsed = true;
-  isLoggedIn;
+  isLoggedIn = false;
   userName;
 
 
