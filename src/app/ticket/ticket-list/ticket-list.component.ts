@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {TicketModel} from '../../shared/ticket-model';
 import {TicketService} from '../../shared/ticket.service';
@@ -9,11 +9,11 @@ import {BehaviorSubject} from 'rxjs';
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.css'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TicketListComponent implements OnInit, OnChanges {
+export class TicketListComponent implements OnInit {
   tickets$: Observable<TicketModel[]>;
-  isExistTickets = new BehaviorSubject<boolean>(false);
+  isExistTickets$ = new BehaviorSubject<boolean>(false);
 
   constructor(private _ticketService: TicketService,
               public userService: UserService) {
@@ -24,14 +24,7 @@ export class TicketListComponent implements OnInit, OnChanges {
 
     this.tickets$ = this._ticketService.getAllTickets();
     this.tickets$.subscribe(
-      data => this.isExistTickets.next(true)
-
-  );
-
+      data => this.isExistTickets$.next(true)
+    );
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('változások: ', changes);
-  }
-
 }
