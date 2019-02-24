@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './core/navbar/navbar.component';
 import {JumbotronComponent} from './core/jumbotron/jumbotron.component';
-import {EventcardComponent} from './event/eventcard/eventcard.component';
 import {FooterComponent} from './core/footer/footer.component';
 import {AlertModule, CollapseModule} from 'ngx-bootstrap';
 import {EventComponent} from './event/event.component';
@@ -25,16 +24,15 @@ import {LoadingSpinnerComponent} from './core/loading-spinner/loading-spinner.co
 import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
 import * as firebase from 'firebase';
 import {environment} from '../environments/environment';
-import { NavbarItemComponent } from './core/navbar-item/navbar-item.component';
+import {NavbarItemComponent} from './core/navbar-item/navbar-item.component';
+import {EventModule} from './event/event.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     JumbotronComponent,
-    EventcardComponent,
     FooterComponent,
-    EventComponent,
     ...AppRoutingModule.routableComponents,
     SidebarComponent,
     TicketDetailsCardComponent,
@@ -53,7 +51,8 @@ import { NavbarItemComponent } from './core/navbar-item/navbar-item.component';
     AlertModule.forRoot(),
     HttpClientModule,
     AccordionModule.forRoot(),
-    MomentModule
+    MomentModule,
+    EventModule
   ],
   providers: [
     EventService,

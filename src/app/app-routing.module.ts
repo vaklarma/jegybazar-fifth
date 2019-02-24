@@ -2,12 +2,9 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './user/login/login.component';
-import {EventListComponent} from './event/event-list/event-list.component';
 import {PageNotFoundComponent} from './core/page-not-found/page-not-found.component';
 import {AboutComponent} from './about/about.component';
 import {TicketComponent} from './ticket/ticket.component';
-import {EventComponent} from './event/event.component';
-import {EventDetailComponent} from './event/event-detail/event-detail.component';
 import {ProfileComponent} from './user/profile/profile.component';
 import {ProfileEditComponent} from './user/profile-edit/profile-edit.component';
 import {TicketListComponent} from './ticket/ticket-list/ticket-list.component';
@@ -24,13 +21,8 @@ import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-inf
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {
-    path: 'event',
-    component: EventComponent,
-    children: [
-      {path: '', component: EventListComponent},
-      {path: 'new', component: EventDetailComponent, canActivate: [LoggedInGuard]},
-      {path: ':id', component: EventDetailComponent},
-    ]
+    path: 'events',
+    loadChildren: './event/event.module#EventModule'
   },
   {
     path: 'ticket',
@@ -78,9 +70,6 @@ const routes: Routes = [
 export class AppRoutingModule {
   static routableComponents = [
     HomeComponent,
-    EventComponent,
-    EventListComponent,
-    EventDetailComponent,
     TicketComponent,
     TicketDetailComponent,
     TicketListComponent,
