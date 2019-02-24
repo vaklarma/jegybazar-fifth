@@ -6,9 +6,9 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Output, QueryList,
   SimpleChanges,
-  ViewChild
+  ViewChild, ViewChildren
 } from '@angular/core';
 import {TicketModel} from '../../shared/ticket-model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -25,7 +25,7 @@ import {AlertComponent} from 'ngx-bootstrap';
 export class BidFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() ticket: TicketModel;
   @Output() bid = new EventEmitter<void>();
-  @ViewChild(AlertComponent) succesAlert: AlertComponent;
+  @ViewChildren(AlertComponent) succesAlerts: QueryList<AlertComponent>;
   displayBidStep = true;
   form: FormGroup;
   submitted = false;
@@ -119,7 +119,7 @@ export class BidFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.succesAlert);
+    console.log(this.succesAlerts);
   }
 
 
