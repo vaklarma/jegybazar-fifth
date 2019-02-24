@@ -21,7 +21,7 @@ import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-inf
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {
-    path: 'events',
+    path: 'event',
     loadChildren: './event/event.module#EventModule'
   },
   {
