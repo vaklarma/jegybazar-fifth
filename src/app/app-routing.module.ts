@@ -16,13 +16,16 @@ import {UserCardsComponent} from './dashboard/user-cards/user-cards.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NewuserComponent} from './dashboard/newuser/newuser.component';
 import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
+import {EventModule} from './event/event.module';
 
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
+  // {path: '', loadChildren: () => EventModule},
+  //
   {
-    path: 'event',
-    loadChildren: './event/event.module#EventModule'
+    path: '',
+    loadChildren: './event/event.module#EventModule',
   },
   {
     path: 'ticket',

@@ -24,10 +24,10 @@
 
   <!-- cards -->
   <div class="card-deck pt-5 pb-5" *ngFor="let eventgroup of eventsGrouppedBy3$ | async">
-    <!--<app-eventcard class="col col-md-6 col-lg-4"-->
-                   <!--*ngFor="let event of eventgroup"-->
-                   <!--[esemeny]="event"-->
-    <!--&gt;</app-eventcard>-->
+    <app-eventcard class="col col-md-6 col-lg-4"
+                   *ngFor="let event of eventgroup"
+                   [esemeny]="event"
+    ></app-eventcard>
 
   </div>
   </ng-container>

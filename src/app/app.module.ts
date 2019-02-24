@@ -26,6 +26,7 @@ import * as firebase from 'firebase';
 import {environment} from '../environments/environment';
 import {NavbarItemComponent} from './core/navbar-item/navbar-item.component';
 import {EventModule} from './event/event.module';
+import {EventcardModule} from './event/eventcard/eventcard.module';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {EventModule} from './event/event.module';
     HttpClientModule,
     AccordionModule.forRoot(),
     MomentModule,
-    EventModule
+    EventcardModule
+    //EventModule
   ],
   providers: [
     EventService,
