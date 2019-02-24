@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="isExistTickets; else loading">
+<ng-container *ngIf="isExistTickets | async; else loading">
   <div class="row  justify-content-around px-5 .d-inline-block">
 
     <div class="col-auto text-center">

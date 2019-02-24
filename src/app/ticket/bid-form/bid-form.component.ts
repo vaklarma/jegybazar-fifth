@@ -1,20 +1,9 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output, QueryList,
-  SimpleChanges,
-  ViewChild, ViewChildren
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TicketModel} from '../../shared/ticket-model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {bidMinimumValidator} from './bid.validators';
 import {BidService} from '../../shared/bid.service';
-import {AlertComponent} from 'ngx-bootstrap';
+
 
 @Component({
   selector: 'app-bid-form',
@@ -22,10 +11,9 @@ import {AlertComponent} from 'ngx-bootstrap';
   styleUrls: ['./bid-form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BidFormComponent implements OnInit, OnChanges, AfterViewInit {
+export class BidFormComponent implements OnInit, OnChanges {
   @Input() ticket: TicketModel;
   @Output() bid = new EventEmitter<void>();
-  @ViewChildren(AlertComponent) succesAlerts: QueryList<AlertComponent>;
   displayBidStep = true;
   form: FormGroup;
   submitted = false;
@@ -116,10 +104,6 @@ export class BidFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.form.get('bid').disable();
     this.disabled = true;
     return this.bidService.bid(this.ticket.id, value);
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.succesAlerts);
   }
 
 
