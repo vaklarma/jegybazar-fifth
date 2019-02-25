@@ -31,7 +31,6 @@ import {CoreModule} from './core/core.module';
     TicketDetailsCardComponent,
     BiddingCardComponent,
     BidFormComponent,
-
     TicketBidInfoComponent,
 
   ],

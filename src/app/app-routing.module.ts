@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './user/login/login.component';
 import {PageNotFoundComponent} from './core/page-not-found/page-not-found.component';
-import {AboutComponent} from './about/about.component';
 import {TicketComponent} from './ticket/ticket.component';
 import {ProfileComponent} from './user/profile/profile.component';
 import {ProfileEditComponent} from './user/profile-edit/profile-edit.component';
@@ -16,13 +15,9 @@ import {UserCardsComponent} from './dashboard/user-cards/user-cards.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NewuserComponent} from './dashboard/newuser/newuser.component';
 import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
-import {EventModule} from './event/event.module';
-
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
-  // {path: '', loadChildren: () => EventModule},
-  //
   {
     path: '',
     loadChildren: './event/event.module#EventModule',
@@ -58,7 +53,7 @@ const routes: Routes = [
     ]
   },
 
-  {path: 'about', component: AboutComponent},
+  {path: '', loadChildren: './about/about.module#AboutModule'},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent},
 
@@ -77,7 +72,6 @@ export class AppRoutingModule {
     TicketDetailComponent,
     TicketListComponent,
     BidComponent,
-    AboutComponent,
     LoginComponent,
     ProfileComponent,
     ProfileEditComponent,
