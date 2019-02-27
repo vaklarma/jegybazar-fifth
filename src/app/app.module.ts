@@ -8,7 +8,6 @@ import {UserService} from './shared/user.service';
 import {TicketService} from './shared/ticket.service';
 import {LoggedInGuard} from './shared/logged-in.guard';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {SidebarComponent} from './dashboard/sidebar/sidebar.component';
 import {AccordionModule} from 'ngx-bootstrap/accordion';
 import {HttpClientModule} from '@angular/common/http';
 import {TicketDetailsCardComponent} from './ticket/ticket-details-card/ticket-details-card.component';
@@ -16,7 +15,6 @@ import {BiddingCardComponent} from './ticket/bidding-card/bidding-card.component
 import {MomentModule} from 'ngx-moment';
 import 'moment/locale/hu';
 import {BidFormComponent} from './ticket/bid-form/bid-form.component';
-import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
 import * as firebase from 'firebase';
 import {environment} from '../environments/environment';
 import {EventcardModule} from './event/eventcard/eventcard.module';
@@ -27,11 +25,9 @@ import {CoreModule} from './core/core.module';
     AppComponent,
 
     ...AppRoutingModule.routableComponents,
-    SidebarComponent,
     TicketDetailsCardComponent,
     BiddingCardComponent,
     BidFormComponent,
-    TicketBidInfoComponent,
 
   ],
   imports: [

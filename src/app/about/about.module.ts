@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AboutRoutingModule } from './about-routing.module';
+import {AboutRoutingModule} from './about-routing.module';
 import {AboutComponent} from './about.component';
-import {JumbotronComponent} from '../core/jumbotron/jumbotron.component';
 import {CoreModule} from '../core/core.module';
 
 @NgModule({
@@ -17,4 +16,5 @@ import {CoreModule} from '../core/core.module';
 
   ]
 })
-export class AboutModule { }
+export class AboutModule {
+}

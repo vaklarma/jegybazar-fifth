@@ -10,11 +10,7 @@ import {TicketListComponent} from './ticket/ticket-list/ticket-list.component';
 import {TicketDetailComponent} from './ticket/ticket-detail/ticket-detail.component';
 import {BidComponent} from './ticket/bid/bid.component';
 import {LoggedInGuard} from './shared/logged-in.guard';
-import {UserListComponent} from './dashboard/user-list/user-list.component';
-import {UserCardsComponent} from './dashboard/user-cards/user-cards.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {NewuserComponent} from './dashboard/newuser/newuser.component';
-import {TicketBidInfoComponent} from './dashboard/ticket-bid-info/ticket-bid-info.component';
+
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -42,16 +38,6 @@ const routes: Routes = [
       {path: 'registration', component: ProfileEditComponent},
     ]
   },
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    children: [
-      {path: 'list', component: UserListComponent},
-      {path: 'newuser', component: NewuserComponent},
-      {path: 'ticketbidinfo', component: TicketBidInfoComponent},
-
-    ]
-  },
 
   {path: '', loadChildren: './about/about.module#AboutModule'},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -76,9 +62,5 @@ export class AppRoutingModule {
     ProfileComponent,
     ProfileEditComponent,
     PageNotFoundComponent,
-    UserListComponent,
-    UserCardsComponent,
-    DashboardComponent,
-    NewuserComponent,
   ];
 }
