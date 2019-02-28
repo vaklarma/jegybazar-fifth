@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ChatService} from './chat/chat.service';
 
 
 @Component({
@@ -7,8 +8,8 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor() {
-
+  constructor(chatService: ChatService) {
+    console.log(chatService);
   }
 
 }

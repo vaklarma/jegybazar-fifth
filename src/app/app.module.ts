@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {AlertModule, CollapseModule} from 'ngx-bootstrap';
+import {AlertModule} from 'ngx-bootstrap';
 import {AppRoutingModule} from './app-routing.module';
 import {EventService} from './shared/event.service';
 import {UserService} from './shared/user.service';
@@ -19,6 +19,7 @@ import * as firebase from 'firebase';
 import {environment} from '../environments/environment';
 import {EventcardModule} from './event/eventcard/eventcard.module';
 import {CoreModule} from './core/core.module';
+import {ChatModule} from './chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {CoreModule} from './core/core.module';
     AccordionModule.forRoot(),
     MomentModule,
     EventcardModule,
-    CoreModule
+    CoreModule,
+    ChatModule.forRoot()
   ],
   providers: [
     EventService,
