@@ -46,6 +46,17 @@
 
 .chat-messages-list > li img.user-image {
   background-color: silver;
+
+  width: 48px;
+  height: 48px;
+
+}
+
+.chat-messages-list > li img.user-image.placeholder-image {
+  background-color: silver;
   padding: 8px;
 
+  width: 48px;
+  /*height: 48px;*/
+/**/
 }

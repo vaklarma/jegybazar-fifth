@@ -25,7 +25,8 @@ import {RouterModule} from '@angular/router';
     NavbarComponent,
     FooterComponent,
     LoadingSpinnerComponent,
-    JumbotronComponent
+    JumbotronComponent,
+
   ]
 })
 export class CoreModule {

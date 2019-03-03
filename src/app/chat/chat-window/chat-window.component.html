@@ -3,46 +3,49 @@
     Chat window
   </div>
   <div class="card-body">
-    <ul class="chat-messages-list">
-      <li class="left clearfix">
-      <span class="float-left">
-       <img src="assets/chat_user_placeholder_01.svg" alt="Felhasználó képe" class="user-image rounded-circle"/>
-      </span>
-        <div class="clearfix chat-message">
-          <div class="chat-message-header">
-            <strong>Jack Sparrow</strong>
-            <small class="float-right text-muted">12 mins ago</small>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            bibendum ornare
-            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            bibendum ornare
-            dolor, quis ullamcorper ligula sodales.
-          </p>
-        </div>
-      </li>
-      <li class="left clearfix">
-      <span class="float-left">
-       <img src="assets/chat_user_placeholder.svg" alt="Felhasználó képe" class="user-image rounded-circle"/>
-      </span>
-        <div class="clearfix chat-message">
-          <div class="chat-message-header">
-            <strong>Micimackó</strong>
-            <small class="float-right text-muted">12 mins ago</small>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            bibendum ornare
-            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            bibendum ornare
-            dolor, quis ullamcorper ligula sodales.
-          </p>
-        </div>
-      </li>
-    </ul>
+
+
+    <ng-container *ngIf="chatMessage$ | async as chatMessages; else loadingChat">
+      <ng-container *ngIf="chatMessages.length > 0;else notFoundMessage">
+
+        <ul class="chat-messages-list">
+          <li *ngFor="let msg of chatMessages"
+              class="left clearfix">
+            <span class="float-left">
+
+                             <img *ngIf="msg.userPictureUrl; else placeHolderProfileImage" [src]="msg.userPictureUrl"
+                                  alt="Felhasználó képe"
+                                  class="user-image rounded-circle"
+                             />
+
+              <ng-template #placeHolderProfileImage>
+                             <img src="assets/chat_user_placeholder_01.svg" alt="Felhasználó képe"
+                                  class="user-image rounded-circle placeholder-image"/>
+
+              </ng-template>
+            </span>
+            <div class="clearfix chat-message">
+              <div class="chat-message-header">
+                <strong>{{msg.userName}}</strong>
+                <small class="float-right text-muted">12 mins ago</small>
+              </div>
+              <p>
+                {{msg.msg}}
+              </p>
+            </div>
+          </li>
+        </ul>
+
+      </ng-container>
+      <ng-template #notFoundMessage>
+        <strong class="text-muted"> Nincs üzenet</strong>
+      </ng-template>
+    </ng-container>
+    <ng-template #loadingChat>
+      <app-loading-spinner [loaderHeight]="100" [loaderWidth]="100"></app-loading-spinner>
+    </ng-template>
+
+
   </div>
   <div class="card-footer">
     <form class="input-group" [formGroup]="form" (ngSubmit)="sendMessage()">
