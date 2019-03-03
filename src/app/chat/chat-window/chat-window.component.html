@@ -9,31 +9,7 @@
       <ng-container *ngIf="chatMessages.length > 0;else notFoundMessage">
 
         <ul class="chat-messages-list">
-          <li *ngFor="let msg of chatMessages"
-              class="left clearfix">
-            <span class="float-left">
-
-                             <img *ngIf="msg.userPictureUrl; else placeHolderProfileImage" [src]="msg.userPictureUrl"
-                                  alt="Felhasználó képe"
-                                  class="user-image rounded-circle"
-                             />
-
-              <ng-template #placeHolderProfileImage>
-                             <img src="assets/chat_user_placeholder_01.svg" alt="Felhasználó képe"
-                                  class="user-image rounded-circle placeholder-image"/>
-
-              </ng-template>
-            </span>
-            <div class="clearfix chat-message">
-              <div class="chat-message-header">
-                <strong>{{msg.userName}}</strong>
-                <small class="float-right text-muted">12 mins ago</small>
-              </div>
-              <p>
-                {{msg.msg}}
-              </p>
-            </div>
-          </li>
+          <app-chat-message-row *ngFor="let msg of chatMessages" [msg]="msg"></app-chat-message-row>
         </ul>
 
       </ng-container>
@@ -48,15 +24,6 @@
 
   </div>
   <div class="card-footer">
-    <form class="input-group" [formGroup]="form" (ngSubmit)="sendMessage()">
-      <input type="text" name="chat-message" formControlName="chat-message"
-             class="form-control" placeholder="Üzenet..."
-             [ngClass]="{'is-invalid':invalidChatMessageInput}"
-             #chatMessageInput
-      />
-      <span class="input-group-btn">
-        <button class="btn btn-primary" type="submit">Küldés</button>
-      </span>
-    </form>
+    <app-chat-message-send-form [(reset)]="resetForm"  (newMessage)="onNewMessage($event)"></app-chat-message-send-form>
   </div>
 </div>
