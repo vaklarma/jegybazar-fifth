@@ -1,45 +1,59 @@
-
 <div class="card">
   <div class="card-header">
-   Chat window
+    Chat window
   </div>
   <div class="card-body">
-  <ul class="chat-messages-list">
-    <li class="left clearfix">
+    <ul class="chat-messages-list">
+      <li class="left clearfix">
       <span class="float-left">
        <img src="assets/chat_user_placeholder_01.svg" alt="Felhasználó képe" class="user-image rounded-circle"/>
       </span>
-      <div class="clearfix chat-message">
-        <div class="chat-message-header">
-          <strong>Jack Sparrow</strong>
-          <small class="float-right text-muted">12 mins ago</small>
+        <div class="clearfix chat-message">
+          <div class="chat-message-header">
+            <strong>Jack Sparrow</strong>
+            <small class="float-right text-muted">12 mins ago</small>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            bibendum ornare
+            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            bibendum ornare
+            dolor, quis ullamcorper ligula sodales.
+          </p>
         </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-          dolor, quis ullamcorper ligula sodales.   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-          dolor, quis ullamcorper ligula sodales.   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-          dolor, quis ullamcorper ligula sodales.
-        </p>
-      </div>
-    </li>
-    <li class="left clearfix">
+      </li>
+      <li class="left clearfix">
       <span class="float-left">
        <img src="assets/chat_user_placeholder.svg" alt="Felhasználó képe" class="user-image rounded-circle"/>
       </span>
-      <div class="clearfix chat-message">
-        <div class="chat-message-header">
-          <strong>Micimackó</strong>
-          <small class="float-right text-muted">12 mins ago</small>
+        <div class="clearfix chat-message">
+          <div class="chat-message-header">
+            <strong>Micimackó</strong>
+            <small class="float-right text-muted">12 mins ago</small>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            bibendum ornare
+            dolor, quis ullamcorper ligula sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            bibendum ornare
+            dolor, quis ullamcorper ligula sodales.
+          </p>
         </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-          dolor, quis ullamcorper ligula sodales.   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-          dolor, quis ullamcorper ligula sodales.   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-          dolor, quis ullamcorper ligula sodales.
-        </p>
-      </div>
-    </li>
-  </ul>
-</div>
-  <div class="card-footer">footer</div>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <form class="input-group" [formGroup]="form" (ngSubmit)="sendMessage()">
+      <input type="text" name="chat-message" formControlName="chat-message"
+             class="form-control" placeholder="Üzenet..."
+             [ngClass]="{'is-invalid':invalidChatMessageInput}"
+             #chatMessageInput
+      />
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">Küldés</button>
+      </span>
+    </form>
+  </div>
 </div>
