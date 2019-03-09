@@ -45,7 +45,8 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
     MomentModule,
     EventcardModule,
     CoreModule,
-    ChatModule.forRoot(),
+  //  ChatModule.forRoot(),
+    ChatModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule
   ],

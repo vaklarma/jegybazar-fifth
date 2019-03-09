@@ -12,7 +12,7 @@ import { ChatMessageSendFormComponent } from './chat-message-send-form/chat-mess
 
 export const chatServiceProvideFactoryFn =
   (userService: UserService) => {
-    return environment.production ?
+    return !environment.production ?
       new ChatService(userService) :
       new MockedChatService(userService);
   };
@@ -34,17 +34,17 @@ export const chatServiceProvideFactoryFn =
   ]
 })
 export class ChatModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: ChatModule,
-      providers: [
-        {
-          provide: ChatService,
-          useFactory: chatServiceProvideFactoryFn,
-          deps: [UserService]
-
-        },
-      ]
-    };
-  }
+  // static forRoot(): ModuleWithProviders {
+  //   return {
+  //     ngModule: ChatModule,
+  //     providers: [
+  //       {
+  //         provide: ChatService,
+  //         useFactory: chatServiceProvideFactoryFn,
+  //         deps: [UserService]
+  //
+  //       },
+  //     ]
+  //   };
+  // }
 }

@@ -9,10 +9,10 @@ import {map, tap} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ChatService {
-  private static PATH = '/chat';
+  private static PATH = '/bids';
 
   constructor(protected userService: UserService,
-              @Optional() protected afDb: AngularFireDatabase) {
+              @Optional() protected afDb?: AngularFireDatabase) {
   }
 
   addMessage(roomId: string, msg: string): Observable<boolean> {
@@ -20,7 +20,7 @@ export class ChatService {
   }
 
   getRoomMessages(roomId: string): Observable<ChatMessageModel[]> {
-    return this.afDb.list(`${ChatService.PATH}/${roomId}`)
+    return this.afDb.list(`${ChatService.PATH}`)
       .valueChanges()
       .pipe(
         tap(
