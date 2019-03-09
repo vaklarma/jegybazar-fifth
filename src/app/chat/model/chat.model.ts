@@ -1,9 +1,9 @@
 export class ChatMessageModel {
-  $id: string;
-  msg: string;
-  userId: string;
-  userName: string;
-  userPictureUrl: string;
+  $id?: string;
+  msg?: string;
+  userId?: string;
+  userName?: string;
+  userPictureUrl?: string;
 
   constructor(data?: ChatMessageModel) {
     if (data != null) {
