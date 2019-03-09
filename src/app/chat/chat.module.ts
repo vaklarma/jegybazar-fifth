@@ -1,4 +1,4 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ChatService} from './chat.service';
 import {MockedChatService} from './mocked-chat.service';
@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CoreModule} from '../core/core.module';
 import { ChatMessageRowComponent } from './chat-message-row/chat-message-row.component';
 import { ChatMessageSendFormComponent } from './chat-message-send-form/chat-message-send-form.component';
+import {MomentModule} from 'ngx-moment';
 
 export const chatServiceProvideFactoryFn =
   (userService: UserService) => {
@@ -22,7 +23,8 @@ export const chatServiceProvideFactoryFn =
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    CoreModule
+    CoreModule,
+    MomentModule
   ],
   declarations: [
     ChatWindowComponent,

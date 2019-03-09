@@ -1,6 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MockedChatDatas} from '../mocked-chat.service';
-import {environment} from '../../../environments/environment';
+import {ChangeDetectionStrategy, Component, DoCheck, Input, OnInit} from '@angular/core';
 import {ChatMessageModel} from '../model/chat.model';
 import {Observable} from 'rxjs';
 import {ChatService} from '../chat.service';
@@ -9,10 +7,12 @@ import {ChatService} from '../chat.service';
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.component.html',
-  styleUrls: ['./chat-window.component.css']
+  styleUrls: ['./chat-window.component.css'],
+ // changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ChatService]
 })
-export class ChatWindowComponent implements OnInit {
-  @Input() roomId = environment.production ? null : MockedChatDatas.mockedRoomId;
+export class ChatWindowComponent implements OnInit, DoCheck {
+  @Input() roomId ; //= environment.production ? null : MockedChatDatas.mockedRoomId;
   resetForm = false;
   chatMessage$: Observable<ChatMessageModel[]>;
 
@@ -42,5 +42,9 @@ export class ChatWindowComponent implements OnInit {
           }
         }
       );
+  }
+
+  ngDoCheck(): void {
+    console.log('docheck fut');
   }
 }
