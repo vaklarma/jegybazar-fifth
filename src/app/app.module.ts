@@ -20,6 +20,9 @@ import {environment} from '../environments/environment';
 import {EventcardModule} from './event/eventcard/eventcard.module';
 import {CoreModule} from './core/core.module';
 import {ChatModule} from './chat/chat.module';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +45,9 @@ import {ChatModule} from './chat/chat.module';
     MomentModule,
     EventcardModule,
     CoreModule,
-    ChatModule.forRoot()
+    ChatModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule
   ],
   providers: [
     EventService,
