@@ -9,7 +9,8 @@ import {map, tap} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ChatService {
-  private static PATH = '/bids';
+  private static PATH = '/chat';
+  private mod: ChatMessageModel;
 
   constructor(protected userService: UserService,
               @Optional() protected afDb?: AngularFireDatabase) {
@@ -21,7 +22,7 @@ export class ChatService {
 
   getRoomMessages(roomId: string): Observable<ChatMessageModel[]> {
     return this.afDb.list(`${ChatService.PATH}`)
-      .valueChanges()
+      .snapshotChanges()
       .pipe(
         tap(
           todo => console.log(todo)
@@ -31,8 +32,11 @@ export class ChatService {
         map(
           list =>
             list.map(
-              chatMessage =>
-                new ChatMessageModel(Object.assign(chatMessage, {$id: 'sdsdc'}))
+              chatMessage => {
+                this.mod = new ChatMessageModel(Object.assign(chatMessage, {$id: chatMessage.key}));
+                console.log(this.mod);
+                return this.mod;
+              }
             )));
   }
 }
