@@ -2,14 +2,14 @@
   <div class="card-header">
     Chat window
   </div>
-  <div class="card-body">
+  <div class="card-body" #cardBody>
 
 
     <ng-container *ngIf="chatMessage$ | async as chatMessages; else loadingChat">
       <ng-container *ngIf="chatMessages.length > 0;else notFoundMessage">
 
         <ul class="chat-messages-list">
-          <app-chat-message-row *ngFor="let msg of chatMessages" [msg]="msg"></app-chat-message-row>
+          <app-chat-message-row *ngFor="let msg of chatMessages;trackBy:trackByMessages" [msg]="msg"></app-chat-message-row>
         </ul>
 
       </ng-container>

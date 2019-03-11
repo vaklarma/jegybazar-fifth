@@ -32,7 +32,7 @@ export class UserService {
             this.userId = remoteUser.id;
           });
           this.isLoggedIn$.next(true);
-          this._router.navigate(['/home']);
+          this._router.navigate(['/ticket']);
         } else {
           this.isLoggedIn$.next(false);
           this._user.next(null);
@@ -114,7 +114,7 @@ export class UserService {
     // //   this.isLoggedin = false;
     // delete(this._fbAuthData);
 
-    this._router.navigate(['/home']);
+    this._router.navigate(['/ticket']);
   }
 
   getAllUsers() {

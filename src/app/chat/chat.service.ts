@@ -71,7 +71,7 @@ export class ChatService {
                 userId: c.payload.key, ...c.payload.val(),
                 userName: c.payload.key, ...c.payload.val(),
                 userPictureUrl: c.payload.key, ...c.payload.val(),
-               // created: c.payload.key, ...c.payload.val(),
+                created: +c.payload.key, ...c.payload.val(),
 
 
 

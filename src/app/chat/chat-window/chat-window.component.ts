@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DoCheck, Input, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectionStrategy, Component, DoCheck, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ChatMessageModel} from '../model/chat.model';
 import {Observable} from 'rxjs';
 import {ChatService} from '../chat.service';
@@ -8,13 +8,16 @@ import {ChatService} from '../chat.service';
   selector: 'app-chat-window',
   templateUrl: './chat-window.component.html',
   styleUrls: ['./chat-window.component.css'],
- // changeDetection: ChangeDetectionStrategy.OnPush,
+   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ChatService]
 })
-export class ChatWindowComponent implements OnInit, DoCheck {
-  @Input() roomId ; //= environment.production ? null : MockedChatDatas.mockedRoomId;
+export class ChatWindowComponent implements OnInit, DoCheck, AfterViewChecked {
+  @Input() roomId; //= environment.production ? null : MockedChatDatas.mockedRoomId;
   resetForm = false;
   chatMessage$: Observable<ChatMessageModel[]>;
+  @ViewChild('cardBody') cardBody: ElementRef;
+  private shouldScrolling = true;
+
 
   constructor(
     private chatService: ChatService
@@ -26,8 +29,20 @@ export class ChatWindowComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.chatMessage$ = this.chatService.getRoomMessages(this.roomId);
+
   }
 
+  ngAfterViewChecked(): void {
+    setTimeout(
+      () => {
+        if (this.shouldScrolling) {
+          console.log('scrollings', this.shouldScrolling);
+          this.cardBody.nativeElement.scrollTo(0, this.cardBody.nativeElement.scrollHeight);
+          this.shouldScrolling = false;
+        }
+      }, 500);
+
+  }
 
   onNewMessage(newMessage: string) {
 
@@ -35,6 +50,7 @@ export class ChatWindowComponent implements OnInit, DoCheck {
       .subscribe(
         resp => {
           if (resp) {
+            this.shouldScrolling = true;
             this.resetForm = true;
           } else {
             alert('Hiba a szerveren  chat küldése közben');
@@ -46,5 +62,10 @@ export class ChatWindowComponent implements OnInit, DoCheck {
 
   ngDoCheck(): void {
     console.log('docheck fut');
+  }
+
+
+  trackByMessages(index: number, model: ChatMessageModel) {
+    return model.$id;
   }
 }
