@@ -48,13 +48,14 @@ export class UserService {
   }
 
   register(param: UserModel, password: string) {
-
     return from(
       this.afAuth.auth.createUserWithEmailAndPassword(param.email, password)
     )
       .pipe(
         tap(
-          user => this.save({...param, id: user.user.uid})
+          user => {
+            this.save({...param, id: user.user.uid});
+          }
         )
       );
   }

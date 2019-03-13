@@ -39,7 +39,8 @@ registerMode = false;
   }
 
   createUser(pass: string) {
-    this._userService.register(this.user, pass);
+    this._userService.register(this.user, pass).subscribe(
+    );
   }
 
 }
