@@ -16,8 +16,7 @@
         <app-navbar-item url="/event" name="Események"></app-navbar-item>
         <app-navbar-item url="/ticket" name="Jegyek"></app-navbar-item>
         <app-navbar-item url="/about" name="Rólunk"></app-navbar-item>
-        <!--<ng-container *ngIf="userService.isLoggedIn$ | async; else notLoggedInBlock">-->
-        <ng-container *ngIf="isLoggedIn; else notLoggedInBlock">
+        <ng-container *ngIf="userService.isLoggedIn$ | async; else notLoggedInBlock">
 
           <a class="nav-item nav-link tn btn-primary text-light ml-lg-2 btn-sm" routerLinkActive="active"
              routerLink="/user">Profile</a>
@@ -25,7 +24,8 @@
               <app-loading-spinner [loaderWidth]="20" [loaderHeight]="20"></app-loading-spinner>
             </ng-container>
             <ng-template #showUserName>
-              <a class="nav-item nav-link" routerLinkActive="active" (click)="logout()" routerLink="#">         Kilépés ( {{userName}})
+              <a class="nav-item nav-link" routerLinkActive="active" (click)="logout()" routerLink="#">
+                Kilépés ( {{userName}})
               </a>
             </ng-template>
         </ng-container>

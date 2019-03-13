@@ -22,6 +22,7 @@ import {CoreModule} from './core/core.module';
 import {ChatModule} from './chat/chat.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
   //  ChatModule.forRoot(),
     ChatModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   providers: [
     EventService,

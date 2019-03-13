@@ -73,32 +73,10 @@ export class ChatService {
                 userPictureUrl: c.payload.key, ...c.payload.val(),
                 created: +c.payload.key, ...c.payload.val(),
 
-
-
               }))
-              // {
-              //   $id: c.payload.key, ...c.payload.val()
-              // }
             )
           )
         )
-      ).pipe(tap(
-        snap => console.log(snap)
-      ));
-
-
+      );
   }
-
-  //   return this.afDb.list(`${ChatService.PATH}/${roomId}`)
-  //     .valueChanges()
-  //     .pipe(
-  //       map(
-  //         list =>
-  //           list.map(
-  //             chatMessage => {
-  //               return chatMessage;
-  //             }
-  //             //  chatMessage => new ChatMessageModel(Object.assign(chatMessage, chatMessage))
-  //           )));
-  // }
 }

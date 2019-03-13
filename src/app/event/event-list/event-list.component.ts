@@ -59,7 +59,6 @@ export class EventListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.searchInput);
     fromEvent(this.searchInput.nativeElement, 'keyup')
       .pipe(delay(600))
       .pipe(
@@ -72,7 +71,6 @@ export class EventListComponent implements OnInit, AfterViewInit {
       .pipe(distinctUntilChanged())
       .subscribe(
         text => {
-          console.log(text);
           if (text.length === 0) {
             text = null;
           }

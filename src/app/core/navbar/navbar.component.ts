@@ -8,20 +8,12 @@ import {UserService} from '../../shared/user.service';
 })
 export class NavbarComponent implements AfterViewChecked, AfterViewInit, OnChanges {
   isCollapsed = true;
-  isLoggedIn = false;
-  userName;
+  userName: string;
 
 
   constructor(public userService: UserService,
               private cdr: ChangeDetectorRef
   ) {
-
-    this.userService.isLoggedIn$.subscribe(
-      isLoggedIn => {
-        this.isLoggedIn = isLoggedIn;
-        this.cdr.detectChanges();
-      }
-    );
 
   }
 
@@ -31,13 +23,11 @@ export class NavbarComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
-    if (this.userService.userId
-      && this.isLoggedIn) {
-      this.userService.getUserNameToNavbar().subscribe(
-        data => this.userName = data
-      );
-    }
 
+// it simulates when the server is slow
+    setTimeout(() => {
+      this.userName = this.userService.currentUserName;
+    }, 2000);
   }
 
   ngAfterViewInit(): void {

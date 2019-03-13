@@ -1,153 +1,103 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
-import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs/Observable';
-import {environment} from '../../environments/environment';
-import {FirebaseRegistrationModel} from './firebase-registration-model';
 import {UserModel} from './user-model';
+
+import {Observable} from 'rxjs/Observable';
+import {first, flatMap, tap} from 'rxjs/operators';
 import {from, ReplaySubject} from 'rxjs';
-import * as firebase from 'firebase';
-import 'rxjs/add/observable/fromPromise';
+
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Injectable()
 export class UserService {
   isLoggedIn$ = new ReplaySubject<boolean>(1);
-  currentUser;
-  public userId: string;
-  private _user = new ReplaySubject<UserModel>(1);
-  private _fbAuthData: any;
+  currentUserName: string;
+
+  public _user = new ReplaySubject<UserModel>(1);
 
   constructor(private _router: Router,
-              private _http: HttpClient) {
-    firebase.auth().onAuthStateChanged(
+              private afAuth: AngularFireAuth,
+              private afDb: AngularFireDatabase,
+  ) {
+    this.afAuth.authState.subscribe(
       user => {
         if (user != null) {
-          this._fbAuthData = user;
-          this.getUserById(user.uid).subscribe(remoteUser => {
-            this._user.next(remoteUser);
-            this.currentUser = remoteUser.name;
-            this.userId = remoteUser.id;
-          });
-          this.isLoggedIn$.next(true);
-          this._router.navigate(['/ticket']);
+          this.getUserById(user.uid)
+            .subscribe(
+              (remoteUser: UserModel) => {
+                this.isLoggedIn$.next(true);
+                this._user.next(remoteUser);
+                this.currentUserName = remoteUser.name;
+              });
+
+          this._router.navigate(['/home']);
         } else {
           this.isLoggedIn$.next(false);
           this._user.next(null);
-          this._fbAuthData = null;
+
         }
       }
     );
   }
 
-  get fbIdToken(): string | null {
-    return this._fbAuthData ? this._fbAuthData.idToken : null;
-  }
-
-  getUserNameToNavbar(): Observable<string> {
-
-
-    const userId = firebase.auth().currentUser.uid;
-    return from(firebase.database().ref('/users/' + userId).once('value').then(function (snapshot) {
-      return snapshot.val().name;
-
-    }));
-
-  }
-
   login(email: string, password: string): Observable<any> {
-
-    return from(firebase.auth().signInWithEmailAndPassword(email, password));
-
+    return from(
+      this.afAuth.auth.signInWithEmailAndPassword(email, password)
+    );
   }
 
   register(param: UserModel, password: string) {
-    return this._http.post<FirebaseRegistrationModel>(
-      `${environment.firebase.registrationUrl}?key=${environment.firebase.apiKey}`,
-      {
-        'email': param.email,
-        'password': password,
-        'returnSecureToken': true
-      }
+
+    return from(
+      this.afAuth.auth.createUserWithEmailAndPassword(param.email, password)
     )
-      .do((fbAuthResponse: FirebaseRegistrationModel) => this._fbAuthData = fbAuthResponse)
-      .pipe(map(fbreg => {
-        return {
-          id: fbreg.localId,
-          ...param
-        };
-      }))
-      .switchMap(user => this.save(user))
-      //  .do(user => this.isLoggedin = true)
-      .do(user => console.log('sikeres reg ezzel a userrel: ', user));
+      .pipe(
+        tap(
+          user => this.save({...param, id: user.user.uid})
+        )
+      );
   }
 
   save(param: UserModel) {
-    // na ez itt azert kulonleges, mert a tobbi helyettol elteroen en nem akarom, hogy
-    // generaljon nekem kulcsot a firebase, hanem a registraciokor kapott id-t szeretnem
-    // kulcs kent hasznalni adatmentesnel kulcskent az adatbazisban
-    // illetve put-ra fb a bekuldott adatszerkezetet adja vissz igy tudom tovabb hasznalni
-    return this._http.put<UserModel>(`${environment.firebase.baseUrl}/users/${param.id}.json`, param);
+    return this.afDb.object(`users/${param.id}`)
+      .set(param)
+      .then(
+        user => user
+      );
+
+
   }
 
-  // itt ezt azert tettem be igy direktbe (mármint minurtus), es nem asyncronban bekotve, mert amikor ez a valtozo valtozik
-  // azt elintezik a kezelok (login, register, logout) es igy biztosra vehetem, hogy rendben van
-  // TODO: ez iskolapeldaja lehet egyebkent egy jo kis behaviuorSubject-nek es getValue-nak
-
   getUserById(fbid: string) {
-    return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/${fbid}.json`);
+
+    return this.afDb.object(`users/${fbid}`).valueChanges();
   }
 
   getCurrentUser() {
-    //  return Observable.of(this._user);
-    //   return of(this._user);
     return this._user.asObservable();
   }
 
   logout() {
-
-    firebase.auth().signOut();
+    this.afAuth.auth.signOut();
     this.isLoggedIn$.next(false);
-    // this._user = new UserModel();
-    // //   this.isLoggedin = false;
-    // delete(this._fbAuthData);
-
-    this._router.navigate(['/ticket']);
+    this.currentUserName = null;
+    this._router.navigate(['/user/login']);
   }
 
-  getAllUsers() {
-    return this._http.get(`${environment.firebase.baseUrl}/users.json`)
-      .pipe(map(usersObject => Object.values(usersObject).map(user => new UserModel(user))));
+
+  addTicket(ticketId: string): Observable<any> {
+    return this._user
+      .pipe(
+        first()
+      )
+      .pipe(flatMap(
+        user => {
+          return this.afDb.list(`users/${user.id}/tickets`)
+            .push(ticketId);
+        }
+      ));
   }
-
-  addTicket(ticketId: string): Observable<string> {
-    return this._user.flatMap(
-      user => {
-        return this._http.patch(
-          `${environment.firebase.baseUrl}/users/${user.id}/tickets.json`,
-          {[ticketId]: true}
-        )
-          .pipe(map(rel => Object.keys(rel)[0]));
-      }
-    );
-  }
-
-  getfbAllUser(): Observable<UserModel[]> {
-    return this._http.get<UserModel>(`${environment.firebase.baseUrl}/users/.json`)
-      .pipe(map(data => Object.values(data).map(um => new UserModel(um))));
-    //   return this._http.get<UserModel[][]>(`${environment.firebase.baseUrl}/users/.json`);
-
-
-  }
-
-  deleteOneUser(id) {
-
-    return this._http.delete(`${environment.firebase.baseUrl}/users/${id}.json`);
-  }
-
-  // TODO: refreshtoken-t lekezelni
-  // TODO: auth query parameterre megirni az itnerceptort
-  // TODO: rememberme-t lekezelni localstorage-el
 }
+
+

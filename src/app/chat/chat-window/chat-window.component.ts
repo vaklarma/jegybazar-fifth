@@ -11,8 +11,8 @@ import {ChatService} from '../chat.service';
    changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ChatService]
 })
-export class ChatWindowComponent implements OnInit, DoCheck, AfterViewChecked {
-  @Input() roomId; //= environment.production ? null : MockedChatDatas.mockedRoomId;
+export class ChatWindowComponent implements OnInit, AfterViewChecked {
+  @Input() roomId;
   resetForm = false;
   chatMessage$: Observable<ChatMessageModel[]>;
   @ViewChild('cardBody') cardBody: ElementRef;
@@ -36,7 +36,6 @@ export class ChatWindowComponent implements OnInit, DoCheck, AfterViewChecked {
     setTimeout(
       () => {
         if (this.shouldScrolling) {
-          console.log('scrollings', this.shouldScrolling);
           this.cardBody.nativeElement.scrollTo(0, this.cardBody.nativeElement.scrollHeight);
           this.shouldScrolling = false;
         }
@@ -59,11 +58,6 @@ export class ChatWindowComponent implements OnInit, DoCheck, AfterViewChecked {
         }
       );
   }
-
-  ngDoCheck(): void {
-    console.log('docheck fut');
-  }
-
 
   trackByMessages(index: number, model: ChatMessageModel) {
     return model.$id;
