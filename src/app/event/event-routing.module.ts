@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {EventComponent} from './event.component';
 import {EventListComponent} from './event-list/event-list.component';

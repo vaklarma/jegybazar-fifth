@@ -20,7 +20,7 @@ export class LoggedInGuard implements CanActivate {
     return this._userService.isLoggedIn$.map(
       isLoggedIn => {
         if (isLoggedIn === false) {
-          this._router.navigate(['/home']);
+       //   this._router.navigate(['/home']);
           return false;
 
         }

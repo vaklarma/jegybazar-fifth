@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
-import { UserModel } from '../../shared/user-model';
-import { UserService } from '../../shared/user.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Subject} from 'rxjs/Subject';
+import {UserModel} from '../../shared/user-model';
+import {UserService} from '../../shared/user.service';
 
 @Component({
   selector: 'app-profile-edit',
@@ -11,10 +11,11 @@ import { UserService } from '../../shared/user.service';
 })
 export class ProfileEditComponent implements OnInit, OnDestroy {
   user: UserModel;
-registerMode = false;
+  registerMode = false;
   private _destroy$ = new Subject();
 
-  constructor(private _userService: UserService) {
+  constructor(private _userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -40,7 +41,13 @@ registerMode = false;
 
   createUser(pass: string) {
     this._userService.register(this.user, pass).subscribe(
+data => this.goToProfile(),
+      error => console.warn('It has something error !')
     );
+  }
+
+  private goToProfile() {
+    this.router.navigate(['user/']);
   }
 
 }

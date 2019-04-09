@@ -30,8 +30,7 @@ export class UserService {
                 this._user.next(remoteUser);
                 this.currentUserName = remoteUser.name;
               });
-
-          this._router.navigate(['/home']);
+          this._router.navigate(['/user']);
         } else {
           this.isLoggedIn$.next(false);
           this._user.next(null);

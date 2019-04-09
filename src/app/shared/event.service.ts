@@ -6,11 +6,15 @@ import {EventModel} from './event-model';
 import {map} from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Injectable()
 export class EventService {
 
-  constructor(private _http: HttpClient) {
+  constructor(
+    private _http: HttpClient,
+    private afDb: AngularFireDatabase
+  ) {
   }
 
   getAllEvents(): Observable<EventModel[]> {
