@@ -50,6 +50,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
           ));
           //this.event = evm;
           console.log('event', this.event);
+
         });
     }
   }

@@ -147,6 +147,7 @@ export class TicketService {
       .put(`${environment.firebase.baseUrl}/tickets/${ticket.id}.json`, ticket);
   }
 
+
   private _saveGeneratedId(ticketId: string): Observable<string> {
     return this._http.patch<{ id: string }>(
       `${environment.firebase.baseUrl}/tickets/${ticketId}.json`,
@@ -154,7 +155,6 @@ export class TicketService {
     )
       .pipe(map(x => x.id));
   }
-
 
 }
 
