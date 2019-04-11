@@ -23,11 +23,12 @@ export class EventDetailComponent implements OnInit, OnDestroy {
               private _eventService: EventService,
               private _location: Location,
               public userService: UserService) {
+
   }
 
   ngOnInit() {
     const evId = this._route.snapshot.params['id'];
-
+    console.log(evId);
     // ez egy megoldas arra, hogy egyben kezeljuk az edit es create funkcionalitast
     // illetve edit esetben is van mivel dolgozni amig megerkezik az adat igy user mindig lat valamit
     this.event = new EventModel();
@@ -40,7 +41,16 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     if (evId) {
       this._eventService.getEventById(evId)
         .takeUntil(this._destroy$)
-        .subscribe(evm => this.event = evm);
+        .subscribe(evm => {
+          this.event = new EventModel(Object.assign(this.event,
+            {
+              id: evId,
+              ...evm
+            }
+          ));
+          //this.event = evm;
+          console.log('event', this.event);
+        });
     }
   }
 
@@ -59,15 +69,29 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    this._eventService.save(this.event)
-      .takeUntil(this._destroy$)
-      .subscribe(
-        () => this.navigateBack(),
-        (err) => {
-          console.warn(`Problémánk van a form mentésnél: ${err}`);
-        }
-      );
+    console.log('submit');
+    console.log('event', this.event);
+    if (this.event.id) {
+      this._eventService.save(this.event)
+        .takeUntil(this._destroy$)
+        .subscribe(
+          (resp) => {
+            console.log('Response: ', resp);
+            this.navigateBack();
+          },
+          (err) => {
+            console.warn(`Problémánk van a form mentésnél: ${err}`);
+          }
+        );
+    } else {
+      this._eventService.createEvent(this.event)
+        .subscribe(
+          () =>  this.navigateBack()
+        );
+    }
+
   }
+
   delete() {
     this._eventService.delete(this.event)
       .takeUntil(this._destroy$)
