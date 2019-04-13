@@ -71,29 +71,6 @@ export class TicketService {
       .switchMap(zipStreamArray => forkJoin(zipStreamArray));
   }
 
-
-  // getAllTickets() {
-  //   return this._http.get<TicketModel[]>(`${environment.firebase.baseUrl}/tickets.json`)
-  //     .pipe(map(ticketsObject => Object.values(ticketsObject)))
-  //     .pipe(map(ticketsArray => ticketsArray.map(tm =>
-  //       zip(
-  //         //      //  Observable.of,
-  //         of(tm),
-  //         this._eventService.getEventById(tm.eventId),
-  //         this._userService.getUserById(tm.sellerUserId),
-  //         (t: TicketModel, e: EventModel, u: UserModel) => {
-  //           // return t.setEvent(e).setSeller(u);
-  //           return {
-  //             ...t,
-  //             event: e,
-  //             seller: u
-  //           };
-  //         })
-  //     )))
-  //     .switchMap(zipStreamArray => forkJoin(zipStreamArray));
-  //
-  // }
-
   getOneOnce(id: string) {
     return this.getOne(id).pipe(first());
   }

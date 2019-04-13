@@ -16,11 +16,8 @@ import {delay, distinctUntilChanged, flatMap, map} from 'rxjs/operators';
 export class EventListComponent implements OnInit, AfterViewInit {
   @ViewChild('searchInput') searchInput: ElementRef;
   filteredText$ = new BehaviorSubject<string>(null);
-
-
-// ez jo pelda lehet smart es dumb componentre
-
-  public eventsGrouppedBy3$: Observable<EventModel[][]>;
+  
+  public events$: Observable<EventModel[]>;
 
   constructor(private _eventService: EventService,
               public userService: UserService) {
@@ -28,7 +25,7 @@ export class EventListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.eventsGrouppedBy3$ = this._eventService.getAllEvents()
+    this.events$ = this._eventService.getAllEvents()
       .pipe(flatMap(
         events => {
           return this.filteredText$
@@ -46,16 +43,7 @@ export class EventListComponent implements OnInit, AfterViewInit {
             }
           ));
         }
-      ))
-      .pipe(map(data => {
-        return data.reduce((acc: Array<any>, curr: EventModel, ind: number) => {
-          if (ind % 3 === 0) {
-            acc.push([]);
-          }
-          acc[acc.length - 1].push(curr);
-          return acc;
-        }, []);
-      }));
+      ));
   }
 
   ngAfterViewInit(): void {
