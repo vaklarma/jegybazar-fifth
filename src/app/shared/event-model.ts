@@ -11,7 +11,7 @@ export class EventModel {
     }
 
     // const $idPropertyDescriptor = Object.getOwnPropertyDescriptor(this, '$id');
-    // $idPropertyDescriptor.enumerable = true;
+    // $idPropertyDescriptor.enumerable = false;
     // Object.defineProperty(this, '$id', $idPropertyDescriptor);
   }
 }

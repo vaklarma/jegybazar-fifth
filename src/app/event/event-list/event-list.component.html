@@ -27,12 +27,14 @@
     <app-eventcard
                    *ngFor="let event of events$ | async"
                    [esemeny]="event"
+
+
     ></app-eventcard>
 
   </div>
   </ng-container>
   <ng-template #loading>
-    <!--<app-loading-spinner></app-loading-spinner>-->
+    <app-loading-spinner></app-loading-spinner>
 
   </ng-template>
 

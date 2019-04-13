@@ -7,7 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
-import {combineLatest, forkJoin, Observable, of, zip} from 'rxjs';
+import {combineLatest, forkJoin, from, Observable, of, zip} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 
 import {environment} from '../../environments/environment';
@@ -17,6 +17,7 @@ import {TicketModel} from './ticket-model';
 import {UserModel} from './user-model';
 import {UserService} from './user.service';
 import * as firebase from 'firebase';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 
 @Injectable()
@@ -24,6 +25,7 @@ export class TicketService {
 
   constructor(private _eventService: EventService,
               private _userService: UserService,
+              private afDb: AngularFireDatabase,
               private _http: HttpClient) {
   }
 
@@ -124,6 +126,18 @@ export class TicketService {
       .put(`${environment.firebase.baseUrl}/tickets/${ticket.id}.json`, ticket);
   }
 
+  deleteTicket(joinedTickets) {
+
+
+
+// ??? What happen when it has error during delete ??
+    for (let i = 0; i < joinedTickets.length; i++) {
+      from(
+        this.afDb.list(`tickets/${joinedTickets[i]}`).remove()
+      );
+    }
+    return of(true);
+  }
 
   private _saveGeneratedId(ticketId: string): Observable<string> {
     return this._http.patch<{ id: string }>(

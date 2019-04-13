@@ -1,5 +1,6 @@
 <div class="container">
   event id: {{event.id}}
+  event tickets: {{ticketsKey}}
   <!--Form with header-->
   <div class="card mb-4 col-11 col-sm-8 mx-auto p-0">
 
@@ -29,7 +30,7 @@
 
         <div class="form-group">
           <label for="idopont">Esemény időpontja</label>
-          <input type="text" id="idopont"
+          <input type="datetime-local" id="idopont"
                  class="form-control mb-3"
                  placeholder="Esemény időpontja"
                  required
@@ -100,6 +101,10 @@
           >Vissza
           </button>
         </div>
+        <alert *ngIf="succsessDelete;else unsuccessDelete" type="success"  dismissOnTimeout="2000">Az eseményt a jegyekkel együtt töröltük !</alert>
+        <ng-template *ngIf="wasDelete" #unsuccessDelete>
+          <alert  type="warning"  dismissOnTimeout="2000">Nem sikerült a törlés !</alert>
+        </ng-template>
       </form>
     </div>
   </div>

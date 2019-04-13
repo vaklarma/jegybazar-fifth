@@ -9,18 +9,24 @@ import {EventModel} from '../../shared/event-model';
 export class EventcardComponent implements AfterViewInit, OnChanges {
   @Input() esemeny: EventModel;
   @Input() nextLabel = 'Tovább';
+  eventTicketsNumber;
 
   constructor(private cdr: ChangeDetectorRef) {
   }
 
 
   ngAfterViewInit(): void {
+
     this.cdr.detach();
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
+    if (this.esemeny.tickets) {
+      this.eventTicketsNumber = (Object.keys(this.esemeny.tickets)).length;
+    } else {
+      this.eventTicketsNumber = 0;
+    }
     if (changes['nextLabel'] != null
       && changes['nextLabel'].isFirstChange()) {
       this.cdr.detectChanges();

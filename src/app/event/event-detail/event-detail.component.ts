@@ -6,6 +6,9 @@ import {Subject} from 'rxjs/Subject';
 import {EventModel} from '../../shared/event-model';
 import {EventService} from '../../shared/event.service';
 import {UserService} from '../../shared/user.service';
+import {TicketService} from '../../shared/ticket.service';
+import {switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-event-detail',
@@ -15,12 +18,14 @@ import {UserService} from '../../shared/user.service';
 export class EventDetailComponent implements OnInit, OnDestroy {
   event: EventModel;
   viewForm = true;
-
+  succsessDelete = false;
+  wasDelete = false;
   // ezt a subject-et fojuk hasznalni az ossszes subscription zárására
   private _destroy$ = new Subject<void>();
 
   constructor(private _route: ActivatedRoute,
               private _eventService: EventService,
+              private ticketService: TicketService,
               private _location: Location,
               public userService: UserService) {
 
@@ -28,7 +33,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const evId = this._route.snapshot.params['id'];
-    console.log(evId);
     // ez egy megoldas arra, hogy egyben kezeljuk az edit es create funkcionalitast
     // illetve edit esetben is van mivel dolgozni amig megerkezik az adat igy user mindig lat valamit
     this.event = new EventModel();
@@ -48,11 +52,9 @@ export class EventDetailComponent implements OnInit, OnDestroy {
               ...evm
             }
           ));
-          //this.event = evm;
-          console.log('event', this.event);
-
         });
     }
+
   }
 
   // ez a fgv a komponens pusztulasakor fog lefutni
@@ -70,14 +72,11 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    console.log('submit');
-    console.log('event', this.event);
     if (this.event.id) {
       this._eventService.save(this.event)
         .takeUntil(this._destroy$)
         .subscribe(
           (resp) => {
-            console.log('Response: ', resp);
             this.navigateBack();
           },
           (err) => {
@@ -87,24 +86,60 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     } else {
       this._eventService.createEvent(this.event)
         .subscribe(
-          () =>  this.navigateBack()
+          () => this.navigateBack()
         );
     }
 
   }
 
   delete() {
-    this._eventService.delete(this.event)
-      .takeUntil(this._destroy$)
-      .subscribe(
-        () => this.navigateBack(),
-        (err) => {
-          console.warn(`Problémánk van a form mentésnél: ${err}`);
-        }
-      );
+    this.wasDelete = true;
+    if (this.event.tickets) { // ha vannak az eseményhez jegyek
+      this.ticketService.deleteTicket(Object.keys(this.event.tickets))
+        .pipe(
+          switchMap(
+            (resp) => {
+              if (resp) {
+                this.succsessDelete = true;
+                return this._eventService.delete(this.event);
+              } else {
+                this.succsessDelete = false;
+                return of(false);
+              }
+            }
+          )
+        )
+        .takeUntil(this._destroy$)
+        .subscribe(
+          () => {
+            this.timedNavigateBack(2000);
+          },
+          () => {
+            this.succsessDelete = false;
+          }
+        );
+    } else {
+      this._eventService.delete(this.event)
+        .takeUntil(this._destroy$)
+        .subscribe(
+          () => {
+            this.succsessDelete = true;
+         this.timedNavigateBack(2000);
+          },
+          () => {
+            this.succsessDelete = false;
+          }
+        );
+    }
+
   }
 
   navigateBack() {
     this._location.back();
+  }
+  timedNavigateBack(t: number) {
+    setTimeout(() => {
+      this.navigateBack();
+    }, t);
   }
 }

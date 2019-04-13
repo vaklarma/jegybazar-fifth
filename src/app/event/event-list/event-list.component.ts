@@ -16,7 +16,6 @@ import {delay, distinctUntilChanged, flatMap, map} from 'rxjs/operators';
 export class EventListComponent implements OnInit, AfterViewInit {
   @ViewChild('searchInput') searchInput: ElementRef;
   filteredText$ = new BehaviorSubject<string>(null);
-  
   public events$: Observable<EventModel[]>;
 
   constructor(private _eventService: EventService,

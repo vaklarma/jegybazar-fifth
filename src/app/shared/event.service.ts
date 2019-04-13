@@ -45,7 +45,6 @@ export class EventService {
       .pipe(
         switchMap(
           resp => {
-            console.log('switchMap');
             return from(this.afDb.object(`events/${resp.key}`)
               .update(
                 {
@@ -60,23 +59,22 @@ export class EventService {
 
 
   save(param: EventModel) {
-    if (param.id) { // udpate ag
-      return from(this.afDb.object(`events/${param.id}`)
+
+
+    const evId = param.id;
+    if (evId) {
+      return from(this.afDb.object(`events/${evId}`)
         .update(
           {
             ...param
           }
         ));
     }
+    console.log('update event');
   }
 
   delete(param: EventModel) {
 
-    const joinedTickets = Object.keys(param.tickets);
-
-    for (let i = 0; i < joinedTickets.length; i++) {
-      this.afDb.list(`tickets/${joinedTickets[i]}`).remove();
-    }
     return from(this.afDb.list(`events/${param.id}`).remove());
   }
 
