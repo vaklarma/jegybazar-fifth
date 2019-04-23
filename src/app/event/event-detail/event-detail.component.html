@@ -1,6 +1,4 @@
 <div class="container">
-  event id: {{event.id}}
-  event tickets: {{ticketsKey}}
   <!--Form with header-->
   <div class="card mb-4 col-11 col-sm-8 mx-auto p-0">
 
@@ -12,7 +10,9 @@
     </div>
 
     <div class="card-body">
+      <img  *ngIf="event.pictureURL" class="card-img-top img-fluid" [src]="event.pictureURL"  alt="Card image cap">
       <form #eventForm="ngForm" (ngSubmit)="onSubmit()">
+
         <div class="form-group">
           <label for="esemeny">Esemény címe:</label>
           <input type="text" id="esemeny"

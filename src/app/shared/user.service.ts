@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {UserModel} from './user-model';
 
 import {Observable} from 'rxjs/Observable';
-import {first, flatMap, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {from, ReplaySubject} from 'rxjs';
 
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -15,6 +15,7 @@ export class UserService {
   currentUserName: string;
 
   public _user = new ReplaySubject<UserModel>(1);
+  private currentUserId: string;
 
   constructor(private _router: Router,
               private afAuth: AngularFireAuth,
@@ -29,6 +30,7 @@ export class UserService {
                 this.isLoggedIn$.next(true);
                 this._user.next(remoteUser);
                 this.currentUserName = remoteUser.name;
+                this.currentUserId = remoteUser.id;
               });
           this._router.navigate(['/event']);
         } else {
@@ -87,16 +89,10 @@ export class UserService {
 
 
   addTicket(ticketId: string): Observable<any> {
-    return this._user
-      .pipe(
-        first()
-      )
-      .pipe(flatMap(
-        user => {
-          return this.afDb.list(`users/${user.id}/tickets`)
-            .push(ticketId);
-        }
-      ));
+    return from(
+      this.afDb.object(`users/${this.currentUserId}/tickets/${ticketId}`)
+        .set(true)
+    );
   }
 }
 

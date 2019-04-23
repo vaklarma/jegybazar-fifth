@@ -46,6 +46,7 @@ export class EventListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
     fromEvent(this.searchInput.nativeElement, 'keyup')
       .pipe(delay(600))
       .pipe(

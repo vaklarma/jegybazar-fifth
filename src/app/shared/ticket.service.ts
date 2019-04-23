@@ -8,15 +8,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
 import {combineLatest, forkJoin, from, Observable, of, zip} from 'rxjs';
-import {first, map} from 'rxjs/operators';
-
-import {environment} from '../../environments/environment';
+import {first, flatMap, map, tap} from 'rxjs/operators';
 import {EventModel} from './event-model';
 import {EventService} from './event.service';
 import {TicketModel} from './ticket-model';
 import {UserModel} from './user-model';
 import {UserService} from './user.service';
-import * as firebase from 'firebase';
 import {AngularFireDatabase} from '@angular/fire/database';
 
 
@@ -54,22 +51,25 @@ export class TicketService {
 
   getAllTickets(): Observable<any> {
 
-    return this._http.get(`${environment.firebase.baseUrl}/tickets.json`)
-      .pipe(map(ticketsObject => Object.values(ticketsObject)))
-      .pipe(map(ticketsArray => ticketsArray.map(tm =>
-        zip(
-          of(tm),
-          this._eventService.getEventById(tm.eventId),
-          this._userService.getUserById(tm.sellerUserId),
-          (t: TicketModel, e: EventModel, u: UserModel) => {
-            //   return t.setEvent(e).setSeller(u);
-            return {
-              ...t,
-              event: e,
-              seller: u
-            };
-          })
-      )))
+    return this.afDb.list<TicketModel>(`tickets/`)
+      .valueChanges()
+      .pipe(
+        map(
+          ticketsArray => ticketsArray.map(
+            ticket =>
+              zip(
+                of(ticket),
+                this._eventService.getEventById(ticket.eventId),
+                this._userService.getUserById(ticket.sellerUserId),
+                (t: TicketModel, e: EventModel, u: UserModel) => {
+                  //   return t.setEvent(e).setSeller(u);
+                  return {
+                    ...t,
+                    event: e,
+                    seller: u
+                  };
+                })
+          )))
       .switchMap(zipStreamArray => forkJoin(zipStreamArray));
   }
 
@@ -78,59 +78,52 @@ export class TicketService {
   }
 
   getOne(id: string): Observable<TicketModel> {
-    return new Observable(
-      observer => {
-        const dbTicket = firebase.database().ref(`tickets/${id}`);
-        dbTicket.on('value',
-          snapshot => {
-            const ticket = snapshot.val();
-            const subscription = combineLatest(
-              of(new TicketModel(ticket)),
-              this._eventService.getEventById(ticket.eventId),
-              this._userService.getUserById(ticket.sellerUserId),
+
+    return this.afDb.object<TicketModel>(`tickets/${id}`)
+      .valueChanges()
+      .pipe(
+        flatMap(
+          ticketFirebaseRemoteModel => {
+            return combineLatest(
+              of(new TicketModel(ticketFirebaseRemoteModel)),
+              this._eventService.getEventById(ticketFirebaseRemoteModel.eventId),
+              this._userService.getUserById(ticketFirebaseRemoteModel.sellerUserId),
               (t: TicketModel, e: EventModel, u: UserModel) => {
                 return t.setEvent(e).setSeller(u);
-              })
-              .subscribe(
-                ticketModel => {
-                  observer.next(ticketModel);
-                  subscription.unsubscribe();
-                }
-              )
-            ;
+              });
           }
-        );
-      }
-    );
+        ));
   }
 
-  create(param: TicketModel) {
-    return this._http
-      .post<{ name: string }>(`${environment.firebase.baseUrl}/tickets.json`, param)
-      // konnyitsuk meg magunknak kicsit az eletunket es kuldjuk tovabb csak azt ami kell nekunk
-      .pipe(map(fbPostReturn => fbPostReturn.name))
-      // ez itt amiatt kell, hogy meglegyen a fbid objektumon belul is,
-      // mert kesobb epitunk erre az infora
-      // viszont ezt csak a post valaszaban kapjuk vissza
-      // es legalabb hasznaljuk a patch-et is :)
-      .switchMap(ticketId => this._saveGeneratedId(ticketId))
-      // keszitsuk kicsit elo a jovilagot es vezessuk esemenyeknel is a hozzajuk tartozo ticketeket
-      .switchMap(ticketId => this._eventService.addTicket(param.eventId, ticketId))
-      // keszitsuk kicsit elo a jovilagot es vezessuk a profilunknal a hozzank tartozo ticketeket
-      .switchMap(ticketId => this._userService.addTicket(ticketId))
-      ;
+  create(ticket: TicketModel) {
+
+    return from(this.afDb.list(`tickets`)
+      .push(ticket))
+      .pipe(
+        map(
+          resp => resp.key
+        )
+      )
+      .pipe(
+        tap(
+          ticketId => combineLatest(
+            this._eventService.addTicket(ticket.eventId, ticketId),
+            this._userService.addTicket(ticketId)
+          )
+        ));
   }
 
   modify(ticket: TicketModel) {
-    return this._http
-      .put(`${environment.firebase.baseUrl}/tickets/${ticket.id}.json`, ticket);
+    // return this._http
+    //   .put(`${environment.firebase.baseUrl}/tickets/${ticket.id}.json`, ticket);
+
+    return from(this.afDb.object(`tickets/${ticket.id}`)
+      .update(ticket));
+
   }
 
   deleteTicket(joinedTickets) {
-
-
-
-// ??? What happen when it has error during delete ??
+// ??? What happen when it has error during delete ?? I don't know....
     for (let i = 0; i < joinedTickets.length; i++) {
       from(
         this.afDb.list(`tickets/${joinedTickets[i]}`).remove()
@@ -139,13 +132,6 @@ export class TicketService {
     return of(true);
   }
 
-  private _saveGeneratedId(ticketId: string): Observable<string> {
-    return this._http.patch<{ id: string }>(
-      `${environment.firebase.baseUrl}/tickets/${ticketId}.json`,
-      {id: ticketId}
-    )
-      .pipe(map(x => x.id));
-  }
 
 }
 

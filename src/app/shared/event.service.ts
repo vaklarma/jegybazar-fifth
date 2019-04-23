@@ -17,6 +17,7 @@ export class EventService {
 
 
   getAllEvents(): Observable<EventModel[]> {
+
     return this.afDb.list(`events`)
       .snapshotChanges()
       .pipe(
