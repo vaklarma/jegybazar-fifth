@@ -49,7 +49,7 @@ export class TicketService {
   // puffancs uzeni: "elkepzelheto", hogy egyszerubb megoldas is van, de szerintem ez szep
   //                 es mar nagyon vagytam valami agyzsibbasztora a projektben :)
 
-  getAllTickets(): Observable<any> {
+  getAllTickets(): Observable<any[]> {
 
     return this.afDb.list<TicketModel>(`tickets/`)
       .valueChanges()
