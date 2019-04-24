@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
 import {combineLatest, forkJoin, from, Observable, of, zip} from 'rxjs';
-import {first, flatMap, map, tap} from 'rxjs/operators';
+import {first, flatMap, map, switchMap, tap} from 'rxjs/operators';
 import {EventModel} from './event-model';
 import {EventService} from './event.service';
 import {TicketModel} from './ticket-model';
@@ -70,7 +70,12 @@ export class TicketService {
                   };
                 })
           )))
-      .switchMap(zipStreamArray => forkJoin(zipStreamArray));
+      .pipe(
+        switchMap(
+          zipStreamArray => forkJoin(zipStreamArray)
+        )
+      );
+    // .switchMap(zipStreamArray => forkJoin(zipStreamArray));
   }
 
   getOneOnce(id: string) {
@@ -108,9 +113,23 @@ export class TicketService {
         tap(
           ticketId => combineLatest(
             this._eventService.addTicket(ticket.eventId, ticketId),
-            this._userService.addTicket(ticketId)
+            this._userService.addTicket(ticketId),
           )
-        ));
+        ))
+      .pipe(
+        switchMap(
+          tId => this.setTicketId(tId)
+        )
+      );
+  }
+
+  setTicketId(ticketId: string) {
+    return from(this.afDb.object(`tickets/${ticketId}`)
+      .update(
+        {
+          id: ticketId,
+        }
+      ));
   }
 
   modify(ticket: TicketModel) {
