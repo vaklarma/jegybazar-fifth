@@ -9,10 +9,14 @@
     </p>
     <div class="row">
       <div class="col">
-        <span class=" badge badge-primary">{{eventTicketsNumber}}</span>
+        <span class=" badge badge-primary"
+                tooltip="Még {{eventTicketsNumber}} jegy van">
+         {{eventTicketsNumber}}
+        </span>
+
       </div>
       <div class="col">
-        <a [routerLink]="['/event',esemeny.id]" class=" justify-content-end pr-4">{{nextLabel}}</a>
+        <a [routerLink]="['/event',esemeny.id]" class=" justify-content-end">{{nextLabel}}</a>
       </div>
 
     </div>

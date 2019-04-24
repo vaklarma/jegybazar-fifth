@@ -8,7 +8,7 @@ import {EventModel} from '../../shared/event-model';
 })
 export class EventcardComponent implements AfterViewInit, OnChanges {
   @Input() esemeny: EventModel;
-  @Input() nextLabel = 'Tovább';
+  @Input() nextLabel = 'Részletek';
   eventTicketsNumber;
 
   constructor(private cdr: ChangeDetectorRef) {
