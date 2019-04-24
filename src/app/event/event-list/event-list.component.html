@@ -11,7 +11,7 @@
       </form>
     </div>
 
-    <div class="my-2 my-lg-0 text-center" *ngIf="userService.isLoggedIn$ | async">
+    <div class="my-2 my-lg-0 text-center" *ngIf="isLoggedIn">
       <div>
         <label>Eseményt szeretnék létrehozni</label>
       </div>
@@ -20,12 +20,12 @@
     </div>
 
   </div>
-  <ng-container *ngIf="events$ | async; else loading">
+  <ng-container *ngIf="events; else loading">
 
   <!-- cards -->
   <div class="card-columns" >
     <app-eventcard
-                   *ngFor="let event of events$ | async"
+                   *ngFor="let event of events"
                    [esemeny]="event"
 
 
