@@ -1,8 +1,12 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header clearfix">
     Chat window
+    <button class="btn btn-light float-right" (click)="collapseWindow()">
+      <i class="fa fa-caret-down" *ngIf="!isCollapsed; else showUpIcon"></i>
+    <ng-template #showUpIcon ><i class="fa fa-caret-up"></i></ng-template>
+    </button>
   </div>
-  <div class="card-body" #cardBody>
+  <div class="card-body" #cardBody *ngIf="!isCollapsed">
 
 
     <ng-container *ngIf="chatMessage$ | async as chatMessages; else loadingChat">
@@ -23,7 +27,7 @@
 
 
   </div>
-  <div class="card-footer">
+  <div class="card-footer" *ngIf="!isCollapsed">
     <app-chat-message-send-form [(reset)]="resetForm"  (newMessage)="onNewMessage($event)"></app-chat-message-send-form>
   </div>
 </div>

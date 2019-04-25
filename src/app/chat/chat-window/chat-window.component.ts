@@ -1,20 +1,23 @@
-import {AfterViewChecked, ChangeDetectionStrategy, Component, DoCheck, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
 import {ChatMessageModel} from '../model/chat.model';
 import {Observable} from 'rxjs';
 import {ChatService} from '../chat.service';
+import {delay, first} from 'rxjs/operators';
 
 
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.component.html',
   styleUrls: ['./chat-window.component.css'],
-   changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ChatService]
 })
 export class ChatWindowComponent implements OnInit, AfterViewChecked {
   @Input() roomId;
+  @HostBinding('style.height') height = '100%';
   resetForm = false;
   chatMessage$: Observable<ChatMessageModel[]>;
+  isCollapsed: boolean;
   @ViewChild('cardBody') cardBody: ElementRef;
   private shouldScrolling = true;
 
@@ -29,6 +32,29 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.chatMessage$ = this.chatService.getRoomMessages(this.roomId);
+    this.chatMessage$
+      .pipe(
+        delay(3000)
+      )
+      .pipe(
+        first()
+      )
+      .subscribe(
+        (msg) => {
+          this.shouldScrolling = true;
+          this.ngAfterViewChecked();
+        }
+      );
+
+  }
+
+  collapseWindow() {
+    this.isCollapsed = !this.isCollapsed;
+    if (this.isCollapsed) {
+      this.height = null;
+    } else {
+      this.height = '100%';
+    }
 
   }
 
