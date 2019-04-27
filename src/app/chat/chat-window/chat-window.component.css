@@ -25,7 +25,6 @@
 }
 
 .chat-messages-list {
-  height: calc(450px - 49px - 49px);
   list-style: none;
   margin: 0;
   padding: 0;
