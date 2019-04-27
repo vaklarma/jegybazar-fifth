@@ -10,7 +10,7 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class ChatService {
-  private static PATH = '/chat/ticket_room';
+  private static PATH = '/chat';
 
 
   constructor(protected userService: UserService,
@@ -20,7 +20,7 @@ export class ChatService {
   addMessage(roomId: string, msg: string): Observable<boolean> {
     return this.userService.getCurrentUser()
       .pipe(
-        delay(1000)
+       // delay(1000)
       )
       .pipe(
         switchMap(

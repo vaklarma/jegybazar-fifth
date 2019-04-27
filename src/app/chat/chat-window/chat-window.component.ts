@@ -1,4 +1,14 @@
-import {AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnInit, Output,
+  ViewChild
+} from '@angular/core';
 import {ChatMessageModel} from '../model/chat.model';
 import {Observable} from 'rxjs';
 import {ChatService} from '../chat.service';
@@ -13,7 +23,12 @@ import {delay, first} from 'rxjs/operators';
   providers: [ChatService]
 })
 export class ChatWindowComponent implements OnInit, AfterViewChecked {
+  @Input() id: string;
   @Input() roomId;
+  @Input() title: string;
+  @Input() closeable: boolean;
+  @Output() close = new EventEmitter<void>();
+
   @HostBinding('style.height') height = '100%';
   resetForm = false;
   chatMessage$: Observable<ChatMessageModel[]>;
@@ -33,9 +48,6 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.chatMessage$ = this.chatService.getRoomMessages(this.roomId);
     this.chatMessage$
-      .pipe(
-        delay(3000)
-      )
       .pipe(
         first()
       )
@@ -58,6 +70,10 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
 
   }
 
+  closeWindow() {
+    this.close.emit();
+  }
+
   ngAfterViewChecked(): void {
     setTimeout(
       () => {
@@ -65,7 +81,7 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
           this.cardBody.nativeElement.scrollTo(0, this.cardBody.nativeElement.scrollHeight);
           this.shouldScrolling = false;
         }
-      }, 500);
+      }, 0);
 
   }
 

@@ -74,7 +74,7 @@ export class ChatMessageSendFormComponent implements OnInit, OnChanges {
           return !(msg.length > 0 && this.invalidChatMessageInput);
         }
       ))
-      .pipe(skip(1)) //egy lépést skippeljen, mert az első nem megy be a compare fg -be
+      .pipe(skip(1)) // egy lépést skippeljen, mert az első nem megy be a compare fg -be
       .subscribe(
         msg => this.invalidChatMessageInput = false
       );

@@ -10,6 +10,8 @@ import {CoreModule} from '../core/core.module';
 import { ChatMessageRowComponent } from './chat-message-row/chat-message-row.component';
 import { ChatMessageSendFormComponent } from './chat-message-send-form/chat-message-send-form.component';
 import {MomentModule} from 'ngx-moment';
+import { ChatComponent } from './chat/chat.component';
+import { ChatFriendListComponent } from './chat-friend-list/chat-friend-list.component';
 
 export const chatServiceProvideFactoryFn =
   (userService: UserService) => {
@@ -29,10 +31,13 @@ export const chatServiceProvideFactoryFn =
   declarations: [
     ChatWindowComponent,
     ChatMessageRowComponent,
-    ChatMessageSendFormComponent
+    ChatMessageSendFormComponent,
+    ChatComponent,
+    ChatFriendListComponent
   ],
   exports: [
-    ChatWindowComponent
+    ChatWindowComponent,
+    ChatComponent
   ]
 })
 export class ChatModule {

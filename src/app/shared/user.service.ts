@@ -32,7 +32,7 @@ export class UserService {
                 this.currentUserName = remoteUser.name;
                 this.currentUserId = remoteUser.id;
               });
-          this._router.navigate(['/ticket/-Ky0HolLJBH3Q5uVHWZf']);
+          this._router.navigate(['/ticket']);
         } else {
           this.isLoggedIn$.next(false);
           this._user.next(null);
