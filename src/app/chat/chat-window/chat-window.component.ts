@@ -28,6 +28,7 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
   @Input() title: string;
   @Input() closeable: boolean;
   @Output() close = new EventEmitter<void>();
+  @Input() @HostBinding('class.floating') floating = true;
 
   @HostBinding('style.height') height = '100%';
   resetForm = false;

@@ -1,4 +1,4 @@
-:host {
+:host(.floating) {
   display: block;
   width: 100%;
   max-width: 500px;
@@ -29,10 +29,10 @@
   margin: 0;
   padding: 0;
 }
+
 .card-header {
   font-size: 1.6em;
   font-weight: bold;
-
 
 }
 

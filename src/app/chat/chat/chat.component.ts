@@ -7,7 +7,7 @@ import {ChatWindowConfig} from '../model/chat-window-config';
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush // it will be very slow without OnPush mode
 })
 export class ChatComponent implements OnInit {
   windows$ = new BehaviorSubject<ChatWindowConfig[]>([]);
