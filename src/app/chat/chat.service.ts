@@ -87,28 +87,19 @@ export class ChatService {
         first()
       )
       .pipe(
-        tap(
-          user => console.log(user)
-        )
-      )
-      .pipe(
         switchMap(
           user => {
     return this.afDb.list(`${ChatService.PATH}/chat_friend_list/${user.id}`)
       .snapshotChanges()
       .pipe(
-        tap(
-          resp => console.log(resp)
-        )
-      )
-      .pipe(
         map(
           friends =>
             friends.map(
               friend => {
-                console.log('juhujhlj', friend);
                 return new ChatFriendModel(Object.assign(friend, {
                   $id: friend.payload.key, ...friend.payload.val(),
+                  name: friend.payload.key, ...friend.payload.val(),
+                  profilePictureUrl: friend.payload.key, ...friend.payload.val(),
                 }));
               }
             )

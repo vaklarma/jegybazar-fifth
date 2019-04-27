@@ -12,6 +12,7 @@ import { ChatMessageSendFormComponent } from './chat-message-send-form/chat-mess
 import {MomentModule} from 'ngx-moment';
 import { ChatComponent } from './chat/chat.component';
 import { ChatFriendListComponent } from './chat-friend-list/chat-friend-list.component';
+import { ChatFriendRowComponent } from './chat-friend-row/chat-friend-row.component';
 
 export const chatServiceProvideFactoryFn =
   (userService: UserService) => {
@@ -33,7 +34,8 @@ export const chatServiceProvideFactoryFn =
     ChatMessageRowComponent,
     ChatMessageSendFormComponent,
     ChatComponent,
-    ChatFriendListComponent
+    ChatFriendListComponent,
+    ChatFriendRowComponent
   ],
   exports: [
     ChatFriendListComponent,
