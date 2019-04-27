@@ -3,8 +3,9 @@ import {UserService} from '../shared/user.service';
 import {Observable} from 'rxjs';
 import {ChatMessageModel} from './model/chat.model';
 import {AngularFireDatabase} from '@angular/fire/database';
-import {delay, map, switchMap, tap} from 'rxjs/operators';
+import {first, map, switchMap, tap} from 'rxjs/operators';
 import * as moment from 'moment';
+import {ChatFriendModel} from './model/chat-friend.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class ChatService {
   addMessage(roomId: string, msg: string): Observable<boolean> {
     return this.userService.getCurrentUser()
       .pipe(
-       // delay(1000)
+        // delay(1000)
       )
       .pipe(
         switchMap(
@@ -78,5 +79,44 @@ export class ChatService {
           )
         )
       );
+  }
+
+  getMyFriendList(): Observable<ChatFriendModel[]> {
+    return this.userService.getCurrentUser()
+      .pipe(
+        first()
+      )
+      .pipe(
+        tap(
+          user => console.log(user)
+        )
+      )
+      .pipe(
+        switchMap(
+          user => {
+    return this.afDb.list(`${ChatService.PATH}/chat_friend_list/${user.id}`)
+      .snapshotChanges()
+      .pipe(
+        tap(
+          resp => console.log(resp)
+        )
+      )
+      .pipe(
+        map(
+          friends =>
+            friends.map(
+              friend => {
+                console.log('juhujhlj', friend);
+                return new ChatFriendModel(Object.assign(friend, {
+                  $id: friend.payload.key, ...friend.payload.val(),
+                }));
+              }
+            )
+        )
+      );
+  }
+
+    )
+    );
   }
 }

@@ -20,7 +20,7 @@ import {delay, first} from 'rxjs/operators';
   templateUrl: './chat-window.component.html',
   styleUrls: ['./chat-window.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ChatService]
+
 })
 export class ChatWindowComponent implements OnInit, AfterViewChecked {
   @Input() id: string;
