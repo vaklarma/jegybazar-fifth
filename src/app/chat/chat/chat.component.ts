@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ChatWindowConfig} from '../model/chat-window-config';
 
 
@@ -12,11 +12,12 @@ import {ChatWindowConfig} from '../model/chat-window-config';
 export class ChatComponent implements OnInit {
   windows$ = new BehaviorSubject<ChatWindowConfig[]>([]);
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
-    this.openChat({ title: 'test ablak', roomId: 'testelo' });
-    this.openChat({ title: 'test ablak2', roomId: 'testelo2' });
+    this.openChat({title: 'test ablak', roomId: 'testelo'});
+    this.openChat({title: 'test ablak2', roomId: 'testelo2'});
   }
 
   openChat(config: ChatWindowConfig) {
@@ -31,8 +32,8 @@ export class ChatComponent implements OnInit {
     config.roomId = `friend_list/${config.roomId}`;
     const windows = this.windows$.getValue();
 
-   windows.push(config);
-     this.windows$.next(windows);
+    windows.push(config);
+    this.windows$.next(windows);
   }
 
   removeChat(id: string) {
@@ -43,4 +44,6 @@ export class ChatComponent implements OnInit {
       this.windows$.next(windows);
     }
   }
+
+
 }

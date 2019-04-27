@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {ChatService} from './chat/chat.service';
+import {UserService} from './shared/user.service';
+import {ReplaySubject} from 'rxjs';
 
 
 @Component({
@@ -8,7 +9,11 @@ import {ChatService} from './chat/chat.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(chatService: ChatService) {
+   isLoggedIn$: ReplaySubject<boolean>;
+
+  constructor(userService: UserService) {
+    this.isLoggedIn$ = userService.isLoggedIn$;
+
   }
 
 }
