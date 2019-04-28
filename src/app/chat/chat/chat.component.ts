@@ -5,6 +5,7 @@ import {ChatService} from '../chat.service';
 import {ChatFriendModel} from '../model/chat-friend.model';
 import {UserService} from '../../shared/user.service';
 import {first} from 'rxjs/operators';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ChatComponent {
 
 
   constructor(private userService: UserService,
-              private chatService: ChatService) {
+              private chatService: ChatService,
+              private afDb: AngularFireDatabase) {
 
     this.chatService.getChatCallWatcher()
       .subscribe(
@@ -27,7 +29,7 @@ export class ChatComponent {
           if (data != null && data.length > 0) {
             data.forEach(
               call => {
-               this.openChat({title: call.friend.name, roomId: call.roomId, friend: call.friend});
+                this.openChat({title: call.friend.name, roomId: call.roomId, friend: call.friend});
                 this.chatService.removeWatcher(call.friend.id);
               }
             );
@@ -41,6 +43,7 @@ export class ChatComponent {
   openChat(config: ChatWindowConfig) {
     const windows = this.windows$.getValue();
     if (windows.find(_config => _config.roomId === `friend_list/${config.roomId}`) == null) {
+      this.chatService.addChatWait(config.roomId, config.friend);
       if (config.id === null) {
         // default
         config.id = `${config.roomId}${new Date().getTime()}`;
@@ -50,8 +53,6 @@ export class ChatComponent {
         config.closeable = true;
       }
       config.roomId = `friend_list/${config.roomId}`;
-
-
       windows.push(config);
       this.windows$.next(windows);
     }
@@ -73,9 +74,21 @@ export class ChatComponent {
       )
       .subscribe(
         user => {
-          const roomId = `${user.id}-${friend.id}`;
-          this.openChat({title: friend.name, roomId: roomId, closeable: true, 'friend': friend});
-          this.chatService.addChatWait(roomId, friend);
+          let roomId = `${user.id}-${friend.id}`;
+          this.afDb.object(`chat/friend_list/${roomId}`)
+            .snapshotChanges()
+            .subscribe(
+              room => {
+                if (room.payload.exists) {
+                  this.openChat({title: friend.name, roomId: roomId, closeable: true, 'friend': friend});
+                } else {
+                  roomId = `${friend.id}-${user.id}`;
+                  this.openChat({title: friend.name, roomId: roomId, closeable: true, 'friend': friend});
+                }
+              }
+            );
+
+
         }
       );
 
