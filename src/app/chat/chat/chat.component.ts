@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ChatWindowConfig} from '../model/chat-window-config';
 import {ChatService} from '../chat.service';
@@ -14,21 +14,29 @@ import {first} from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush, // it will be very slow without OnPush mode
   providers: [ChatService]
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent {
   windows$ = new BehaviorSubject<ChatWindowConfig[]>([]);
 
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private chatService: ChatService) {
+
+    this.chatService.getChatCallWatcher()
+      .subscribe(
+        data => {
+          if (data != null && data.length > 0) {
+            data.forEach(
+              call => {
+               this.openChat({title: call.friend.name, roomId: call.roomId, friend: call.friend});
+                this.chatService.removeWatcher(call.friend.id);
+              }
+            );
+          }
+        }
+      );
+
   }
 
-  ngOnInit() {
-    // this.openChat({
-    //   title: 'test ablak',
-    //   roomId: 'testelo',
-    //   friend: new ChatFriendModel({$id: 'sdcsdc', name: 'valaki', profilePictureUrl: 'dsdcsdc'})
-    // });
-    // this.openChat({title: 'test ablak2', roomId: 'testelo2', friend: new ChatFriendModel()});
-  }
 
   openChat(config: ChatWindowConfig) {
     const windows = this.windows$.getValue();
@@ -50,7 +58,6 @@ export class ChatComponent implements OnInit {
   }
 
   removeChat(id: string) {
-    console.log('closewindow');
     const windows = this.windows$.getValue();
     const configIndex = windows.findIndex(config => config.id === id);
     if (configIndex > -1) {
@@ -65,7 +72,13 @@ export class ChatComponent implements OnInit {
         first()
       )
       .subscribe(
-        user => this.openChat({title: friend.name, roomId: `${user.id}-${friend.$id}`, closeable: true, 'friend': friend})
+        user => {
+          const roomId = `${user.id}-${friend.id}`;
+          this.openChat({title: friend.name, roomId: roomId, closeable: true, 'friend': friend});
+          this.chatService.addChatWait(roomId, friend);
+        }
       );
+
+
   }
 }

@@ -71,7 +71,6 @@ export class EventService {
           }
         ));
     }
-    console.log('update event');
   }
 
   delete(param: EventModel) {

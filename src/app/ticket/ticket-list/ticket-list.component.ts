@@ -47,7 +47,6 @@ export class TicketListComponent implements OnInit, AfterViewInit, OnDestroy {
                     } else {
                       return tickets.filter(
                         ticket => {
-                          console.log(ticket.id);
                           return ticket.event.name.toLocaleLowerCase().indexOf(filterText.toLowerCase()) > -1;
                         }
                       );

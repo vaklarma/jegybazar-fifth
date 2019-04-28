@@ -46,7 +46,6 @@ export class ChatFriendRowComponent implements OnInit, AfterViewInit {
   onHostClick($event) {
     $event.stopPropagation();
     $event.preventDefault();
-    console.log($event);
     this.select.emit(this.friend);
   }
 
