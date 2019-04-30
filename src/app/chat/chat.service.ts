@@ -101,6 +101,8 @@ export class ChatService {
                           id: friend.payload.key, ...friend.payload.val(),
                           name: friend.payload.key, ...friend.payload.val(),
                           profilePictureUrl: friend.payload.key, ...friend.payload.val(),
+                          // online: true,
+                          // lastOnline: null
                         }));
                       }
                     )
@@ -122,7 +124,11 @@ export class ChatService {
             .set({
                 'id': friend.id,
                 'roomId': roomId,
-                'friend': new ChatFriendModel({id: user.id, name: user.name, profilePictureUrl: user.profilePictureUrl})
+                'friend': new ChatFriendModel({
+                  id: user.id, name: user.name, profilePictureUrl: user.profilePictureUrl,
+                  online: true,
+                  lastOnline: null
+                }),
               }
             );
         });

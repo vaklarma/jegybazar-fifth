@@ -79,7 +79,7 @@ export class ChatComponent {
             .snapshotChanges()
             .subscribe(
               room => {
-                if (room.payload.exists) {
+                if (room.payload.exists()) {
                   this.openChat({title: friend.name, roomId: roomId, closeable: true, 'friend': friend});
                 } else {
                   roomId = `${friend.id}-${user.id}`;
