@@ -4,7 +4,9 @@
     <button class="btn btn-light float-right" (click)="closeWindow()" *ngIf="closeable">
       <i class="fa fa-close" aria-hidden="true"></i>
     </button>
+
     <button class="btn btn-light float-right" (click)="collapseWindow()">
+
       <i class="fa fa-caret-down" *ngIf="!isCollapsed; else showUpIcon"></i>
 
     <ng-template #showUpIcon ><i class="fa fa-caret-up"></i></ng-template>

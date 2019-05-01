@@ -67,8 +67,11 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked, AfterViewI
     this.isCollapsed = !this.isCollapsed;
     if (this.isCollapsed) {
       this.height = null;
+      this.cdr.detectChanges();
     } else {
       this.height = '100%';
+      this.shouldScrolling = true;
+      this.cdr.detectChanges();
     }
 
   }
@@ -85,7 +88,7 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked, AfterViewI
           this.shouldScrolling = false;
         }
       }, 0);
-
+    this.cdr.detectChanges();
   }
 
   onNewMessage(newMessage: string) {

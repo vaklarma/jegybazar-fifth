@@ -129,7 +129,6 @@ export class UserService {
             // minden baratunknal a sajat csomopontunkat kigyujtjuk es beallitjuk neki hogy online vagyunk
             friendsSnapshot.forEach(
               snapshot => {
-                console.log('snapshot.key', snapshot.key);
                 updateOnline[`chat/chat_friend_list/${snapshot.key}/${user.uid}/online`] = true;
               }
             );
